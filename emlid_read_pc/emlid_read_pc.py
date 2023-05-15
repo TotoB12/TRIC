@@ -16,3 +16,20 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+# import serial
+
+# # Set the USB port and baud rate
+# port = '/dev/ttyUSB0'
+# baud_rate = 57600
+
+# # Open the serial connection
+# ser = serial.Serial(port, baud_rate)
+
+# # Continuously read and print data from the USB port
+# while True:
+#     data = ser.readline()
+#     print(data)
