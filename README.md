@@ -14,7 +14,7 @@ emlid_read_pc.py streams the raw NMEA data from a USB connected REACH module to 
 
 34.91115 N, 120.44627 W
 
-Connected a REACH RS+ as a base to a REACH M2 by LoRa at 902.0 MHz at 18.23 kb/s.
+Connected a REACH RS+ as a base to a REACH M2 by LoRa by 902.0 MHz at 18.23 kb/s.
 
 ### Temperature impact of sound speed
 | Celsius temperature θ (°C) | Speed of sound c (m/s) |
