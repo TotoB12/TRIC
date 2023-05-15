@@ -7,6 +7,8 @@ telemetre.ino print out the live distance captured by the ultrasonic sensor, usi
 
 gps.ino reads GPS data using TinyGPS++, and displays the latitude and longitude. It also measures distance using the ultrasonic sensor and print it out as well.
 
+emlid_read_pc.py streams the raw NMEA data from a USB connected REACH module, to a Windows console.
+
 ## Info
 ### DESK COORD:
 
