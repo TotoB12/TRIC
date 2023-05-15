@@ -32,7 +32,6 @@ void setup()
 
   Serial.println(F("GPS SatsLatLong"));
   Serial.println(F("Outputs Latitude and longitude"));
-  Serial.println(F("Jake Falck"));
   Serial.println();
   
 
