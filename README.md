@@ -14,6 +14,22 @@ DESK COORD:
 
 Connected a REACH RS+ as a base to a REACH M2 by LoRa at 902.0 MHz at 18.23 kb/s.
 
+| Celsius temperature θ (°C) | Speed of sound c (m/s) |
+|----------------------------|------------------------|
+| 35                         | 351.88                 |
+| 30                         | 351.88                 |
+| 25                         | 346.13                 |
+| 20                         | 343.21                 |
+| 15                         | 340.27                 |
+| 10                         | 337.31                 |
+| 5                          | 334.32                 |
+| 0                          | 331.30                 |
+| -5                         | 328.25                 |
+| -10                        | 325.18                 |
+| -15                        | 322.07	                |
+| -20                        | 318.94	                |
+| -25                        | 315.77                 |
+
 ## Links
 
 [https://community.emlid.com/t/emlid-reach-to-arduino-uno/6230](https://community.emlid.com/t/emlid-reach-to-arduino-uno/6230)
