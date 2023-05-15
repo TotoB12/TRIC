@@ -24,7 +24,7 @@ delayMicroseconds(10);
 digitalWrite(pinTrig,LOW);
 Temps = pulseIn(pinEcho,HIGH);
 if(Temps > 25000){
-  Serial.println("mesure failure");
+  Serial.println("mesure failed");
 }
 else{
   Distance = (344*Time)/20000;
