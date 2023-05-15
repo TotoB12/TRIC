@@ -11,3 +11,9 @@ gps.ino reads GPS data using TinyGPS++, and displays the latitude and longitude
 DESK COORD:
 
 34.91115 N, 120.44627 W
+
+Connected a REACH RS+ as a base to a REACH M2 by LoRa at 902.0 MHz at 18.23 kb/s.
+
+## Links
+
+[https://community.emlid.com/t/emlid-reach-to-arduino-uno/6230](https://community.emlid.com/t/emlid-reach-to-arduino-uno/6230)
