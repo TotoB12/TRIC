@@ -34,3 +34,5 @@ Connected a REACH RS+ as a base to a REACH M2 by LoRa at 902.0 MHz at 18.23 kb/s
 ## Links
 
 [https://community.emlid.com/t/emlid-reach-to-arduino-uno/6230](https://community.emlid.com/t/emlid-reach-to-arduino-uno/6230)
+[https://community.emlid.com/t/python-usb-to-pc/27022/4](https://community.emlid.com/t/python-usb-to-pc/27022/4)
+[https://forums.raspberrypi.com//viewtopic.php?t=106468](https://forums.raspberrypi.com//viewtopic.php?t=106468)
