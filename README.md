@@ -8,12 +8,13 @@ telemetre.ino print out the live distance captured by the ultrasonic sensor, usi
 gps.ino reads GPS data using TinyGPS++, and displays the latitude and longitude. It also measures distance using the ultrasonic sensor and print it out as well.
 
 ## Info
-DESK COORD:
+### DESK COORD:
 
 34.91115 N, 120.44627 W
 
 Connected a REACH RS+ as a base to a REACH M2 by LoRa at 902.0 MHz at 18.23 kb/s.
 
+### Temperature impact of sound speed
 | Celsius temperature θ (°C) | Speed of sound c (m/s) |
 |----------------------------|------------------------|
 | 35                         | 351.88                 |
@@ -33,3 +34,5 @@ Connected a REACH RS+ as a base to a REACH M2 by LoRa at 902.0 MHz at 18.23 kb/s
 ## Links
 
 [https://community.emlid.com/t/emlid-reach-to-arduino-uno/6230](https://community.emlid.com/t/emlid-reach-to-arduino-uno/6230)
+[https://community.emlid.com/t/python-usb-to-pc/27022/4](https://community.emlid.com/t/python-usb-to-pc/27022/4)
+[https://forums.raspberrypi.com//viewtopic.php?t=106468](https://forums.raspberrypi.com//viewtopic.php?t=106468)
