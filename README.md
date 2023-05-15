@@ -10,7 +10,7 @@ gps.ino reads GPS data using TinyGPS++, and displays the latitude and longitude
 emlid_read_pc.py streams the raw NMEA data from a USB connected REACH module, to a Windows console.
 
 ## Info
-### DESK COORD:
+### Desk Coordinates:
 
 34.91115 N, 120.44627 W
 
