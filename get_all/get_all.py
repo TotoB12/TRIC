@@ -9,11 +9,6 @@ def parse_nmea_data(data):
         lat = data[2][:2] + "°" + data[2][2:] + "'" + data[3]
         lon = data[4][:3] + "°" + data[4][3:] + "'" + data[5]
         return f"[Plot] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
-    if data_type == "GNEBP":
-        base_lat = data[1][:2] + "°" + data[1][2:] + "'" + data[2]
-        base_lon = data[3][:3] + "°" + data[3][3:] + "'" + data[4]
-        base_altitude = data[5] + "m"
-        return f"[Base] Lat: {base_lat}, Lon: {base_lon}, Altitude: {base_altitude}"
 
 emlid = serial.Serial('COM7', 57600, timeout=.1)
 arduino = serial.Serial('COM1', 115200, timeout=.1)
