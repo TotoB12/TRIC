@@ -9,11 +9,6 @@ def parse_nmea_data(data):
         lat = data[2][:2] + "°" + data[2][2:] + "'" + data[3]
         lon = data[4][:3] + "°" + data[4][3:] + "'" + data[5]
         return f"[Plot] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
-    elif data_type == "GNRMC":
-        time_utc = data[1][:2] + ":" + data[1][2:4] + ":" + data[1][4:]
-        lat = data[3][:2] + "°" + data[3][2:] + "'" + data[4]
-        lon = data[5][:3] + "°" + data[5][3:] + "'" + data[6]
-        return f"[Base] Lat: {lat}, Lon: {lon}"
 
 emlid = serial.Serial('COM7', 57600, timeout=.1)
 arduino = serial.Serial('COM1', 115200, timeout=.1)
