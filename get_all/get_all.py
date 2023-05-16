@@ -21,11 +21,6 @@ def parse_nmea_data(data):
         time_utc = data[1][:2] + ":" + data[1][2:4] + ":" + data[1][4:]
         lat = data[2][:2] + "°" + data[2][2:] + "'" + data[3]
         lon = data[4][:3] + "°" + data[4][3:] + "'" + data[5]
-        fix_quality = data[6]
-        num_satellites = data[7]
-        hdop = data[8]
-        altitude = data[9] + "m"
-        geoidal_sep = data[11] + "m"
         return f"[GNGGA] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
 
 emlid = serial.Serial('COM7', 57600, timeout=.1)
