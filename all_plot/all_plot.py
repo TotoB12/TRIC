@@ -70,6 +70,6 @@ while True:
 
         trace = go.Scatter3d(x=smoothed_x_data, y=smoothed_y_data, z=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
         data = [trace]
-        layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
+        layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance Z (cm)'), margin=dict(l=0, r=0, b=0, t=0))
         fig = go.Figure(data=data, layout=layout)
         plotly.offline.plot(fig, filename='map.html', auto_open=False)
