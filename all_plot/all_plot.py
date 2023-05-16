@@ -37,7 +37,7 @@ while True:
     parsed_data = parse_nmea_data(data)
     if parsed_data:
         distance = arduino.readline()[:-1].decode('ascii', errors='replace')
-        if distance < 500:
+        if distance < 200:
             d = float(distance)
         time_utc, lat, lon = parsed_data
         print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
