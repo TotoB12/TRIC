@@ -22,6 +22,9 @@ def parse_nmea_data(data):
 
         return time_utc, lat, lon
 
+def moving_average(data, window_size):
+    return [sum(data[i:i+window_size])/window_size for i in range(len(data)-window_size+1)]
+
 emlid = serial.Serial('COM7', 57600, timeout=.1)
 arduino = serial.Serial('COM9', 9600, timeout=.1)
 
@@ -31,6 +34,10 @@ origin_x, origin_y = 0, 0
 x_data = []
 y_data = []
 z_data = []
+marker_size = []
+marker_color = []
+
+window_size = 5
 
 while True:
     data = emlid.readline().decode('ascii', errors='replace')
@@ -54,12 +61,16 @@ while True:
         x_data.append(rel_x)
         y_data.append(rel_y)
         z_data.append(d)
+        marker_color.append(d)
 
-        trace = go.Scatter3d(x=x_data, y=y_data, z=z_data, mode='markers', marker=dict(size=5, color=z_data, colorscale='Viridis', opacity=0.8))
-        data = [trace]
-        layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
-        fig = go.Figure(data=data, layout=layout)
-        plotly.offline.plot(fig, filename='map.html', auto_open=False)
+        if len(x_data) >= window_size:
+            x_data_smooth = moving_average(x_data, window_size)
+            y_data_smooth = moving_average(y_data, window_size)
+            z_data_smooth = moving_average(z_data, window_size)
+            marker_color_smooth = moving_average(marker_color, window_size)
 
-# sol 21.3 cm
-# bois 17.6 cm
+            trace = go.Scatter3d(x=x_data_smooth, y=y_data_smooth, z=z_data_smooth, mode='lines+markers', marker=dict(size=5, color=marker_color_smooth, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
+            data = [trace]
+            layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
+            fig = go.Figure(data=data, layout=layout)
+            plotly.offline.plot(fig, filename='map.html', auto_open=False)
