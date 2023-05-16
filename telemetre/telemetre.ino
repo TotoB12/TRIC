@@ -28,7 +28,7 @@ if(Temps > 25000){
 }
 else{
   Distance = (344*Time)/20000;
-    Serial.print("distance = ");
+  Serial.print("distance = ");
   Serial.print(Distance);
   Serial.println(" cm   ");
   }
