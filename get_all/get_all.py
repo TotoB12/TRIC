@@ -8,7 +8,7 @@ def parse_nmea_data(data):
         time_utc = data[1][:2] + ":" + data[1][2:4] + ":" + data[1][4:]
         lat = data[2][:2] + "°" + data[2][2:] + "'" + data[3]
         lon = data[4][:3] + "°" + data[4][3:] + "'" + data[5]
-        return f"[Plot] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
+        return f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
 
 emlid = serial.Serial('COM7', 57600, timeout=.1)
 arduino = serial.Serial('COM9', 9600, timeout=.1)
