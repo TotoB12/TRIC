@@ -28,10 +28,14 @@ def parse_nmea_data(data):
         geoidal_sep = data[11] + "m"
         return f"[GNGGA] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Fix Quality: {fix_quality}, Satellites: {num_satellites}, HDOP: {hdop}, Altitude: {altitude}, Geoidal Separation: {geoidal_sep}"
 
-emlid = serial.Serial('COM7', 57600)
+emlid = serial.Serial('COM7', 57600, timeout=.1)
+arduino = serial.Serial('COM1', 115200, timeout=.1)
 
 while True:
-    data = emlid.readline().decode('ascii', errors='replace')
-    parsed_data = parse_nmea_data(data)
-    if parsed_data:
-        print(parsed_data)
+    em_data = emlid.readline().decode('ascii', errors='replace')
+    em_parsed_data = parse_nmea_data(em_data)
+    ar_data = arduino.readline()[:-2]
+    if em_parsed_data:
+        print(em_parsed_data)
+    if ar_data:
+        print(ar_data)
