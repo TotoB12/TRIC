@@ -14,10 +14,11 @@ emlid = serial.Serial('COM7', 57600, timeout=.1)
 arduino = serial.Serial('COM9', 9600, timeout=.1)
 
 while True:
-    em_data = emlid.readline().decode('ascii', errors='replace')
-    em_parsed_data = parse_nmea_data(em_data)
     ar_data = arduino.readline()[:-1].decode('ascii', errors='replace')
     if ar_data:
         d = ar_data
+    em_data = emlid.readline().decode('ascii', errors='replace')
+    em_parsed_data = parse_nmea_data(em_data)
+    data = f'{em_parsed_data}, Dist: {d} cm'
     if em_parsed_data:
-        print(f'{em_parsed_data}, Dist: {d} cm')
+        print(data)
