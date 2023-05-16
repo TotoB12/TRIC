@@ -26,7 +26,7 @@ def parse_nmea_data(data):
         hdop = data[8]
         altitude = data[9] + "m"
         geoidal_sep = data[11] + "m"
-        return f"[GNGGA] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Fix Quality: {fix_quality}, Satellites: {num_satellites}, HDOP: {hdop}, Altitude: {altitude}, Geoidal Separation: {geoidal_sep}"
+        return f"[GNGGA] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
 
 emlid = serial.Serial('COM7', 57600, timeout=.1)
 arduino = serial.Serial('COM1', 115200, timeout=.1)
