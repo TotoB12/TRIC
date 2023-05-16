@@ -25,6 +25,12 @@ def parse_nmea_data(data):
         num_satellites = data[7]
         altitude = data[9] + "m"
         return f"[Plot] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Fix Quality: {fix_quality}, Satellites: {num_satellites}, Altitude: {altitude}"
+    if data_type == "GNEBP":
+        base_lat = data[1][:2] + "°" + data[1][2:] + "'" + data[2]
+        base_lon = data[3][:3] + "°" + data[3][3:] + "'" + data[4]
+        base_altitude = data[5] + "m"
+        return f"[Base] Lat: {base_lat}, Lon: {base_lon}, Altitude: {base_altitude}"
+
 
 emlid = serial.Serial('COM7', 57600)
 
