@@ -11,9 +11,8 @@ void read_sensor() {
 }
 
 void print_data() {
-  Serial.print("distance = ");
   Serial.print(distance);
-  Serial.println(" cm");
+  Serial.print('\n');
 }
 
 void loop() {
