@@ -17,7 +17,7 @@ while True:
     em_data = emlid.readline().decode('ascii', errors='replace')
     em_parsed_data = parse_nmea_data(em_data)
     ar_data = arduino.readline()[:-1].decode('ascii', errors='replace')
-    if em_parsed_data:
-        print(em_parsed_data)
     if ar_data:
-        print(ar_data)
+        d = ar_data
+    if em_parsed_data:
+        print(f'{em_parsed_data}, Dist: {d} cm')
