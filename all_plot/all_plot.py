@@ -37,7 +37,7 @@ while True:
     parsed_data = parse_nmea_data(data)
     if parsed_data:
         distance = arduino.readline()[:-1].decode('ascii', errors='replace')
-        if distance:
+        if distance < 500:
             d = float(distance)
         time_utc, lat, lon = parsed_data
         print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
@@ -57,6 +57,6 @@ while True:
 
         trace = go.Scatter3d(x=x_data, y=y_data, z=z_data, mode='markers', marker=dict(size=5, color=z_data, colorscale='Viridis', opacity=0.8))
         data = [trace]
-        layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), width=100%, margin=dict(l=0, r=0, b=0, t=0))
+        layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
         fig = go.Figure(data=data, layout=layout)
         plotly.offline.plot(fig, filename='map.html', auto_open=False)
