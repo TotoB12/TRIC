@@ -1,6 +1,5 @@
 import serial
 import matplotlib.pyplot as plt
-from math import radians, sin, cos, sqrt, atan2
 
 def dms_to_decimal(dms, direction):
     degrees, minutes = dms[:2], dms[2:]
@@ -18,16 +17,6 @@ def parse_nmea_data(data):
         lat = dms_to_decimal(data[2], data[3])
         lon = dms_to_decimal(data[4], data[5])
         return time_utc, lat, lon
-    
-def distance_between_points(lat1, lon1, lat2, lon2):
-    R = 6371.01  # Approximate radius of earth in km
-    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
-    c = 2 * atan2(sqrt(a), sqrt(1 - a))
-    distance = R * c * 1000  # Convert to meters
-    return distance
 
 plt.ion()
 origin_set = False
@@ -45,6 +34,5 @@ while True:
             origin_lat = lat
             origin_lon = lon
             origin_set = True
-        distance = distance_between_points(lat, lon, origin_lat, origin_lon)
-        plt.scatter(distance, color='green', marker='o')
-        plt.pause(0.1)  
+        plt.scatter(lon - origin_lon, lat - origin_lat, color='green', marker='o')
+        plt.pause(0.1)
