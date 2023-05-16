@@ -27,6 +27,11 @@ def parse_nmea_data(data):
         altitude = data[9] + "m"
         geoidal_sep = data[11] + "m"
         return f"[GNGGA] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Fix Quality: {fix_quality}, Satellites: {num_satellites}, Altitude: {altitude}"
+    elif data_type == "GNRMC":
+        time_utc = data[1][:2] + ":" + data[1][2:4] + ":" + data[1][4:]
+        lat = data[3][:2] + "°" + data[3][2:] + "'" + data[4]
+        lon = data[5][:3] + "°" + data[5][3:] + "'" + data[6]
+        return f"[GNRMC] Base Lat: {lat}, Base Lon: {lon}"
 
 emlid = serial.Serial('COM7', 57600)
 
