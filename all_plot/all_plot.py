@@ -2,6 +2,7 @@ import serial
 import utm
 import plotly.graph_objs as go
 import plotly
+import numpy as np
 
 def parse_nmea_data(data):
     data = data.strip().split(',')
@@ -23,7 +24,8 @@ def parse_nmea_data(data):
         return time_utc, lat, lon
 
 def moving_average(data, window_size):
-    return [sum(data[i:i+window_size])/window_size for i in range(len(data)-window_size+1)]
+    window = np.ones(int(window_size))/float(window_size)
+    return np.convolve(data, window, 'valid')
 
 emlid = serial.Serial('COM7', 57600, timeout=.1)
 arduino = serial.Serial('COM9', 9600, timeout=.1)
@@ -36,8 +38,6 @@ y_data = []
 z_data = []
 marker_size = []
 marker_color = []
-
-window_size = 5
 
 while True:
     data = emlid.readline().decode('ascii', errors='replace')
@@ -63,14 +63,13 @@ while True:
         z_data.append(d)
         marker_color.append(d)
 
-        if len(x_data) >= window_size:
-            x_data_smooth = moving_average(x_data, window_size)
-            y_data_smooth = moving_average(y_data, window_size)
-            z_data_smooth = moving_average(z_data, window_size)
-            marker_color_smooth = moving_average(marker_color, window_size)
+    if len(x_data) > 5:
+        smoothed_x_data = moving_average(x_data, 5)
+        smoothed_y_data = moving_average(y_data, 5)
+        smoothed_z_data = moving_average(z_data, 5)
 
-            trace = go.Scatter3d(x=x_data_smooth, y=y_data_smooth, z=z_data_smooth, mode='lines+markers', marker=dict(size=5, color=marker_color_smooth, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
-            data = [trace]
-            layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
-            fig = go.Figure(data=data, layout=layout)
-            plotly.offline.plot(fig, filename='map.html', auto_open=False)
+        trace = go.Scatter3d(x=smoothed_x_data, y=smoothed_y_data, z=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
+        data = [trace]
+        layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
+        fig = go.Figure(data=data, layout=layout)
+        plotly.offline.plot(fig, filename='map.html', auto_open=False)
