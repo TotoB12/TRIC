@@ -37,7 +37,7 @@ while True:
     parsed_data = parse_nmea_data(data)
     if parsed_data:
         distance = arduino.readline()[:-1].decode('ascii', errors='replace')
-        if distance < 200:
+        if int(distance) < 200:
             d = float(distance)
         time_utc, lat, lon = parsed_data
         print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
@@ -60,3 +60,6 @@ while True:
         layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
         fig = go.Figure(data=data, layout=layout)
         plotly.offline.plot(fig, filename='map.html', auto_open=False)
+
+# sol 21.3 cm
+# bois 17.6 cm
