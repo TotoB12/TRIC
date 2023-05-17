@@ -42,6 +42,8 @@ z_data = []
 marker_size = []
 marker_color = []
 
+time_data = []  # Added for 2D graph
+
 start_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 folder_name = start_time
@@ -76,6 +78,8 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
                 z_data.append(d)
                 marker_color.append(d)
 
+                time_data.append(time.time())
+
                 data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
 
         if len(x_data) >= 5:
@@ -87,3 +91,9 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
             layout3d = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance Z (cm)'), margin=dict(l=0, r=0, b=0, t=0))
             fig3d = go.Figure(data=data3d, layout=layout3d)
             plotly.offline.plot(fig3d, filename=os.path.join('data', folder_name, 'map.html'), auto_open=False)
+
+            trace2d = go.Scatter(x=time_data, y=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
+            data2d = [trace2d]
+            layout2d = go.Layout(xaxis_title='Time (s)', yaxis_title='Distance (cm)', margin=dict(l=0, r=0, b=0, t=0))
+            fig2d = go.Figure(data=data2d, layout=layout2d)
+            plotly.offline.plot(fig2d, filename=os.path.join('data', folder_name, 'graph.html'), auto_open=False)
