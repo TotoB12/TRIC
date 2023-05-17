@@ -53,14 +53,14 @@ time.sleep(0.1)
 
 with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
     while True:
+        if arduino.in_waiting > 0:
+            distance = arduino.readline()[:-1].decode('ascii', errors='replace')
+            if int(distance) < 200:
+                d = float(distance)
         if emlid.in_waiting > 0:
             data = emlid.readline().decode('ascii', errors='replace')
             parsed_data = parse_nmea_data(data)
             if parsed_data:
-                if arduino.in_waiting > 0:
-                    distance = arduino.readline()[:-1].decode('ascii', errors='replace')
-                    if int(distance) < 200:
-                        d = float(distance)
                 time_utc, lat, lon = parsed_data
                 print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
 
