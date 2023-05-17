@@ -27,6 +27,10 @@ def parse_nmea_data(data):
 
         return time_utc, lat, lon
 
+def moving_average(data, window_size):
+    window = np.ones(int(window_size))/float(window_size)
+    return np.convolve(data, window, 'valid')
+
 emlid = serial.Serial('COM7', 11520, timeout=.1)
 arduino = serial.Serial('COM9', 9600, timeout=.1)
 
@@ -90,5 +94,21 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
             layout2d = go.Layout(xaxis_title='Time (s)', yaxis_title='Distance (cm)', margin=dict(l=0, r=0, b=0, t=0))
             fig2d = go.Figure(data=data2d, layout=layout2d)
             plotly.offline.plot(fig2d, filename=os.path.join('data', folder_name, 'graph.html'), auto_open=False)
+
+            smoothed_z_data = moving_average(z_data, 5)
+
+            trace2d = go.Scatter(x=time_data, y=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
+            data2d = [trace2d]
+            layout2d = go.Layout(xaxis_title='Time (s)', yaxis_title='Distance (cm)', margin=dict(l=0, r=0, b=0, t=0))
+            fig2d = go.Figure(data=data2d, layout=layout2d)
+            plotly.offline.plot(fig2d, filename=os.path.join('data', folder_name, 'smooth_5_graph.html'), auto_open=False)
+
+            smoothed_z_data = moving_average(z_data, 2)
+
+            trace2d = go.Scatter(x=time_data, y=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
+            data2d = [trace2d]
+            layout2d = go.Layout(xaxis_title='Time (s)', yaxis_title='Distance (cm)', margin=dict(l=0, r=0, b=0, t=0))
+            fig2d = go.Figure(data=data2d, layout=layout2d)
+            plotly.offline.plot(fig2d, filename=os.path.join('data', folder_name, 'smooth_2_graph.html'), auto_open=False)
 
             break
