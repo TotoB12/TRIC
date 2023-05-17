@@ -78,7 +78,7 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
                 data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
                 data_file.flush()
                 
-        if keyboard.is_pressed('s') :
+        if keyboard.is_pressed('s') or keyboard.is_pressed('c'):
             trace3d = go.Scatter3d(x=x_data, y=y_data, z=z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
             data3d = [trace3d]
             layout3d = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance Z (cm)'), margin=dict(l=0, r=0, b=0, t=0))
