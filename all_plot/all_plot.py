@@ -5,6 +5,7 @@ import plotly
 import numpy as np
 import os
 import datetime
+import time
 
 def parse_nmea_data(data):
     data = data.strip().split(',')
@@ -24,7 +25,7 @@ def parse_nmea_data(data):
             return None
 
         return time_utc, lat, lon
-
+    
 def moving_average(data, window_size):
     window = np.ones(int(window_size))/float(window_size)
     return np.convolve(data, window, 'valid')
@@ -44,38 +45,45 @@ marker_color = []
 start_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 folder_name = start_time
-os.makedirs(folder_name)
+os.makedirs('data\\' + folder_name)
 
-while True:
-    data = emlid.readline().decode('ascii', errors='replace')
-    parsed_data = parse_nmea_data(data)
-    if parsed_data:
-        distance = arduino.readline()[:-1].decode('ascii', errors='replace')
-        if int(distance) < 200:
-            d = float(distance)
-        time_utc, lat, lon = parsed_data
-        print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
+time.sleep(0.1)
 
-        x, y, _, _ = utm.from_latlon(lat, lon)
+with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
+    while True:
+        if emlid.in_waiting > 0:
+            data = emlid.readline().decode('ascii', errors='replace')
+            parsed_data = parse_nmea_data(data)
+            if parsed_data:
+                if arduino.in_waiting > 0:
+                    distance = arduino.readline()[:-1].decode('ascii', errors='replace')
+                    if int(distance) < 200:
+                        d = float(distance)
+                time_utc, lat, lon = parsed_data
+                print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
 
-        if not origin_set:
-            origin_x, origin_y = x, y
-            origin_set = True
+                x, y, _, _ = utm.from_latlon(lat, lon)
 
-        rel_x = x - origin_x
-        rel_y = y - origin_y
+                if not origin_set:
+                    origin_x, origin_y = x, y
+                    origin_set = True
 
-        x_data.append(rel_x)
-        y_data.append(rel_y)
-        z_data.append(d)
-        marker_color.append(d)
+                rel_x = x - origin_x
+                rel_y = y - origin_y
 
-    smoothed_x_data = moving_average(x_data, 5)
-    smoothed_y_data = moving_average(y_data, 5)
-    smoothed_z_data = moving_average(z_data, 5)
+                x_data.append(rel_x)
+                y_data.append(rel_y)
+                z_data.append(d)
+                marker_color.append(d)
 
-    trace = go.Scatter3d(x=x_data, y=y_data, z=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
-    data = [trace]
-    layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
-    fig = go.Figure(data=data, layout=layout)
-    plotly.offline.plot(fig, filename=os.path.join('data', folder_name, 'map.html'), auto_open=False)
+                data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
+
+        if len(x_data) >= 5:
+
+            smoothed_z_data = moving_average(z_data, 5)
+
+            trace3d = go.Scatter3d(x=x_data, y=y_data, z=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
+            data3d = [trace3d]
+            layout3d = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance Z (cm)'), margin=dict(l=0, r=0, b=0, t=0))
+            fig3d = go.Figure(data=data3d, layout=layout3d)
+            plotly.offline.plot(fig3d, filename=os.path.join('data', folder_name, 'map.html'), auto_open=False)
