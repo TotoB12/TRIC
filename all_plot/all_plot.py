@@ -62,7 +62,10 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
             parsed_data = parse_nmea_data(data)
             if parsed_data:
                 time_utc, lat, lon = parsed_data
-                print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
+                if d:
+                    print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
+                else:
+                    print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}")
 
                 x, y, _, _ = utm.from_latlon(lat, lon)
 

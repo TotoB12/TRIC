@@ -22,6 +22,8 @@ while True:
     if emlid.in_waiting > 0:
         em_data = emlid.readline().decode('ascii', errors='replace')
         em_parsed_data = parse_nmea_data(em_data)
-        data = f'{em_parsed_data}, Dist: {d} cm'
         if em_parsed_data:
-            print(data)
+            if d:
+                print(f"{em_parsed_data}, Dist: {d} cm")
+            else:
+                print(f"{em_parsed_data}")
