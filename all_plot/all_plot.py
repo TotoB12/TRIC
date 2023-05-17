@@ -3,6 +3,8 @@ import utm
 import plotly.graph_objs as go
 import plotly
 import numpy as np
+import os
+import datetime
 
 def parse_nmea_data(data):
     data = data.strip().split(',')
@@ -27,7 +29,7 @@ def moving_average(data, window_size):
     window = np.ones(int(window_size))/float(window_size)
     return np.convolve(data, window, 'valid')
 
-emlid = serial.Serial('COM7', 57600, timeout=.1)
+emlid = serial.Serial('COM7', 11520, timeout=.1)
 arduino = serial.Serial('COM9', 9600, timeout=.1)
 
 origin_set = False
@@ -38,6 +40,11 @@ y_data = []
 z_data = []
 marker_size = []
 marker_color = []
+
+start_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+folder_name = start_time
+os.makedirs(folder_name)
 
 while True:
     data = emlid.readline().decode('ascii', errors='replace')
@@ -71,4 +78,4 @@ while True:
     data = [trace]
     layout = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance (cm)'), margin=dict(l=0, r=0, b=0, t=0))
     fig = go.Figure(data=data, layout=layout)
-    plotly.offline.plot(fig, filename='map.html', auto_open=False)
+    plotly.offline.plot(fig, filename=os.path.join('data', folder_name, 'map.html'), auto_open=False)

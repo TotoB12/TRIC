@@ -10,15 +10,18 @@ def parse_nmea_data(data):
         lon = data[4][:3] + "°" + data[4][3:] + "'" + data[5]
         return f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
 
-emlid = serial.Serial('COM7', 57600, timeout=.1)
+emlid = serial.Serial('COM7', 11520, timeout=.1)
 arduino = serial.Serial('COM9', 9600, timeout=.1)
 
 while True:
-    ar_data = arduino.readline()[:-1].decode('ascii', errors='replace')
-    if ar_data:
-        d = ar_data
-    em_data = emlid.readline().decode('ascii', errors='replace')
-    em_parsed_data = parse_nmea_data(em_data)
-    data = f'{em_parsed_data}, Dist: {d} cm'
-    if em_parsed_data:
-        print(data)
+    if arduino.in_waiting > 0:
+        ar_data = arduino.readline()[:-1].decode('ascii', errors='replace')
+        if ar_data:
+            d = ar_data
+
+    if emlid.in_waiting > 0:
+        em_data = emlid.readline().decode('ascii', errors='replace')
+        em_parsed_data = parse_nmea_data(em_data)
+        data = f'{em_parsed_data}, Dist: {d} cm'
+        if em_parsed_data:
+            print(data)
