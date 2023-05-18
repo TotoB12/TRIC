@@ -98,13 +98,13 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
 
             trace3d = go.Scatter3d(x=x_data, y=y_data, z=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
             data3d = [trace3d]
-            layout3d = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis_title='Distance Z (cm)'), margin=dict(l=0, r=0, b=0, t=0))
+            layout3d = go.Layout(scene=dict(xaxis_title='Distance X (m)', yaxis_title='Distance Y (m)', zaxis=dict(title='Distance Z (cm)', autorange='reversed')), margin=dict(l=0, r=0, b=0, t=0))
             fig3d = go.Figure(data=data3d, layout=layout3d)
             plotly.offline.plot(fig3d, filename=os.path.join('data', folder_name, 'map.html'), auto_open=False)
 
             trace2d = go.Scatter(x=time_data, y=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
             data2d = [trace2d]
-            layout2d = go.Layout(xaxis_title='Time (s)', yaxis_title='Distance (cm)', margin=dict(l=0, r=0, b=0, t=0))
+            layout2d = go.Layout(xaxis_title='Time (s)', yaxis=dict(title='Distance (cm)', autorange='reversed'), margin=dict(l=0, r=0, b=0, t=0))
             fig2d = go.Figure(data=data2d, layout=layout2d)
             plotly.offline.plot(fig2d, filename=os.path.join('data', folder_name, 'graph.html'), auto_open=False)
 
