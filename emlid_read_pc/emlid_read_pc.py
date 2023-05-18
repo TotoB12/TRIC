@@ -13,6 +13,8 @@
 
 import serial
 
+choice = input("Full (f) or Clean (c): ")
+
 def parse_nmea_data(data):
     data = data.strip().split(',')
     data_type = data[0][1:]
@@ -33,8 +35,12 @@ def parse_nmea_data(data):
 
 
 emlid = serial.Serial('COM7', 57600)
-
-while True:
-    data = emlid.readline().decode('ascii', errors='replace')
-    if parsed_data := parse_nmea_data(data):
-        print(parsed_data)
+if choice == "c":
+    while True:
+        data = emlid.readline().decode('ascii', errors='replace')
+        if parsed_data := parse_nmea_data(data):
+            print(parsed_data)
+if choice == "f":
+    while True:
+        data = emlid.readline().decode('ascii', errors='replace')
+        print(data)
