@@ -7,6 +7,8 @@ import datetime
 import time
 import keyboard
 import numpy as np
+import serial
+
 
 date = datetime.datetime.utcnow().strftime("%Y-%m-%d")
 start_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
