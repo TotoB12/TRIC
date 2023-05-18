@@ -44,7 +44,7 @@ marker_color = np.array([])
 
 time_data = []
 
-start_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+start_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
 
 folder_name = start_time
 os.makedirs('data\\' + folder_name)
@@ -83,7 +83,7 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
                 data_file.flush()
                 
         if keyboard.is_pressed('s') or keyboard.is_pressed('c'):
-            smoothed_z_data = moving_average(z_data, 5)
+            smoothed_z_data = moving_average(z_data, 2)
 
             trace3d = go.Scatter3d(x=x_data, y=y_data, z=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
             data3d = [trace3d]
