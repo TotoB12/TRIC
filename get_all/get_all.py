@@ -5,9 +5,9 @@ def parse_nmea_data(data):
     data_type = data[0][1:]
 
     if data_type == "GNGGA":
-        time_utc = data[1][:2] + ":" + data[1][2:4] + ":" + data[1][4:]
-        lat = data[2][:2] + "°" + data[2][2:] + "'" + data[3]
-        lon = data[4][:3] + "°" + data[4][3:] + "'" + data[5]
+        time_utc = f"{data[1][:2]}:{data[1][2:4]}:{data[1][4:]}"
+        lat = f"{data[2][:2]}°{data[2][2:]}'{data[3]}"
+        lon = f"{data[4][:3]}°{data[4][3:]}'{data[5]}"
         return f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
 
 emlid = serial.Serial('COM7', 11520, timeout=.1)
@@ -17,15 +17,15 @@ ded = False
 
 while True:
     if arduino.in_waiting > 0:
-        ar_data = arduino.readline()[:-1].decode('ascii', errors='replace')
-        if ar_data:
+        if ar_data := arduino.readline()[:-1].decode(
+            'ascii', errors='replace'
+        ):
             d = ar_data
             ded = True
-    
-    if ded:
-        if emlid.in_waiting > 0:
-            em_data = emlid.readline().decode('ascii', errors='replace')
-            em_parsed_data = parse_nmea_data(em_data)
-            data = f'{em_parsed_data}, Dist: {d} cm'
-            if em_parsed_data:
-                print(data)
+
+    if ded and emlid.in_waiting > 0:
+        em_data = emlid.readline().decode('ascii', errors='replace')
+        em_parsed_data = parse_nmea_data(em_data)
+        data = f'{em_parsed_data}, Dist: {d} cm'
+        if em_parsed_data:
+            print(data)

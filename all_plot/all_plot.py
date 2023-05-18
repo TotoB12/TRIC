@@ -13,7 +13,7 @@ def parse_nmea_data(data):
     data_type = data[0][1:]
 
     if data_type == "GNGGA":
-        time_utc = data[1][:2] + ":" + data[1][2:4] + ":" + data[1][4:]
+        time_utc = f"{data[1][:2]}:{data[1][2:4]}:{data[1][4:]}"
         try:
             lat = float(data[2][:2]) + float(data[2][2:]) / 60
             if data[3] == 'S':
@@ -42,7 +42,6 @@ y_data = np.array([])
 z_data = np.array([])
 marker_color = np.array([])
 ded = False
-
 time_data = []
 
 start_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
@@ -56,8 +55,7 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
     while True:
         if emlid.in_waiting > 0:
             data = emlid.readline().decode('ascii', errors='replace')
-            parsed_data = parse_nmea_data(data)
-            if parsed_data:
+            if parsed_data := parse_nmea_data(data):
                 if arduino.in_waiting > 0:
                     distance = arduino.readline()[:-1].decode('ascii', errors='replace')
                     d = float(distance)
@@ -80,12 +78,10 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
                     y_data = np.append(y_data, rel_y)
                     z_data = np.append(z_data, d)
                     marker_color = np.append(marker_color, d)
-
                     time_data.append(time_utc)
-
                     data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
                     data_file.flush()
-                
+
         if keyboard.is_pressed('s') or keyboard.is_pressed('c'):
             smoothed_z_data = moving_average(z_data, 2)
 
