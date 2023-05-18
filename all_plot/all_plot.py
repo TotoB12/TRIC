@@ -42,7 +42,6 @@ origin_set = False
 origin_x, origin_y = 0, 0
 
 ded = False
-time_data = []
 
 start_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
 
@@ -74,7 +73,6 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
                     rel_x = x - origin_x
                     rel_y = y - origin_y
 
-                    time_data.append(time_utc)
                     data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
                     data_file.flush()
 
@@ -85,6 +83,7 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
             y_data = np.array([])
             z_data = np.array([])
             marker_color = np.array([])
+            time_data = []
             with open(os.path.join('data', folder_name, 'data.txt'), 'r') as data_file:
                 for line in data_file:
                     time_utc, rel_x, rel_y, d = line.strip().split(',')
@@ -92,6 +91,7 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
                     y_data = np.append(y_data, float(rel_y))
                     z_data = np.append(z_data, float(d))
                     marker_color = np.append(marker_color, -float(d))
+                    time_data.append(time_utc)
 
             smoothed_z_data = moving_average(z_data, 2)
 
@@ -101,7 +101,7 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
             fig3d = go.Figure(data=data3d, layout=layout3d)
             plotly.offline.plot(fig3d, filename=os.path.join('data', folder_name, 'map.html'), auto_open=False)
 
-            trace2d = go.Scatter(x=time_utc, y=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
+            trace2d = go.Scatter(x=time_data, y=smoothed_z_data, mode='lines+markers', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
             data2d = [trace2d]
             layout2d = go.Layout(xaxis_title='Time (s)', yaxis_title='Distance (cm)', margin=dict(l=0, r=0, b=0, t=0))
             fig2d = go.Figure(data=data2d, layout=layout2d)
