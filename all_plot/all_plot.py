@@ -41,6 +41,7 @@ x_data = np.array([])
 y_data = np.array([])
 z_data = np.array([])
 marker_color = np.array([])
+ded = False
 
 time_data = []
 
@@ -60,27 +61,30 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
                 if arduino.in_waiting > 0:
                     distance = arduino.readline()[:-1].decode('ascii', errors='replace')
                     d = float(distance)
-                time_utc, lat, lon = parsed_data
-                print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
+                    ded = True
 
-                x, y, _, _ = utm.from_latlon(lat, lon)
+                if ded:
+                    time_utc, lat, lon = parsed_data
+                    print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
 
-                if not origin_set:
-                    origin_x, origin_y = x, y
-                    origin_set = True
+                    x, y, _, _ = utm.from_latlon(lat, lon)
 
-                rel_x = x - origin_x
-                rel_y = y - origin_y
+                    if not origin_set:
+                        origin_x, origin_y = x, y
+                        origin_set = True
 
-                x_data = np.append(x_data, rel_x)
-                y_data = np.append(y_data, rel_y)
-                z_data = np.append(z_data, d)
-                marker_color = np.append(marker_color, d)
+                    rel_x = x - origin_x
+                    rel_y = y - origin_y
 
-                time_data.append(time_utc)
+                    x_data = np.append(x_data, rel_x)
+                    y_data = np.append(y_data, rel_y)
+                    z_data = np.append(z_data, d)
+                    marker_color = np.append(marker_color, d)
 
-                data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
-                data_file.flush()
+                    time_data.append(time_utc)
+
+                    data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
+                    data_file.flush()
                 
         if keyboard.is_pressed('s') or keyboard.is_pressed('c'):
             smoothed_z_data = moving_average(z_data, 2)
