@@ -77,7 +77,7 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
                 z_data = np.append(z_data, d)
                 marker_color = np.append(marker_color, d)
 
-                time_data.append(time.time())
+                time_data.append(time_utc)
 
                 data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
                 data_file.flush()
