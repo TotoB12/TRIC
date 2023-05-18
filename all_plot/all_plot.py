@@ -8,12 +8,15 @@ import time
 import keyboard
 import numpy as np
 
+date = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+start_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+
 def parse_nmea_data(data):
     data = data.strip().split(',')
     data_type = data[0][1:]
 
     if data_type == "GNGGA":
-        time_utc = f"{data[1][:2]}:{data[1][2:4]}:{data[1][4:]}"
+        time_utc = f"{date}_{data[1][:2]}:{data[1][2:4]}:{data[1][4:]}"
         try:
             lat = float(data[2][:2]) + float(data[2][2:]) / 60
             if data[3] == 'S':
@@ -42,8 +45,6 @@ origin_set = False
 origin_x, origin_y = 0, 0
 
 ded = False
-
-start_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
 
 folder_name = start_time
 os.makedirs('data\\' + folder_name)
