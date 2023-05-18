@@ -1,31 +1,22 @@
-import serial
+import serial, time, keyboard
 
 def parse_nmea_data(data):
-    data = data.strip().split(',')
-    data_type = data[0][1:]
+    d = data.strip().split(',')
+    t = d[0][1:]
+    if t == "GNGGA":
+        return f"[Rover] Time: {d[1][:2]}:{d[1][2:4]}:{d[1][4:]}, Lat: {d[2][:2]}°{d[2][2:]}'{d[3]}, Lon: {d[4][:3]}°{d[4][3:]}'{d[5]}"
 
-    if data_type == "GNGGA":
-        time_utc = f"{data[1][:2]}:{data[1][2:4]}:{data[1][4:]}"
-        lat = f"{data[2][:2]}°{data[2][2:]}'{data[3]}"
-        lon = f"{data[4][:3]}°{data[4][3:]}'{data[5]}"
-        return f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}"
+emlid, arduino, ded = serial.Serial('COM7', 11520, timeout=.1), serial.Serial('COM9', 9600, timeout=.1), False
 
-emlid = serial.Serial('COM7', 11520, timeout=.1)
-arduino = serial.Serial('COM9', 9600, timeout=.1)
-
-ded = False
+time.sleep(1)
+emlid.flushInput()
+arduino.flushInput()
 
 while True:
     if arduino.in_waiting > 0:
-        if ar_data := arduino.readline()[:-1].decode(
-            'ascii', errors='replace'
-        ):
-            d = ar_data
-            ded = True
-
+        if ar_data := arduino.readline()[:-1].decode('ascii', errors='replace'): d, ded = ar_data, True
     if ded and emlid.in_waiting > 0:
         em_data = emlid.readline().decode('ascii', errors='replace')
-        em_parsed_data = parse_nmea_data(em_data)
-        data = f'{em_parsed_data}, Dist: {d} cm'
-        if em_parsed_data:
-            print(data)
+        if em_parsed_data := parse_nmea_data(em_data): print(f'{em_parsed_data}, Dist: {d} cm')
+    if keyboard.is_pressed('s') or keyboard.is_pressed('c'):
+        break
