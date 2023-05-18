@@ -37,7 +37,6 @@ arduino = serial.Serial('COM9', 9600, timeout=.1)
 time.sleep(1)
 emlid.flushInput()
 arduino.flushInput()
-key_event = keyboard.read_event(suppress=True)
 
 origin_set = False
 origin_x, origin_y = 0, 0
