@@ -109,3 +109,5 @@ with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
             plotly.offline.plot(fig2d, filename=os.path.join('data', folder_name, 'graph.html'), auto_open=False)
 
             break
+
+print("Done")

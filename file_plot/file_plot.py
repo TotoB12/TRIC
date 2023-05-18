@@ -45,3 +45,5 @@ data2d = [trace2d]
 layout2d = go.Layout(xaxis_title='Time (s)', yaxis=dict(title='Distance (cm)', autorange='reversed'), margin=dict(l=0, r=0, b=0, t=0))
 fig2d = go.Figure(data=data2d, layout=layout2d)
 plotly.offline.plot(fig2d, filename=os.path.join('data', folder_name, 'graph.html'), auto_open=False)
+
+print("Done")
