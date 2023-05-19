@@ -4,6 +4,7 @@ import datetime
 import utm
 import plotly.graph_objs as go
 import plotly
+import shutil
 
 file = input("Data file path: ")
 
@@ -11,9 +12,17 @@ def moving_average(data, window_size):
     window = np.ones(int(window_size))/float(window_size)
     return np.convolve(data, window, 'valid')
 
-start_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
-folder_name = start_time
+def get_start_time(file):
+    with open(file, 'r') as data_file:
+        first_line = data_file.readline()
+        time_utc, _, _, _ = first_line.strip().split(',')
+        return time_utc
+
+start_time = get_start_time(file)
+folder_name = start_time.replace(':', '-')
 os.makedirs('data\\' + folder_name)
+
+shutil.copy(file, os.path.join('data', folder_name, 'data.txt'))
 
 print("Plotting...")
 

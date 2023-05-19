@@ -1,3 +1,4 @@
 Arduino Nano Every x 6
 USB Cable Type A Male to Micro Type B Male (long) x 6
 10 Port USB Hub (non powered) x 1
+Raspberry Pi with USB A x 1
