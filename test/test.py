@@ -9,16 +9,12 @@ def typing_animation(text, duration):
         time.sleep(duration / len(text))
     sys.stdout.write("\r")
     sys.stdout.flush()
-
-def print_loops(loop_count):
-    text = f"Loops accomplished: {loop_count}"
-    typing_animation(text, 0.7)
-
+    
 def main():
     loop_count = 0
     while True:
         loop_count += 1
-        threading.Thread(target=print_loops, args=(loop_count,)).start()
+        threading.Thread(target=typing_animation, args=("Loops accomplished", 0.7)).start()
         time.sleep(1)
 
 if __name__ == "__main__":
