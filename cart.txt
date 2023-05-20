@@ -1,7 +1,7 @@
-https://www.amazon.com/dp/B07YQ56B6Q/ref=twister_B07YQ4PLXT
-https://www.amazon.com/dp/B09ZQP9LB6/ref=twister_B0B2W22XHB/
-https://www.amazon.com/AmazonBasics-Male-Micro-Cable-Black/dp/B071S5NTDR/
-https://www.amazon.com/Micro-Extension-Security-Camera-2-Pack/dp/B07MH7RZRF/ x 2
+https://www.amazon.com/dp/B07VX7MX27/ref=twister_B07YQ4PLXT/
+
+https://www.amazon.com/AOTOINK-Conductor-Extension-Welding-Tinned/dp/B08JTZCJV1/
+https://www.amazon.com/AmazonBasics-Male-Micro-Cable-Black/dp/B07232M876/
 https://www.amazon.com/WMYCONGCONG-HC-SR04-Ultrasonic-Distance-Measuring/dp/B07JJHCVRG/
 
 40
@@ -11,19 +11,3 @@ https://www.amazon.com/WMYCONGCONG-HC-SR04-Ultrasonic-Distance-Measuring/dp/B07J
 14
 
 92
-
-https://www.amazon.com/Arduino-Nano-Every-Single-Board/dp/B07YQ4Q3Y5/
-https://www.amazon.com/WMYCONGCONG-HC-SR04-Ultrasonic-Distance-Measuring/dp/B07JJHCVRG/
-https://www.amazon.com/dp/B09ZQP9LB6/ref=twister_B0B2W22XHB/
-https://www.amazon.com/dp/B0BPSZN88Z/ref=twister_B0C22RTV2D/ x 2
-https://www.amazon.com/AmazonBasics-Male-Micro-Cable-Black/dp/B071S5NTDR/ x 4
-https://www.amazon.com/Micro-Extension-Security-Camera-2-Pack/dp/B07MH7RZRF/ x 2
-
-80
-14
-8
-24
-26
-24
-
-176
