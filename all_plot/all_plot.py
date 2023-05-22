@@ -68,33 +68,35 @@ while start_time is None:
 folder_name = start_time.replace(':', '-')
 
 try:
-    with open(os.path.join('data', folder_name, 'data.txt'), 'w') as data_file:
+    folder_path = os.path.join('data', folder_name)
+    os.makedirs(folder_path, exist_ok=True)
+    with open(os.path.join(folder_path, 'data.txt'), 'w') as data_file:
+
         while True:
             if emlid.in_waiting > 0:
                 data = emlid.readline().decode('ascii', errors='replace')
                 parsed_data = parse_nmea_data(data)
-                if parsed_data:
-                    if isinstance(parsed_data, tuple):
-                        if arduino.in_waiting > 0:
-                            distance = arduino.readline()[:-1].decode('ascii', errors='replace')
-                            d = float(distance)
-                            ded = True
-
-                        if ded:
-                            time_utc, lat, lon = parsed_data
-                            print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
-
-                            x, y, _, _ = utm.from_latlon(lat, lon)
-
-                            if not origin_set:
-                                origin_x, origin_y = x, y
-                                origin_set = True
-
-                            rel_x = x - origin_x
-                            rel_y = y - origin_y
-
-                            data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
-                            data_file.flush()
+                if parsed_data and isinstance(parsed_data, tuple):
+                    if arduino.in_waiting > 0:
+                        distance = arduino.readline()[:-1].decode('ascii', errors='replace')
+                        d = float(distance)
+                        ded = True
+                
+                    if ded:
+                        time_utc, lat, lon = parsed_data
+                        print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d} cm")
+                
+                        x, y, _, _ = utm.from_latlon(lat, lon)
+                
+                        if not origin_set:
+                            origin_x, origin_y = x, y
+                            origin_set = True
+                
+                        rel_x = x - origin_x
+                        rel_y = y - origin_y
+                
+                        data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}\n")
+                        data_file.flush()
 
 except KeyboardInterrupt:
     print("Plotting...")
