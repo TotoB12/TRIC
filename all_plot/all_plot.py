@@ -3,9 +3,7 @@ import utm
 import plotly.graph_objs as go
 import plotly
 import os
-import datetime
 import time
-import keyboard
 import numpy as np
 
 array_spacing = float(input("Array spacing (m): "))
@@ -69,10 +67,8 @@ def calculate_new_points(x, y, d, direction, distance):
     new_y5 = y + 3 * dy
     new_x6 = x - 3 * dx
     new_y6 = y - 3 * dy
-    new_x7 = x + 4 * dx
-    new_y7 = y + 4 * dy
     
-    return new_x1, new_y1, new_x2, new_y2,new_x3,new_y3,new_x4,new_y4,new_x5,new_y5,new_x6,new_y6,new_x7,new_y7
+    return new_x1, new_y1, new_x2, new_y2,new_x3,new_y3,new_x4,new_y4,new_x5,new_y5,new_x6,new_y6
 
 
 emlid = serial.Serial('COM7', 11520, timeout=.1)
@@ -124,13 +120,9 @@ try:
                     rel_x = x - origin_x
                     rel_y = y - origin_y
 
-                    new_x1, new_y1, new_x2, new_y2,new_x3,new_y3,new_x4,new_y4,new_x5,new_y5,new_x6,new_y6,new_x7,new_y7= calculate_new_points(rel_x,
-                                                                                                                                                rel_y,
-                                                                                                                                                d,
-                                                                                                                                                last_direction,
-                                                                                                                                                array_spacing)
+                    new_x1, new_y1, new_x2, new_y2,new_x3,new_y3,new_x4,new_y4,new_x5,new_y5,new_x6,new_y6= calculate_new_points(rel_x, rel_y, d, last_direction, array_spacing)
 
-                    data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}, {new_x1}, {new_y1}, {new_x2}, {new_y2}, {new_x3}, {new_y3}, {new_x4}, {new_y4}, {new_x5}, {new_y5}, {new_x6}, {new_y6}, {new_x7}, {new_y7}\n")
+                    data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}, {new_x1}, {new_y1}, {new_x2}, {new_y2}, {new_x3}, {new_y3}, {new_x4}, {new_y4}, {new_x5}, {new_y5}, {new_x6}, {new_y6}\n")
                     data_file.flush()
 
 except KeyboardInterrupt:
@@ -151,15 +143,13 @@ except KeyboardInterrupt:
     y5_data = np.array([])
     x6_data = np.array([])
     y6_data = np.array([])
-    x7_data = np.array([])
-    y7_data = np.array([])
 
     marker_color = np.array([])
     time_data = []
     
     with open(os.path.join('data', folder_name, 'data.txt'), 'r') as data_file:
             for line in data_file:
-                time_utc, rel_x, rel_y, d, new_x1, new_y1, new_x2, new_y2,new_x3,new_y3,new_x4,new_y4,new_x5,new_y5,new_x6,new_y6,new_x7,new_y7= line.strip().split(',')
+                time_utc, rel_x, rel_y, d, new_x1, new_y1, new_x2, new_y2,new_x3,new_y3,new_x4,new_y4,new_x5,new_y5,new_x6,new_y6= line.strip().split(',')
                 x_data = np.append(x_data, float(rel_x))
                 y_data = np.append(y_data, float(rel_y))
                 z_data = np.append(z_data, float(d))
@@ -175,8 +165,6 @@ except KeyboardInterrupt:
                 y5_data=np.append(y5_data,float(new_y5))
                 x6_data=np.append(x6_data,float(new_x6))
                 y6_data=np.append(y6_data,float(new_y6))
-                x7_data=np.append(x7_data,float(new_x7))
-                y7_data=np.append(y7_data,float(new_y7))
 
                 marker_color = np.append(marker_color,-float(d))
                 time_data.append(time_utc)
