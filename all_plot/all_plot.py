@@ -148,8 +148,8 @@ except KeyboardInterrupt:
     plotly.offline.plot(fig3d, filename=os.path.join('data', folder_name, 'map.html'), auto_open=False)
 
     trace2d = go.Scatter(x=time_data, y=smoothed_z_data, mode='lines+markers', name='Array 2', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkblue', width=2))
-    trace2d_1 = go.Scatter(x=time_data, y=moving_average(y1_data, 2), mode='lines+markers', name='Array 1', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkred', width=2))
-    trace2d_2 = go.Scatter(x=time_data, y=moving_average(y2_data, 2), mode='lines+markers', name='Array 3', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkgreen', width=2))
+    trace2d_1 = go.Scatter(x=time_data, y=smoothed_z_data, mode='lines+markers', name='Array 1', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkred', width=2))
+    trace2d_2 = go.Scatter(x=time_data, y=smoothed_z_data, mode='lines+markers', name='Array 3', marker=dict(size=5, color=marker_color, colorscale='Viridis', opacity=0.8), line=dict(color='darkgreen', width=2))
     data2d = [trace2d, trace2d_1, trace2d_2]
     layout2d = go.Layout(xaxis_title='Time (s)', yaxis=dict(title='Distance (cm)', autorange='reversed'), margin=dict(l=0, r=0, b=0, t=0))
     fig2d = go.Figure(data=data2d, layout=layout2d)
