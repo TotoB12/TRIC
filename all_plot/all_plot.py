@@ -8,6 +8,7 @@ import time
 import keyboard
 import numpy as np
 
+array_spacing = float(input("Array spacing (m): "))
 print("Please wait...")
 
 date = None
@@ -53,7 +54,7 @@ def moving_average(data, window_size):
     return np.convolve(data, window, 'valid')
 
 def calculate_new_points(x, y, d, direction, distance):
-    angle = np.deg2rad(direction + 90)  # Add 90 degrees to place the lines side by side
+    angle = np.deg2rad(direction + 90)
     dx = distance * np.sin(angle)
     dy = distance * np.cos(angle)
     return x + dx, y + dy, x - dx, y - dy
@@ -107,7 +108,7 @@ try:
                         rel_x = x - origin_x
                         rel_y = y - origin_y
                 
-                        new_x1, new_y1, new_x2, new_y2 = calculate_new_points(rel_x, rel_y, d, last_direction, 1.5)
+                        new_x1, new_y1, new_x2, new_y2 = calculate_new_points(rel_x, rel_y, d, last_direction, array_spacing)
                 
                         data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d}, {new_x1}, {new_y1}, {new_x2}, {new_y2}\n")
                         data_file.flush()
