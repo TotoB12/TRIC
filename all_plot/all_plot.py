@@ -103,8 +103,9 @@ try:
                 parsed_data = parse_nmea_data(data)
                 if parsed_data and isinstance(parsed_data, tuple):
                     if arduino.in_waiting > 0:
-                        distance = arduino.readline()[:-1].decode('ascii', errors='replace')
-                        d = float(distance)
+                        distances = arduino.readline()[:-1].decode('ascii', errors='replace')
+                        # d, d1, d2, d3, d4, d5, d6 = float(distances.strip().split(','))
+                        d = float(distances)
                         ded = True
 
                     if ded and last_direction is not None:
