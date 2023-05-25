@@ -121,5 +121,5 @@ void loop() {
   Serial.print(cm7);
   Serial.println();
   
-  delay(250);
+  delay(1000);
 }
