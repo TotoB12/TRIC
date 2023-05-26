@@ -51,7 +51,7 @@ def moving_average(data, window_size):
     window = np.ones(int(window_size))/float(window_size)
     return np.convolve(data, window, 'valid')
 
-def calculate_new_points(x, y, d, direction, distance):
+def calculate_new_points(x, y, direction, distance):
     angle = np.deg2rad(direction + 90)
     dx = distance * np.sin(angle)
     dy = distance * np.cos(angle)
@@ -68,7 +68,7 @@ def calculate_new_points(x, y, d, direction, distance):
     new_x6 = x - 3 * dx
     new_y6 = y - 3 * dy
     
-    return new_x1, new_y1, new_x2, new_y2, new_x3, new_y3, new_x4, new_y4, new_x5, new_y5, new_x6, new_y6
+    return new_x1, new_y1, new_x2, new_y2, new_x3, new_y3, new_x5, new_y5, new_x6, new_y6, new_x7, new_y7
 
 
 emlid = serial.Serial('COM7', 11520, timeout=.1)
@@ -106,12 +106,12 @@ try:
                 if parsed_data and isinstance(parsed_data, tuple):
                     if arduino.in_waiting > 0:
                         distances = (arduino.readline()[:-1].decode('ascii', errors='replace')).strip().split(', ')
-                        d, d1, d2, d3, d4, d5, d6 = float(distances[0]), float(distances[1]), float(distances[2]), float(distances[3]), float(distances[4]), float(distances[5]), float(distances[6]), 
+                        d1, d2, d3, d4, d5, d6, d7 = float(distances[0]), float(distances[1]), float(distances[2]), float(distances[3]), float(distances[4]), float(distances[5]), float(distances[6]), 
                         ded = True
 
                     if ded and last_direction is not None:
                         time_utc, lat, lon = parsed_data
-                        print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d}, {d1}, {d2}, {d3}, {d4}, {d5}, {d6},  cm")
+                        print(f"[Rover] Time: {time_utc}, Lat: {lat}, Lon: {lon}, Dist: {d1}, {d2}, {d3}, {d4}, {d5}, {d6}, {d7} cm")
 
                         x, y, _, _ = utm.from_latlon(lat, lon)
 
@@ -122,9 +122,9 @@ try:
                     rel_x = x - origin_x
                     rel_y = y - origin_y
 
-                    new_x1, new_y1, new_x2, new_y2, new_x3, new_y3, new_x4, new_y4, new_x5, new_y5, new_x6, new_y6= calculate_new_points(rel_x, rel_y, d, last_direction, array_spacing)
+                    new_x1, new_y1, new_x2, new_y2, new_x3, new_y3, new_x5, new_y5, new_x6, new_y6, new_x7, new_y7 = calculate_new_points(rel_x, rel_y, last_direction, array_spacing)
 
-                    data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d3}, {new_x1}, {new_y1}, {d}, {new_x2}, {new_y2}, {d1}, {new_x3}, {new_y3}, {d2}, {new_x4}, {new_y4}, {d4}, {new_x5}, {new_y5}, {d5}, {new_x6}, {new_y6}, {d6}\n")
+                    data_file.write(f"{time_utc}, {rel_x}, {rel_y}, {d4}, {new_x1}, {new_y1}, {d1}, {new_x2}, {new_y2}, {d2}, {new_x3}, {new_y3}, {d3}, {new_x5}, {new_y5}, {d5}, {new_x6}, {new_y6}, {d6}, {new_x7}, {new_y7}, {d7}\n")
                     data_file.flush()
 
 except KeyboardInterrupt:
