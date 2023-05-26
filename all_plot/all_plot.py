@@ -6,6 +6,9 @@ import os
 import time
 import numpy as np
 
+ar_ser = "COM9"
+em_ser = "COM7"
+
 array_spacing = float(input("Array spacing (m): "))
 print("Please wait...")
 
@@ -71,8 +74,8 @@ def calculate_new_points(x, y, direction, distance):
     return new_x1, new_y1, new_x2, new_y2, new_x3, new_y3, new_x5, new_y5, new_x6, new_y6, new_x7, new_y7
 
 
-emlid = serial.Serial('COM7', 11520, timeout=.1)
-arduino = serial.Serial('COM9', 9600, timeout=.1)
+emlid = serial.Serial(em_ser, 11520, timeout=.1)
+arduino = serial.Serial(ar_ser, 9600, timeout=.1)
 
 time.sleep(1)
 emlid.flushInput()
