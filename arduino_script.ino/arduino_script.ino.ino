@@ -16,9 +16,7 @@ int echoPin7 = 10;    // Echo
 long duration1, cm1, duration2, cm2, duration3, cm3, duration4, cm4, duration5, cm5, duration6, cm6, duration7, cm7;
  
 void setup() {
-  //Serial Port begin
   Serial.begin (9600);
-  //Define inputs and outputs
   pinMode(trigPin1, OUTPUT);
   pinMode(echoPin1, INPUT);
   pinMode(trigPin2, OUTPUT);
@@ -36,7 +34,6 @@ void setup() {
 }
  
 void loop() {
-  // Trigger and read each sensor sequentially
   for (int i = 0; i < 7; i++) {
     int currentTrigPin, currentEchoPin;
     long *currentDuration, *currentCm;
@@ -98,14 +95,11 @@ void loop() {
     pinMode(currentEchoPin, INPUT);
     *currentDuration = pulseIn(currentEchoPin, HIGH);
 
-    // Convert the time into a distance
     *currentCm = (*currentDuration / 2) / 29.1;
 
-    // Add a delay between reading sensors to avoid interference
     delay(10);
   }
 
-  // Print the distances
   Serial.print(cm1);
   Serial.print(", ");
   Serial.print(cm2);
