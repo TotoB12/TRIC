@@ -7,9 +7,10 @@ import time
 import numpy as np
 
 ar_ser = "COM9"
+# COM 9 ''' ulr_ard
 em_ser = "COM7"
+# COM7 ''' /dev/gps_tail
 
-array_spacing = float(input("Array spacing (m): "))
 print("Please wait...")
 
 date = None
@@ -125,7 +126,7 @@ try:
                     rel_x = x - origin_x
                     rel_y = y - origin_y
 
-                    new_x1, new_y1, new_x2, new_y2, new_x3, new_y3, new_x5, new_y5, new_x6, new_y6, new_x7, new_y7 = calculate_new_points(rel_x, rel_y, last_direction, array_spacing)
+                    new_x1, new_y1, new_x2, new_y2, new_x3, new_y3, new_x5, new_y5, new_x6, new_y6, new_x7, new_y7 = calculate_new_points(rel_x, rel_y, last_direction, 1.7)
 
                     data_file.write(f"{time_utc}, {new_x1}, {new_y1}, {d1}, {new_x2}, {new_y2}, {d2}, {new_x3}, {new_y3}, {d3}, {rel_x}, {rel_y}, {d4}, {new_x5}, {new_y5}, {d5}, {new_x6}, {new_y6}, {d6}, {new_x7}, {new_y7}, {d7}\n")
                     data_file.flush()
