@@ -1,21 +1,14 @@
 body {
-    background-color: #000;
+    background-color: #333;
     color: #fff;
 }
 
-.bubble {
-    width: 200px;
-    height: 200px;
+.card {
     background-color: #444;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
+    color: #fff;
+    transition: all 0.3s ease;
 }
 
-.bubble:hover {
-    transform: scale(1.1);
+.card:hover {
+    transform: scale(1.05);
 }
