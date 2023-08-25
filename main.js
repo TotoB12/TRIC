@@ -1,17 +1,17 @@
-document.getElementById('viewRawFiles').addEventListener('click', function() {
+const openPopupButtons = document.querySelectorAll('.open-popup');
+const closePopupButtons = document.querySelectorAll('.close-popup');
+
+openPopupButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const popupId = button.getAttribute('data-popup');
+        const popup = document.getElementById(popupId);
+        popup.style.display = 'flex';
+    });
 });
 
-document.getElementById('viewScripts').addEventListener('click', function() {
-});
-
-document.getElementById('viewDocumentation').addEventListener('click', function() {
-});
-
-document.getElementById('viewData').addEventListener('click', function() {
-});
-
-document.getElementById('compareData').addEventListener('click', function() {
-});
-
-document.getElementById('replayData').addEventListener('click', function() {
+closePopupButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const popup = button.closest('.popup');
+        popup.style.display = 'none';
+    });
 });
