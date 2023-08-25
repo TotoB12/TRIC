@@ -3,25 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRIC Data Analysis</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/TotoB12/TRIC/main/styles.css">
+    <title>TRIC</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/TotoB12/TRIC/main/style.css">
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <div class="bubble" id="viewRawFiles">View Raw Files</div>
-                <div class="bubble" id="viewScripts">View Scripts</div>
-                <div class="bubble" id="viewDocumentation">View Documentation</div>
-                <div class="bubble" id="viewData">View Data</div>
-                <div class="bubble" id="compareData">Compare Data</div>
-                <div class="bubble" id="replayData">Replay Data</div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card 1</h5>
+                        <p class="card-text">Stuff here.</p>
+                        <button class="btn btn-primary open-popup" data-popup="popup1">Open Popup</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card 2</h5>
+                        <p class="card-text">Stuff here.</p>
+                        <button class="btn btn-primary open-popup" data-popup="popup2">Open Popup</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <div class="popup" id="popup1">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Popup 1</h3>
+            <p>words</p>
+        </div>
+    </div>
+    <div class="popup" id="popup2">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Popup 2</h3>
+            <p>word</p>
+        </div>
+    </div>
+
     <script src="https://raw.githubusercontent.com/TotoB12/TRIC/main/main.js"></script>
 </body>
 </html>
