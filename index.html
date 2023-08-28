@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRIC</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script type="module" src="https://md-block.verou.me/md-block.js"></script>
 </head>
@@ -22,22 +22,50 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">View Base Files</h5>
+                        <h5 class="card-title">View Final Base Files</h5>
                         <p class="card-text">View the base files from the final capture.</p>
-<div class="btn-group">
-  <button type="button" class="btn btn-secondary">No Boom 1</button>
-  <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="sr-only"></span>
-  </button>
-  <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">3D Map</a>
-    <a class="dropdown-item" href="#">2D Graph</a>
-    <a class="dropdown-item" href="#">Raw Data</a>
-<!--     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="#">Separated link</a> -->
-  </div>
-</div>
-                        <br>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary">No Boom 1</button>
+                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item open-popup" data-popup="popup2">3D Map</a></li>
+                              <li><a class="dropdown-item open-popup" data-popup="popup3">2D Graph</a></li>
+                              <li><a class="dropdown-item open-popup" data-popup="popup4">Raw Data</a></li>
+                            </ul>
+                          </div>
+                          <div class="btn-group">
+                              <button type="button" class="btn btn-secondary">No Boom 2</button>
+                              <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden"></span>
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item open-popup" data-popup="popup5">3D Map</a></li>
+                                <li><a class="dropdown-item open-popup" data-popup="popup6">2D Graph</a></li>
+                                <li><a class="dropdown-item open-popup" data-popup="popup7">Raw Data</a></li>                          </ul>
+                            </div>
+                            <br></br>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary">Boom 1</button>
+                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <span class="visually-hidden"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item open-popup" data-popup="popup8">3D Map</a></li>
+                                    <li><a class="dropdown-item open-popup" data-popup="popup9">2D Graph</a></li>
+                                    <li><a class="dropdown-item open-popup" data-popup="popup10">Raw Data</a></li>                                </ul>
+                              </div>
+                              <div class="btn-group">
+                                  <button type="button" class="btn btn-secondary">Boom 2</button>
+                                  <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden"></span>
+                                  </button>
+                                  <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item open-popup" data-popup="popup11">3D Map</a></li>
+                                    <li><a class="dropdown-item open-popup" data-popup="popup12">2D Graph</a></li>
+                                    <li><a class="dropdown-item open-popup" data-popup="popup13">Raw Data</a></li>                                  </ul>
+                                </div>
 <!--                         <button class="btn btn-primary open-popup" data-popup="popup2">View</button> -->
                     </div>
                 </div>
@@ -49,38 +77,113 @@
         <div class="popup-content">
             <span class="close-popup">&times;</span>
             <md-block>
-# Documentation Menu
+                # Documentation Menu
 
-## Main Script
-- [all_plot](https://github.com/TotoB12/TRIC/blob/main/docs/all_plot.md) (Main script that combines data and generates visualizations)
-
-## Important Scripts
-- [file_plot](https://github.com/TotoB12/TRIC/blob/main/docs/file_plot.md) (Script for plotting data from a file)
-- [arduino_script](https://github.com/TotoB12/TRIC/blob/main/docs/arduino_script.md) (Arduino script for distance sensor data collection)
-- [generate_data](https://github.com/TotoB12/TRIC/blob/main/docs/generate_data.md) (Script for generating simulated data)
-
-## Other Scripts and Documentation
-- [get_all](https://github.com/TotoB12/TRIC/blob/main/docs/get_all.md) (Script for gathering data from sensors)
-- [arduino_read_pc](https://github.com/TotoB12/TRIC/blob/main/docs/arduino_read_pc.md) (Script for reading data from Arduino)
-- [emlid_plot](https://github.com/TotoB12/TRIC/blob/main/docs/emlid_plot.md) (Script for plotting Emlid GPS data)
-- [emlid_read_pc](https://github.com/TotoB12/TRIC/blob/main/docs/emlid_read_pc.md) (Script for reading Emlid GPS data)
-- [telemetre](https://github.com/TotoB12/TRIC/blob/main/docs/telemetre.md) (Description of telemetry and data collection)
-- [ultrasonic sensor](https://github.com/TotoB12/TRIC/blob/main/docs/ultrasonic%20sensor.md) (Description of ultrasonic sensors and their usage)
-
-## Data
-- [Generated Data](https://github.com/TotoB12/TRIC/tree/main/data) (Folder containing files generated by the all_plot and file_plot scripts)
-- [Final Data](https://github.com/TotoB12/TRIC/tree/main/final) (Folder containing the final data and plot file from the lastest map.)
-            </md-block>
+                ## Main Script
+                - [all_plot](https://github.com/TotoB12/TRIC/blob/main/docs/all_plot.md) (Main script that combines data and generates visualizations)
+                
+                ## Important Scripts
+                - [file_plot](https://github.com/TotoB12/TRIC/blob/main/docs/file_plot.md) (Script for plotting data from a file)
+                - [arduino_script](https://github.com/TotoB12/TRIC/blob/main/docs/arduino_script.md) (Arduino script for distance sensor data collection)
+                - [generate_data](https://github.com/TotoB12/TRIC/blob/main/docs/generate_data.md) (Script for generating simulated data)
+                
+                ## Other Scripts and Documentation
+                - [get_all](https://github.com/TotoB12/TRIC/blob/main/docs/get_all.md) (Script for gathering data from sensors)
+                - [arduino_read_pc](https://github.com/TotoB12/TRIC/blob/main/docs/arduino_read_pc.md) (Script for reading data from Arduino)
+                - [emlid_read_pc](https://github.com/TotoB12/TRIC/blob/main/docs/emlid_read_pc.md) (Script for reading Emlid GPS data)
+                
+                ## Data
+                - [Generated Data](https://github.com/TotoB12/TRIC/tree/main/data) (Folder containing files generated by the all_plot and file_plot scripts)
+                - [Final Data](https://github.com/TotoB12/TRIC/tree/main/final) (Folder containing the final data and plot file from the lastest map.)            </md-block>
         </div>
     </div>
     <div class="popup" id="popup2">
         <div class="popup-content">
             <span class="close-popup">&times;</span>
-            <h3>Popup 2</h3>
-            <p>word</p>
+            <h3>No Boom 1 - 3D Map</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/map.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup3">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>No Boom 1 - 2D Graph</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/graph.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup4">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>No Boom 1 - Raw Data</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/data.txt" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup5">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>No Boom 2 - 3D Map</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/graph.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup6">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>No Boom 2 - 2D Map</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/map.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup7">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>No Boom 2 - Raw Data</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/data.txt" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup8">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Boom 1 - 3D Map</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/map.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup9">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Boom 1 - 2D Graph</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/graph.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup10">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Boom 1 - Raw Data</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/data.txt" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup11">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Boom 2 - 3D Map</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/map.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup12">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Boom 2 - 2D Graph</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/graph.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <div class="popup" id="popup13">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Boom 2 - Raw Data</h3>
+            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/data.txt" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

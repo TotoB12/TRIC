@@ -1,5 +1,6 @@
 const openPopupButtons = document.querySelectorAll('.open-popup');
 const closePopupButtons = document.querySelectorAll('.close-popup');
+// const openPopupButtons = document.querySelectorAll('.dropdown-item');
 
 openPopupButtons.forEach(button => {
     button.addEventListener('click', () => {
