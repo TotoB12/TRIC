@@ -1,6 +1,5 @@
 const openPopupButtons = document.querySelectorAll('.open-popup');
 const closePopupButtons = document.querySelectorAll('.close-popup');
-// const openPopupButtons = document.querySelectorAll('.dropdown-item');
 
 openPopupButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -15,4 +14,87 @@ closePopupButtons.forEach(button => {
         const popup = button.closest('.popup');
         popup.style.display = 'none';
     });
+});
+
+
+const compareButton = document.getElementById('compare-button');
+
+compareButton.addEventListener('click', () => {
+    const file1 = document.getElementById('file1').value;
+    const file2 = document.getElementById('file2').value;
+
+    if (file1 !== 'Choose...' && file2 !== 'Choose...') {
+        if (file1 !== 'Run 1' && file2 !== 'Run 1') {
+            const popupContent = `
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    <h3>No Boom Run 1 vs Boom Run 2</h3>
+                    <div class="row">
+                        <div class="col">
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                        </div>
+                        <div class="col">
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (file1 !== 'Run 2' && file2 !== 'Run 1') {
+            const popupContent = `
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    <h3>No Boom Run 2 vs Boom Run 1</h3>
+                    <div class="row">
+                        <div class="col">
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                        </div>
+                        <div class="col">
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (file1 !== 'Run 1' && file2 !== 'Run 2') {
+            const popupContent = `
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    <h3>No Boom Run 1 vs Boom Run 2</h3>
+                    <div class="row">
+                        <div class="col">
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                        </div>
+                        <div class="col">
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (file1 !== 'Run 2' && file2 !== 'Run 2') {
+            const popupContent = `
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    <h3>No Boom Run 2 vs Boom Run 2</h3>
+                    <div class="row">
+                        <div class="col">
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                        </div>
+                        <div class="col">
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+            const popup = document.createElement('div');
+            popup.classList.add('popup');
+            popup.innerHTML = popupContent;
+            document.body.appendChild(popup);
+            popup.style.display = 'flex';
+
+            const closeButton = popup.querySelector('.close-popup');
+            closeButton.addEventListener('click', () => {
+                popup.style.display = 'none';
+            });
+
+    }
 });
