@@ -4,7 +4,7 @@ const closePopupButtons = document.querySelectorAll('.close-popup');
 fetch('https://raw.githubusercontent.com/TotoB12/TRIC/main/README.md')
   .then(response => response.text())
   .then(data => {
-    document.getElementById('main-doc-content').innerHTML = data;
+    document.getElementById('content').innerHTML = data;
   });
 
 openPopupButtons.forEach(button => {
