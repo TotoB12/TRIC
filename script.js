@@ -25,9 +25,10 @@ compareButton.addEventListener('click', () => {
 
     if (file1 !== 'Choose...' && file2 !== 'Choose...') {
         let popupContent = '';
+        popupContent = '';
         if (file1 !== 'Run 1' && file2 !== 'Run 1') {
             popupContent = `
-                    <h3>No Boom Run 1 vs Boom Run 2</h3>
+                    <h3>No Boom Run 1 vs Boom Run 1</h3>
                     <div class="row">
                         <div class="col">
                             <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
@@ -97,27 +98,28 @@ compareButton.addEventListener('click', () => {
 const compareButton2 = document.getElementById('compare-button2');
 
 compareButton2.addEventListener('click', () => {
-    const file1 = document.getElementById('file11').value;
-    const file2 = document.getElementById('file12').value;
+    const file11 = document.getElementById('file11').value;
+    const file12 = document.getElementById('file12').value;
 
-    if (file1 !== 'Choose...' && file2 !== 'Choose...') {
+    if (file11 !== 'Choose...' && file12 !== 'Choose...') {
         let popupContent = '';
-        if (file1 !== 'Run 1' && file2 !== 'Run 1') {
+        popupContent = '';
+        if (file11 !== 'Run 1' && file12 !== 'Run 1') {
             popupContent = `
                     <h3>No Boom Run 1 vs Boom Run 1</h3>
                     <iframe src="https://totob12.com/TRIC/final/noboomrun1boomrun1.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
             `;
-        } else if (file1 !== 'Run 2' && file2 !== 'Run 1') {
+        } else if (file11 !== 'Run 2' && file12 !== 'Run 1') {
             popupContent = `
                     <h3>No Boom Run 2 vs Boom Run 1</h3>
                     <iframe src="https://totob12.com/TRIC/final/noboomrun2boomrun1.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
             `;
-        } else if (file1 !== 'Run 1' && file2 !== 'Run 2') {
+        } else if (file11 !== 'Run 1' && file12 !== 'Run 2') {
             popupContent = `
                     <h3>No Boom Run 1 vs Boom Run 2</h3>
                     <iframe src="https://totob12.com/TRIC/final/noboomrun1boomrun2.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
             `;
-        } else if (file1 !== 'Run 2' && file2 !== 'Run 2') {
+        } else if (file11 !== 'Run 2' && file12 !== 'Run 2') {
             popupContent = `
                     <h3>No Boom Run 2 vs Boom Run 2</h3>
                     <iframe src="https://totob12.com/TRIC/final/noboomrun2boomrun2.html" frameborder="0"marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
