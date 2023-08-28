@@ -97,8 +97,8 @@ compareButton.addEventListener('click', () => {
 const compareButton2 = document.getElementById('compare-button2');
 
 compareButton2.addEventListener('click', () => {
-    const file1 = document.getElementById('file1').value;
-    const file2 = document.getElementById('file2').value;
+    const file1 = document.getElementById('file11').value;
+    const file2 = document.getElementById('file12').value;
 
     if (file1 !== 'Choose...' && file2 !== 'Choose...') {
         let popupContent = '';
