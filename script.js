@@ -24,70 +24,65 @@ compareButton.addEventListener('click', () => {
     const file2 = document.getElementById('file2').value;
 
     if (file1 !== 'Choose...' && file2 !== 'Choose...') {
+        let popupContent = '';
         if (file1 !== 'Run 1' && file2 !== 'Run 1') {
-            const popupContent = `
-                <div class="popup-content">
-                    <span class="close-popup">&times;</span>
+            popupContent = `
                     <h3>No Boom Run 1 vs Boom Run 2</h3>
                     <div class="row">
                         <div class="col">
-                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
                         </div>
                         <div class="col">
-                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
                         </div>
                     </div>
-                </div>
             `;
         } else if (file1 !== 'Run 2' && file2 !== 'Run 1') {
-            const popupContent = `
-                <div class="popup-content">
-                    <span class="close-popup">&times;</span>
+            popupContent = `
                     <h3>No Boom Run 2 vs Boom Run 1</h3>
                     <div class="row">
                         <div class="col">
-                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
                         </div>
                         <div class="col">
-                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-15-07.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
                         </div>
                     </div>
-                </div>
             `;
         } else if (file1 !== 'Run 1' && file2 !== 'Run 2') {
-            const popupContent = `
-                <div class="popup-content">
-                    <span class="close-popup">&times;</span>
+            popupContent = `
                     <h3>No Boom Run 1 vs Boom Run 2</h3>
                     <div class="row">
                         <div class="col">
-                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-22-03.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
                         </div>
                         <div class="col">
-                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
                         </div>
                     </div>
-                </div>
             `;
         } else if (file1 !== 'Run 2' && file2 !== 'Run 2') {
-            const popupContent = `
-                <div class="popup-content">
-                    <span class="close-popup">&times;</span>
+            popupContent = `
                     <h3>No Boom Run 2 vs Boom Run 2</h3>
                     <div class="row">
                         <div class="col">
-                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_19-54-54.60 no boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
                         </div>
                         <div class="col">
-                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="92%" scrolling="auto"></iframe>
+                            <iframe src="https://totob12.com/TRIC/final/2023-08-24_21-54-46.60 boom/graph.html" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto"></iframe>
                         </div>
                     </div>
-                </div>
             `;
         }
+        if (popupContent) {
             const popup = document.createElement('div');
             popup.classList.add('popup');
-            popup.innerHTML = popupContent;
+            popup.innerHTML = `
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    ${popupContent}
+                </div>
+            `;
             document.body.appendChild(popup);
             popup.style.display = 'flex';
 
@@ -95,6 +90,6 @@ compareButton.addEventListener('click', () => {
             closeButton.addEventListener('click', () => {
                 popup.style.display = 'none';
             });
-
+        }
     }
 });
