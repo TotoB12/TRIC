@@ -63,3 +63,11 @@ body {
     flex: 1;
     height: 100%;
 }
+.btn-group {
+    justify-content: space-between; /* or "center", depending on your preference */
+}
+.btn-group p {
+    margin: auto;
+    margin-left: 10px;
+    align-self: center;
+}
