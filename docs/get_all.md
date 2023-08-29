@@ -6,7 +6,7 @@ The [get_all.py](https://github.com/TotoB12/TRIC/blob/main/get_all/get_all.py) s
 
 - [Prerequisites](#prerequisites)
 - [Function](#function)
-  - [`parse_nmea_data(data)`](#`parse_nmea(data)`-function)
+  - [`parse_nmea_data(data)`](#parse_nmea_datadata-function)
 - [Inputs and Outputs](#inputs-and-outputs)
   - [Inputs](#inputs)
     - [Emlid Serial Port](#emlid-serial-port)
