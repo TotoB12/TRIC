@@ -25,48 +25,54 @@
                         <h5 class="card-title">View Final Base Files</h5>
                         <p class="card-text">View the base files from the final capture.</p>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-secondary">No Boom 1</button>
+                            <button type="button" class="btn btn-secondary">Choose</button>
                             <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                              <span class="visually-hidden"></span>
+                                <span class="visually-hidden"></span>
                             </button>
+                            <p>Run With No Boom 1</p>
                             <ul class="dropdown-menu">
                               <li><a class="dropdown-item open-popup" data-popup="popup2">3D Map</a></li>
                               <li><a class="dropdown-item open-popup" data-popup="popup3">2D Graph</a></li>
                               <li><a class="dropdown-item open-popup" data-popup="popup4">Raw Data</a></li>
                             </ul>
-                          </div>
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-secondary">No Boom 2</button>
-                              <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        </div>
+                        <br></br>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary">Choose</button>
+                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden"></span>
+                            </button>
+                            <p>Run With No Boom 2</p>
+                            <ul class="dropdown-menu">
+                            <li><a class="dropdown-item open-popup" data-popup="popup5">3D Map</a></li>
+                            <li><a class="dropdown-item open-popup" data-popup="popup6">2D Graph</a></li>
+                            <li><a class="dropdown-item open-popup" data-popup="popup7">Raw Data</a></li>                          </ul>
+                        </div>
+                        <br></br>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary">Choose</button>
+                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="visually-hidden"></span>
-                              </button>
-                              <ul class="dropdown-menu">
-                                <li><a class="dropdown-item open-popup" data-popup="popup5">3D Map</a></li>
-                                <li><a class="dropdown-item open-popup" data-popup="popup6">2D Graph</a></li>
-                                <li><a class="dropdown-item open-popup" data-popup="popup7">Raw Data</a></li>                          </ul>
-                            </div>
-                            <br></br>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-secondary">Boom 1</button>
-                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                  <span class="visually-hidden"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item open-popup" data-popup="popup8">3D Map</a></li>
-                                    <li><a class="dropdown-item open-popup" data-popup="popup9">2D Graph</a></li>
-                                    <li><a class="dropdown-item open-popup" data-popup="popup10">Raw Data</a></li>                                </ul>
-                              </div>
-                              <div class="btn-group">
-                                  <button type="button" class="btn btn-secondary">Boom 2</button>
-                                  <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden"></span>
-                                  </button>
-                                  <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item open-popup" data-popup="popup11">3D Map</a></li>
-                                    <li><a class="dropdown-item open-popup" data-popup="popup12">2D Graph</a></li>
-                                    <li><a class="dropdown-item open-popup" data-popup="popup13">Raw Data</a></li>                                  </ul>
-                                </div>
-<!--                         <button class="btn btn-primary open-popup" data-popup="popup2">View</button> -->
+                            </button>
+                            <p>Run With Boom 1</p>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item open-popup" data-popup="popup8">3D Map</a></li>
+                                <li><a class="dropdown-item open-popup" data-popup="popup9">2D Graph</a></li>
+                                <li><a class="dropdown-item open-popup" data-popup="popup10">Raw Data</a></li>                                </ul>
+                        </div>
+                        <br></br>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary">Choose</button>
+                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden"></span>
+                            </button>
+                            <p>Run With Boom 2</p>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item open-popup" data-popup="popup11">3D Map</a></li>
+                                <li><a class="dropdown-item open-popup" data-popup="popup12">2D Graph</a></li>
+                                <li><a class="dropdown-item open-popup" data-popup="popup13">Raw Data</a></li>                                  </ul>
+                        </div>
+<!--                    <button class="btn btn-primary open-popup" data-popup="popup2">View</button> -->
                     </div>
                 </div>
             </div>
@@ -76,19 +82,19 @@
                         <h5 class="card-title">Compare 2D Graphs</h5>
                         <p class="card-text">Select two graphs to compare.</p>
                         <div class="mb-3">
-                            <label for="file1" class="form-label">No Boom</label>
+                            <label for="file1" class="form-label">Run With No Boom</label>
                             <select class="form-select" id="file1">
                                 <option selected>Choose...</option>
-                                <option value="1">Run 1</option>
-                                <option value="2">Run 2</option>
+                                <option value="Run 1">Run 1</option>
+                                <option value="Run 2">Run 2</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="file2" class="form-label">Boom</label>
+                            <label for="file2" class="form-label">Run With Boom</label>
                             <select class="form-select" id="file2">
                                 <option selected>Choose...</option>
-                                <option value="1">Run 1</option>
-                                <option value="2">Run 2</option>
+                                <option value="Run 1">Run 1</option>
+                                <option value="Run 2">Run 2</option>
                             </select>
                         </div>
                         <button class="btn btn-primary" id="compare-button">Compare</button>
@@ -101,22 +107,29 @@
                         <h5 class="card-title">Compare Height Average</h5>
                         <p class="card-text">Compare average heights between runs.</p>
                         <div class="mb-3">
-                            <label for="file11" class="form-label">No Boom</label>
+                            <label for="file11" class="form-label">Run With No Boom</label>
                             <select class="form-select" id="file11">
                                 <option selected>Choose...</option>
-                                <option value="1">Run 1</option>
-                                <option value="2">Run 2</option>
+                                <option value="Run 1">Run 1</option>
+                                <option value="Run 2">Run 2</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="file12" class="form-label">Boom</label>
+                            <label for="file12" class="form-label">Run With Boom</label>
                             <select class="form-select" id="file12">
                                 <option selected>Choose...</option>
-                                <option value="1">Run 1</option>
-                                <option value="2">Run 2</option>
+                                <option value="Run 1">Run 1</option>
+                                <option value="Run 2">Run 2</option>
                             </select>
                         </div>
                         <button class="btn btn-primary" id="compare-button2">Compare</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <img>
                     </div>
                 </div>
             </div>
