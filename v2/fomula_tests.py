@@ -1,9 +1,9 @@
 import numpy as np
 
 alpha = 45  # The downward tilt angle of the sensor from the horizontal plane (e.g., 45 degrees)
-h = 1000  # Height of the sensor from the base level (ground)
-beta = 36.9  # The horizontal angle between the sensor's forward direction and the measured point (left or right)
-d = 1768  # The distance measured by the sensor to the point
+h = 10  # Height of the sensor from the base level (ground)
+beta = 0  # The horizontal angle between the sensor's forward direction and the measured point (left or right)
+d = np.sqrt(10**2 + 10**2)  # The distance measured by the sensor to the point
 
 # The elevation difference is the vertical component of the measured distance, considering the tilt angle:
 # Δy = h - d * sin(α) * cos(β)
