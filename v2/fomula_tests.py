@@ -1,9 +1,13 @@
 import numpy as np
 
+# test = np.random.randint(100, 10000)
+# print("Test value:", test)
+# diagonal = np.sqrt(test**2 + test**2)
+
 alpha = 45  # The downward tilt angle of the sensor from the horizontal plane (e.g., 45 degrees)
-h = 10  # Height of the sensor from the base level (ground)
+h = 1000  # Height of the sensor from the base level (ground)
 beta = 0  # The horizontal angle between the sensor's forward direction and the measured point (left or right)
-d = np.sqrt(10**2 + 10**2)  # The distance measured by the sensor to the point
+d = 100  # The distance measured by the sensor to the point
 
 # The elevation difference is the vertical component of the measured distance, considering the tilt angle:
 # Δy = h - d * sin(α) * cos(β)
