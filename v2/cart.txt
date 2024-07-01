@@ -12,6 +12,6 @@ x1 idk how much cable
 
 ABC:
 
-x1 Linux computer
+x1 Linux computer w/ wifi antenna
 x1 10-foot micro USB cable
 x1 Emlid GPS
