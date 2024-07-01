@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRIC files</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<style>
+    .container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="list-group" id="repoFiles"></div>
+    </div>
+
+    <script>
+        function fetchAndDisplayFiles(path) {
+            fetch(`https://api.github.com/repos/TotoB12/TRIC/contents/${path}`)
+                .then(response => response.json())
+                .then(data => {
+                    let filesDiv = document.getElementById('repoFiles');
+                    filesDiv.innerHTML = '';
+
+                    if (path !== '') {
+                        let backButton = document.createElement('a');
+                        backButton.href = '#';
+                        backButton.className = 'list-group-item list-group-item-action';
+                        backButton.innerHTML = '<img src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/arrow_back/default/48px.svg" alt="Back"> Back';
+                        backButton.onclick = function(event) {
+                            event.preventDefault();
+                            let parentPath = path.substring(0, path.lastIndexOf('/'));
+                            fetchAndDisplayFiles(parentPath);
+                        };
+                        filesDiv.appendChild(backButton);
+                    }
+
+                    data.forEach(file => {
+                        if (file.name === '.github' || file.name === '.vscode') {
+                            return;
+                        }
+                        let fileLink = document.createElement('a');
+                        fileLink.href = `/TRIC/${file.path}`;
+                        fileLink.target = '_blank';
+                        fileLink.className = 'list-group-item list-group-item-action';
+                        fileLink.innerHTML = `<img src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${file.type === 'dir' ? 'folder' : 'description'}/default/48px.svg" alt="${file.type}"> ${file.name}`;
+                        fileLink.onclick = function(event) {
+                            if (file.type === 'dir') {
+                                event.preventDefault();
+                                fetchAndDisplayFiles(file.path);
+                            }
+                        };
+                        filesDiv.appendChild(fileLink);
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+
+        fetchAndDisplayFiles('');
+    </script>
+</body>
+</html>
