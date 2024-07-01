@@ -1,6 +1,6 @@
-# [get_all.py](https://github.com/TotoB12/TRIC/blob/main/get_all/get_all.py) Script Documentation
+# [get_all.py](https://github.com/TotoB12/TRIC/blob/main/v1/get_all/get_all.py) Script Documentation
 
-The [get_all.py](https://github.com/TotoB12/TRIC/blob/main/get_all/get_all.py) script is a Python program designed to read and parse NMEA data from two different serial ports: one connected to an Emlid device and the other connected to an Arduino board with an ultrasonic distance sensor. The script combines the received data to provide location information from the GNSS? device along with distance measurements from the Arduino sensor. It also allows the user to stop the data collection using keyboard shortcuts.
+The [get_all.py](https://github.com/TotoB12/TRIC/blob/main/v1/get_all/get_all.py) script is a Python program designed to read and parse NMEA data from two different serial ports: one connected to an Emlid device and the other connected to an Arduino board with an ultrasonic distance sensor. The script combines the received data to provide location information from the GNSS? device along with distance measurements from the Arduino sensor. It also allows the user to stop the data collection using keyboard shortcuts.
 
 ## Table of Contents
 
