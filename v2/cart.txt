@@ -1,0 +1,17 @@
+A:
+
+x2 https://www.robotshop.com/products/rplidar-a1m8-360-degree-laser-scanner-development-kit
+x2 10-foot micro USB cable
+x2 (included) 7-pin ribbon cable
+x2 (included) USB adapter
+
+B:
+
+x1 (10 pieces) https://www.amazon.com/WMYCONGCONG-HC-SR04-Ultrasonic-Distance-Measuring/dp/B07JJHCVRG/
+x1 idk how much cable
+
+ABC:
+
+x1 Linux computer
+x1 10-foot micro USB cable
+x1 Emlid GPS
