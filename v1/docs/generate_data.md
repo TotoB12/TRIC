@@ -1,6 +1,6 @@
-# [generate_data.py](https://github.com/TotoB12/TRIC/blob/main/generate_data/generate_data.py) Script Documentation
+# [generate_data.py](https://github.com/TotoB12/TRIC/blob/main/v1/generate_data/generate_data.py) Script Documentation
 
-The [generate_data.py](https://github.com/TotoB12/TRIC/blob/main/generate_data/generate_data.py) script generates sample data that can be used as input for the [file_plot.py](https://github.com/TotoB12/TRIC/blob/main/file_plot/file_plot.py) script. This script creates a text file containing simulated timestamped coordinates and a corresponding z-axis value.
+The [generate_data.py](https://github.com/TotoB12/TRIC/blob/main/v1/generate_data/generate_data.py) script generates sample data that can be used as input for the [file_plot.py](https://github.com/TotoB12/TRIC/blob/main/v1/file_plot/file_plot.py) script. This script creates a text file containing simulated timestamped coordinates and a corresponding z-axis value.
 
 ## Table of Contents
 

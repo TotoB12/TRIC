@@ -1,6 +1,6 @@
-# [arduino_read_pc.py](https://github.com/TotoB12/TRIC/blob/main/arduino_read_pc/arduino_read_pc.py) Script Documentation
+# [arduino_read_pc.py](https://github.com/TotoB12/TRIC/blob/main/v1/arduino_read_pc/arduino_read_pc.py) Script Documentation
 
-The [arduino_read_pc.py](https://github.com/TotoB12/TRIC/blob/main/arduino_read_pc/arduino_read_pc.py) script is a Python program designed to read data from an Arduino board connected to a computer via a serial port. It reads and displays data sent by the Arduino over the serial connection in real-time.
+The [arduino_read_pc.py](https://github.com/TotoB12/TRIC/blob/main/v1/arduino_read_pc/arduino_read_pc.py) script is a Python program designed to read data from an Arduino board connected to a computer via a serial port. It reads and displays data sent by the Arduino over the serial connection in real-time.
 
 ## Table of Contents
 

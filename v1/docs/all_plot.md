@@ -1,6 +1,6 @@
-# [all_plot.py](https://github.com/TotoB12/TRIC/blob/main/all_plot/all_plot.py) Script Documentation
+# [all_plot.py](https://github.com/TotoB12/TRIC/blob/main/v1/all_plot/all_plot.py) Script Documentation
 
-The [all_plot.py](https://github.com/TotoB12/TRIC/blob/main/all_plot/all_plot.py) script is the main script of the repository that combines all the data, processes it, and generates 2D and 3D visualizations using the Plotly library. This script gathers data from GPS and distance sensor arrays, processes and stores the data, and then generates interactive visualizations of the data points over time.
+The [all_plot.py](https://github.com/TotoB12/TRIC/blob/main/v1/all_plot/all_plot.py) script is the main script of the repository that combines all the data, processes it, and generates 2D and 3D visualizations using the Plotly library. This script gathers data from GPS and distance sensor arrays, processes and stores the data, and then generates interactive visualizations of the data points over time.
 
 ## Table of Contents
 

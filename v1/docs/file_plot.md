@@ -1,6 +1,6 @@
-# [file_plot.py](https://github.com/TotoB12/TRIC/blob/main/file_plot/file_plot.py) Script Documentation
+# [file_plot.py](https://github.com/TotoB12/TRIC/blob/main/v1/file_plot/file_plot.py) Script Documentation
 
-This script is designed to visualize and plot data from a "data.txt" file generated from either the [all_plot.py](https://github.com/TotoB12/TRIC/blob/main/docs/all_plot.md) or [generate_data.py](https://github.com/TotoB12/TRIC/blob/main/docs/generate_data.md) script. It generates both 3D and 2D plots using the Plotly library based on the provided data file, and creates interactive HTML files that display the plotted data.
+This script is designed to visualize and plot data from a "data.txt" file generated from either the [all_plot.py](https://github.com/TotoB12/TRIC/blob/main/v1/docs/all_plot.md) or [generate_data.py](https://github.com/TotoB12/TRIC/blob/main/v1/docs/generate_data.md) script. It generates both 3D and 2D plots using the Plotly library based on the provided data file, and creates interactive HTML files that display the plotted data.
 
 ## Table of Contents
 

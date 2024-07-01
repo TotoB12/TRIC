@@ -1,6 +1,6 @@
-# [arduino_script.ino](https://github.com/TotoB12/TRIC/blob/main/arduino_script/arduino_script.ino) Documentation
+# [arduino_script.ino](https://github.com/TotoB12/TRIC/blob/main/v1/arduino_script/arduino_script.ino) Documentation
 
-The [arduino_script.ino](https://github.com/TotoB12/TRIC/blob/main/arduino_script/arduino_script.ino) is an Arduino sketch designed to interface with multiple ultrasonic distance sensors and measure distances using the time-of-flight principle. The script reads distances from seven ultrasonic sensors and outputs the measured distances to the Serial Monitor.
+The [arduino_script.ino](https://github.com/TotoB12/TRIC/blob/main/v1/arduino_script/arduino_script.ino) is an Arduino sketch designed to interface with multiple ultrasonic distance sensors and measure distances using the time-of-flight principle. The script reads distances from seven ultrasonic sensors and outputs the measured distances to the Serial Monitor.
 
 ## Table of Contents
 

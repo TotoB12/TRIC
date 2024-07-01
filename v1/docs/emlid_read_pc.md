@@ -1,6 +1,6 @@
-# [emlid_read_pc.py](https://github.com/TotoB12/TRIC/blob/main/emlid_read_pc/emlid_read_pc.py) Script Documentation
+# [emlid_read_pc.py](https://github.com/TotoB12/TRIC/blob/main/v1/emlid_read_pc/emlid_read_pc.py) Script Documentation
 
-The [emlid_read_pc.py](https://github.com/TotoB12/TRIC/blob/main/emlid_read_pc/emlid_read_pc.py) script is a Python program designed to read and parse NMEA data from an Emlid GNSS device connected to a computer via a serial port. The script provides two modes: "Full" and "Clean." In the "Full" mode, it outputs raw NMEA data, while in the "Clean" mode, it parses and formats specific NMEA sentences for easier readability.
+The [emlid_read_pc.py](https://github.com/TotoB12/TRIC/blob/main/v1/emlid_read_pc/emlid_read_pc.py) script is a Python program designed to read and parse NMEA data from an Emlid GNSS device connected to a computer via a serial port. The script provides two modes: "Full" and "Clean." In the "Full" mode, it outputs raw NMEA data, while in the "Clean" mode, it parses and formats specific NMEA sentences for easier readability.
 
 ## Table of Contents
 
