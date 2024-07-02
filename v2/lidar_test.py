@@ -1,25 +1,23 @@
-import serial
-# from rplidar import RPLidar
+import sys
+from rplidar import RPLidar
 
-a1_ser, em_ser = "COM3", "COM4"
-# COM 9 ''' ulr_ard || COM7 ''' /dev/gps_tail
-# lidar = RPLidar('COM3')
+PORT_NAME = 'COM3'
 
-while True:
-    with serial.Serial(a1_ser, 115200, timeout=.1) as a1:
-        data = a1.readline().strip().decode("utf-8")
-        print(data)
-# info = lidar.get_info()
-# print(info)
+def record_mesurements(path):
+    lidar = RPLidar(PORT_NAME)
+    outfile = open(path, 'w')
+    try:
+        print('Recording measurements... Press Crl+C to stop.')
+        for measurement in lidar.iter_measures():
+            if measurment[1] > 0:
+                line = '\t'.join(str(v) for v in measurement)
+                outfile.write(line + '\n')
+    except KeyboardInterrupt:
+        print('Stoping.')
+    lidar.stop()
+    lidar.stop_motor()
+    lidar.disconnect()
+    outfile.close()
 
-# health = lidar.get_health()
-# print(health)
-
-# for i, scan in enumerate(lidar.iter_scans()):
-#     print('%d: Got %d measurments' % (i, len(scan)))
-#     if i > 10:
-#         break
-
-# lidar.stop()
-# lidar.stop_motor()
-# lidar.disconnect()
+if __name__ == '__main__':
+    record_mesurements("out.txt")

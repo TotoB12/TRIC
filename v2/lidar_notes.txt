@@ -1,0 +1,10 @@
+360° Scanning: It can scan a 360° environment within a 12 meter radius.
+Scanning Frequency: Has a scanning frequency of 5.5 hz, sampling 360 points each round, configurable up to 10 hz.
+Measurement System: Utilizes laser triangulation for measurements.
+Environment Suitability: Works well in indoor and outdoor environments without sunlight.
+
+Lowest Frequency: At a scanning frequency of 5.5 Hz, it samples 360 points each round. This equates to 1980 points per second.
+Maximum Frequency: It can be configured up to a 10 Hz maximum frequency, which would result in 3600 points per second.
+
+990
+1800
