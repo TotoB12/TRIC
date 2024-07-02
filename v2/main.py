@@ -63,3 +63,27 @@ while not os.path.exists(folder_path):
     except FileExistsError:
         print("Data already exists")
 
+try:
+    with open(os.path.join(folder_path, 'data.txt'), 'w') as data_file:
+    
+        while True:
+            if emlid.in_waiting > 0:
+                data = emlid.readline().decode('ascii', errors='replace')
+                parsed_data = parse_nmea_data(data)
+                if parsed_data and isinstance(parsed_data, tuple):
+                    if arduino.in_waiting > 0:
+
+                    if ded and last_direction is not None:
+
+
+except KeyboardInterrupt:
+    print("Gathering data...")
+
+    with open(os.path.join('data', folder_name, 'data.txt'), 'r') as data_file:
+        for line in data_file:
+
+    print("Smoothing things out...")
+
+    print("Plotting...")
+
+print("Done")

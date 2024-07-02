@@ -1,9 +1,5 @@
 import numpy as np
 
-# test = np.random.randint(100, 10000)
-# print("Test value:", test)
-# diagonal = np.sqrt(test**2 + test**2)
-
 alpha = 45  # The downward tilt angle of the sensor from the horizontal plane (e.g., 45 degrees)
 h = 1000  # Height of the sensor from the base level (ground)
 beta = 0  # The horizontal angle between the sensor's forward direction and the measured point (left or right)
