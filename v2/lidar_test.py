@@ -3,13 +3,13 @@ from rplidar import RPLidar
 
 PORT_NAME = 'COM3'
 
-def record_mesurements(path):
+def record_measurements(path):
     lidar = RPLidar(PORT_NAME)
     outfile = open(path, 'w')
     try:
         print('Recording measurements... Press Crl+C to stop.')
         for measurement in lidar.iter_measures():
-            if measurment[1] > 0:
+            if measurement[1] > 0:
                 line = '\t'.join(str(v) for v in measurement)
                 outfile.write(line + '\n')
     except KeyboardInterrupt:
@@ -20,4 +20,4 @@ def record_mesurements(path):
     outfile.close()
 
 if __name__ == '__main__':
-    record_mesurements("out.txt")
+    record_measurements("out.txt")

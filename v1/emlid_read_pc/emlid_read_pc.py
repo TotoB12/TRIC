@@ -32,7 +32,7 @@ def parse_nmea_data(data):
         return f"[Base] Lat: {base_lat}, Lon: {base_lon}, Altitude: {base_altitude}"
 
 
-emlid = serial.Serial('COM8', 57600)
+emlid = serial.Serial('COM4', 57600)
 if choice == "c":
     while True:
         data = emlid.readline().decode('ascii', errors='replace')

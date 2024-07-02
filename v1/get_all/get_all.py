@@ -7,6 +7,7 @@ def parse_nmea_data(data):
         return f"[Rover] Time: {d[1][:2]}:{d[1][2:4]}:{d[1][4:]}, Lat: {d[2][:2]}°{d[2][2:]}'{d[3]}, Lon: {d[4][:3]}°{d[4][3:]}'{d[5]}"
 
 emlid, arduino, ded = serial.Serial('COM8', 57600, timeout=.1), serial.Serial('COM3', 9600, timeout=.1), False
+# emlid, ded = serial.Serial('COM8', 57600, timeout=.1), False
 
 time.sleep(1)
 emlid.flushInput()
