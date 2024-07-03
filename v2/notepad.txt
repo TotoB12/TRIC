@@ -9,67 +9,29 @@ def plot_data(data_folder):
         
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
-        # Create a grid for interpolation
-        grid_size = 200
-        xi = np.linspace(min(x), max(x), grid_size)
-        yi = np.linspace(min(y), max(y), grid_size)
+        xi = np.linspace(min(x), max(x), 200)
+        yi = np.linspace(min(y), max(y), 200)
         X, Y = np.meshgrid(xi, yi)
 
-        # Interpolate the data
-        Z = griddata((x, y), z, (X, Y), method='cubic', fill_value=0)
+        Z = griddata((x, y), z, (X, Y), method='linear')
 
-        # Smooth the data
-        from scipy.ndimage import gaussian_filter
-        Z_smooth = gaussian_filter(Z, sigma=1)
-
-        # 3D Surface Plot
-        fig_3d = go.Figure(data=[go.Surface(x=X, y=Y, z=Z_smooth, colorscale='Viridis')])
-        fig_3d.update_layout(
-            scene=dict(
-                xaxis_title='Easting',
-                yaxis_title='Northing',
-                zaxis_title='Elevation (mm)',
-                aspectmode='manual',
-                aspectratio=dict(x=1, y=1, z=0.5)
-            ),
-            title='3D Surface Plot'
-        )
+        fig_3d = go.Figure(data=[go.Surface(x=X, y=Y, z=Z, colorscale='Viridis')])
+        fig_3d.update_layout(scene=dict(
+            xaxis_title='Easting',
+            yaxis_title='Northing',
+            zaxis_title='Elevation (mm)',
+            aspectmode='manual',
+            aspectratio=dict(x=1, y=1, z=0.5)
+        ), title='3D Surface Plot')
         fig_3d.write_html(os.path.join(data_folder, '3d_surface_plot.html'))
 
-        # 2D Heatmap
-        fig_2d = go.Figure(data=go.Heatmap(
-            x=xi,
-            y=yi,
-            z=Z_smooth,
-            colorscale='Viridis',
-            zsmooth='best'
-        ))
+        fig_2d = go.Figure(data=go.Heatmap(x=x, y=y, z=z, colorscale='Viridis'))
         fig_2d.update_layout(
             xaxis_title='Easting',
             yaxis_title='Northing',
             title='2D Elevation Heatmap'
         )
         fig_2d.write_html(os.path.join(data_folder, '2d_heatmap.html'))
-
-        # Contour Plot
-        fig_contour = go.Figure(data=go.Contour(
-            x=xi,
-            y=yi,
-            z=Z_smooth,
-            colorscale='Viridis',
-            contours=dict(
-                start=np.min(Z_smooth),
-                end=np.max(Z_smooth),
-                size=(np.max(Z_smooth) - np.min(Z_smooth)) / 20,
-                coloring='heatmap'
-            )
-        ))
-        fig_contour.update_layout(
-            xaxis_title='Easting',
-            yaxis_title='Northing',
-            title='Elevation Contour Map'
-        )
-        fig_contour.write_html(os.path.join(data_folder, 'contour_plot.html'))
 
         print(f"Plots saved in {data_folder}")
     except Exception as e:

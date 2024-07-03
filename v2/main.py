@@ -5,7 +5,6 @@ import numpy as np
 import plotly.graph_objs as go
 from scipy.interpolate import griddata
 from scipy.ndimage import gaussian_filter
-from scipy.spatial import Delaunay
 from rplidar import RPLidar
 import utm
 import math
@@ -13,10 +12,10 @@ import msvcrt
 
 GPS_PORT = 'COM4'
 LIDAR_PORT = 'COM3'
-GPS_BAUD_RATE = 11520
-LIDAR_MAX_ANGLE = 45  # Degrees to each side
-SENSOR_HEIGHT = 800  # mm
-SENSOR_TILT = 69  # Degrees
+GPS_BAUD_RATE = 57600
+LIDAR_MAX_ANGLE = 30  # Degrees to each side
+SENSOR_HEIGHT = 990  # mm
+SENSOR_TILT = 27  # Degrees
 
 class DataRecorder:
     def __init__(self):
@@ -139,29 +138,60 @@ def plot_data(data_folder):
         
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
-        xi = np.linspace(min(x), max(x), 200)
-        yi = np.linspace(min(y), max(y), 200)
+        # Determine grid size based on data
+        data_points = len(x)
+        grid_size = int(np.sqrt(data_points / 10))  # Adjust this factor as needed
+        grid_size = max(100, min(500, grid_size))  # Ensure grid size is between 100 and 500
+
+        print(f"Using grid size: {grid_size}x{grid_size}")
+
+        # Create a grid for interpolation
+        xi = np.linspace(min(x), max(x), grid_size)
+        yi = np.linspace(min(y), max(y), grid_size)
         X, Y = np.meshgrid(xi, yi)
 
-        Z = griddata((x, y), z, (X, Y), method='linear')
+        # Perform cubic interpolation
+        Z = griddata((x, y), z, (X, Y), method='cubic', fill_value=0)
 
-        fig_3d = go.Figure(data=[go.Surface(x=X, y=Y, z=Z, colorscale='Viridis')])
-        fig_3d.update_layout(scene=dict(
-            xaxis_title='Easting',
-            yaxis_title='Northing',
-            zaxis_title='Elevation (mm)',
-            aspectmode='manual',
-            aspectratio=dict(x=1, y=1, z=0.5)
-        ), title='3D Surface Plot')
+        # Apply adaptive Gaussian smoothing
+        sigma = max(1, grid_size / 100)  # Adjust smoothing based on grid size
+        Z_smooth = gaussian_filter(Z, sigma=sigma)
+
+        # Create 3D surface plot
+        fig_3d = go.Figure(data=[go.Surface(x=X, y=Y, z=Z_smooth, colorscale='Viridis')])
+        fig_3d.update_layout(
+            scene=dict(
+                xaxis_title='Easting',
+                yaxis_title='Northing',
+                zaxis_title='Elevation (mm)',
+                aspectmode='manual',
+                aspectratio=dict(x=1, y=1, z=0.5)
+            ),
+            title='3D Surface Plot',
+            template='none'
+        )
         fig_3d.write_html(os.path.join(data_folder, '3d_surface_plot.html'))
 
-        fig_2d = go.Figure(data=go.Heatmap(x=x, y=y, z=z, colorscale='Viridis'))
+        # Create 2D contour map
+        fig_2d = go.Figure(data=[
+            go.Contour(
+                x=xi,
+                y=yi,
+                z=Z_smooth,
+                colorscale='Viridis',
+                contours=dict(
+                    showlabels=True,
+                    labelfont=dict(size=12, color='white')
+                )
+            )
+        ])
         fig_2d.update_layout(
             xaxis_title='Easting',
             yaxis_title='Northing',
-            title='2D Elevation Heatmap'
+            title='2D Elevation Contour Map',
+            template='none'
         )
-        fig_2d.write_html(os.path.join(data_folder, '2d_heatmap.html'))
+        fig_2d.write_html(os.path.join(data_folder, '2d_contour_map.html'))
 
         print(f"Plots saved in {data_folder}")
     except Exception as e:
@@ -192,7 +222,7 @@ def main():
                 break
             
             elif key == 'Q' or key == 'C':
-                break  # Exit on 'Q'
+                break
             else:
                 print("Invalid choice. Please try again.")
 
