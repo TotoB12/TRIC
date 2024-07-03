@@ -22,14 +22,15 @@ def plot_data(data_folder):
             zaxis_title='Elevation (mm)',
             aspectmode='manual',
             aspectratio=dict(x=1, y=1, z=0.5)
-        ), title='3D Surface Plot')
+        ), title='3D Surface Plot',template='none')
         fig_3d.write_html(os.path.join(data_folder, '3d_surface_plot.html'))
 
         fig_2d = go.Figure(data=go.Heatmap(x=x, y=y, z=z, colorscale='Viridis'))
         fig_2d.update_layout(
             xaxis_title='Easting',
             yaxis_title='Northing',
-            title='2D Elevation Heatmap'
+            title='2D Elevation Heatmap',
+            template='none'
         )
         fig_2d.write_html(os.path.join(data_folder, '2d_heatmap.html'))
 

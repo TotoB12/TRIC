@@ -13,7 +13,7 @@ import msvcrt
 GPS_PORT = 'COM4'
 LIDAR_PORT = 'COM3'
 GPS_BAUD_RATE = 57600
-LIDAR_MAX_ANGLE = 30  # Degrees to each side
+LIDAR_MAX_ANGLE = 45  # Degrees to each side
 SENSOR_HEIGHT = 990  # mm
 SENSOR_TILT = 27  # Degrees
 
@@ -138,26 +138,39 @@ def plot_data(data_folder):
         
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
-        # Determine grid size based on data
         data_points = len(x)
-        grid_size = int(np.sqrt(data_points / 10))  # Adjust this factor as needed
-        grid_size = max(100, min(500, grid_size))  # Ensure grid size is between 100 and 500
+        max_grid_points = 1000000  # Limit the total number of grid points
+        aspect_ratio = (max(x) - min(x)) / (max(y) - min(y))
+        grid_size_x = int(np.sqrt(max_grid_points * aspect_ratio))
+        grid_size_y = int(grid_size_x / aspect_ratio)
 
-        print(f"Using grid size: {grid_size}x{grid_size}")
+        print(f"Using grid size: {grid_size_x}x{grid_size_y}")
 
-        # Create a grid for interpolation
-        xi = np.linspace(min(x), max(x), grid_size)
-        yi = np.linspace(min(y), max(y), grid_size)
+        xi = np.linspace(min(x), max(x), grid_size_x)
+        yi = np.linspace(min(y), max(y), grid_size_y)
         X, Y = np.meshgrid(xi, yi)
 
-        # Perform cubic interpolation
-        Z = griddata((x, y), z, (X, Y), method='cubic', fill_value=0)
+        x_bins = np.digitize(x, xi)
+        y_bins = np.digitize(y, yi)
+        z_avg = np.zeros((grid_size_y, grid_size_x))
+        count = np.zeros((grid_size_y, grid_size_x))
 
-        # Apply adaptive Gaussian smoothing
-        sigma = max(1, grid_size / 100)  # Adjust smoothing based on grid size
+        for i in range(len(x)):
+            z_avg[y_bins[i]-1, x_bins[i]-1] += z[i]
+            count[y_bins[i]-1, x_bins[i]-1] += 1
+
+        mask = count > 0
+        z_avg[mask] /= count[mask]
+
+        xx, yy = np.meshgrid(np.arange(grid_size_x), np.arange(grid_size_y))
+        valid = mask.ravel()
+        coords = np.column_stack((xx.ravel()[valid], yy.ravel()[valid]))
+        values = z_avg[mask]
+        Z = griddata(coords, values, (xx, yy), method='nearest')
+
+        sigma = max(1, min(grid_size_x, grid_size_y) / 100)
         Z_smooth = gaussian_filter(Z, sigma=sigma)
 
-        # Create 3D surface plot
         fig_3d = go.Figure(data=[go.Surface(x=X, y=Y, z=Z_smooth, colorscale='Viridis')])
         fig_3d.update_layout(
             scene=dict(
@@ -165,14 +178,13 @@ def plot_data(data_folder):
                 yaxis_title='Northing',
                 zaxis_title='Elevation (mm)',
                 aspectmode='manual',
-                aspectratio=dict(x=1, y=1, z=0.5)
+                aspectratio=dict(x=aspect_ratio, y=1, z=0.5)
             ),
             title='3D Surface Plot',
             template='none'
         )
         fig_3d.write_html(os.path.join(data_folder, '3d_surface_plot.html'))
 
-        # Create 2D contour map
         fig_2d = go.Figure(data=[
             go.Contour(
                 x=xi,
@@ -189,13 +201,15 @@ def plot_data(data_folder):
             xaxis_title='Easting',
             yaxis_title='Northing',
             title='2D Elevation Contour Map',
-            template='none'
+            template='none',
+            width=800,
+            height=int(800 / aspect_ratio)
         )
         fig_2d.write_html(os.path.join(data_folder, '2d_contour_map.html'))
 
         print(f"Plots saved in {data_folder}")
     except Exception as e:
-        print(f"An error occurred while plotting: {str(e)}")
+        print(f"An error occurred while plotting: {str(e)}")    
 
 def main():
     print("Enter 'R' to record new data, 'P' to plot existing data, or 'Q' to quit: ")
