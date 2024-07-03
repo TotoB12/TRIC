@@ -7,8 +7,8 @@ from scipy.interpolate import griddata
 from rplidar import RPLidar
 import utm
 import math
+import msvcrt
 
-# Constants and Configuration
 GPS_PORT = 'COM4'
 LIDAR_PORT = 'COM3'
 GPS_BAUD_RATE = 11520
@@ -83,10 +83,8 @@ class DataRecorder:
 
         print(f"Distance: {distance}, Angle: {angle}, Delta Y: {delta_y}, X: {x}")
 
-        # Convert to UTM
         easting, northing, _, _ = utm.from_latlon(lat, lon)
 
-        # Adjust position based on LIDAR measurement and heading
         adjusted_angle = self.last_direction + angle
         adjusted_easting = easting + x * np.sin(np.deg2rad(adjusted_angle)) / 1000
         adjusted_northing = northing + x * np.cos(np.deg2rad(adjusted_angle)) / 1000
@@ -128,6 +126,7 @@ class DataRecorder:
             self.close()
 
 def plot_data(data_folder):
+    print("Plotting data...")
     try:
         processed_data = np.loadtxt(os.path.join(data_folder, 'processed_data.txt'), delimiter=',')
         
@@ -137,15 +136,12 @@ def plot_data(data_folder):
         
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
-        # Create a grid for the surface plot
         xi = np.linspace(min(x), max(x), 200)
         yi = np.linspace(min(y), max(y), 200)
         X, Y = np.meshgrid(xi, yi)
 
-        # Interpolate Z values on the grid
         Z = griddata((x, y), z, (X, Y), method='linear')
 
-        # 3D Surface Plot
         fig_3d = go.Figure(data=[go.Surface(x=X, y=Y, z=Z, colorscale='Viridis')])
         fig_3d.update_layout(scene=dict(
             xaxis_title='Easting',
@@ -156,7 +152,6 @@ def plot_data(data_folder):
         ), title='3D Surface Plot')
         fig_3d.write_html(os.path.join(data_folder, '3d_surface_plot.html'))
 
-        # 2D Elevation Heatmap
         fig_2d = go.Figure(data=go.Heatmap(x=x, y=y, z=z, colorscale='Viridis'))
         fig_2d.update_layout(
             xaxis_title='Easting',
@@ -170,28 +165,33 @@ def plot_data(data_folder):
         print(f"An error occurred while plotting: {str(e)}")
 
 def main():
+    print("Enter 'R' to record new data, 'P' to plot existing data, or 'Q' to quit: ")
+    
     while True:
-        choice = input("Enter 'R' to record new data, 'P' to plot existing data, or 'Q' to quit: ").upper()
-        
-        if choice == 'R':
-            recorder = DataRecorder()
-            recorder.record_data()
+        if msvcrt.kbhit():
+            key = msvcrt.getch().decode().upper()
+            if key == 'R':
+                recorder = DataRecorder()
+                recorder.record_data()
+                
+                if os.path.getsize(os.path.join(recorder.session_folder, 'processed_data.txt')) > 0:
+                    plot_data(recorder.session_folder)
+                else:
+                    print("No data was recorded. Unable to generate plots.")
+                break
             
-            if os.path.getsize(os.path.join(recorder.session_folder, 'processed_data.txt')) > 0:
-                plot_data(recorder.session_folder)
+            elif key == 'P':
+                folder = input("Enter the path to the data folder: ")
+                if os.path.exists(folder):
+                    plot_data(folder)
+                else:
+                    print("Invalid folder path.")
+                break
+            
+            elif key == 'Q' or key == 'C':
+                break  # Exit on 'Q'
             else:
-                print("No data was recorded. Unable to generate plots.")
-        
-        elif choice == 'P':
-            folder = input("Enter the path to the data folder: ")
-            if os.path.exists(folder):
-                plot_data(folder)
-            else:
-                print("Invalid folder path.")
-        elif choice == 'Q':
-            break
-        else:
-            print("Invalid choice. Please try again.")
+                print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     main()
