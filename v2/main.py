@@ -4,6 +4,8 @@ import os
 import numpy as np
 import plotly.graph_objs as go
 from scipy.interpolate import griddata
+from scipy.ndimage import gaussian_filter
+from scipy.spatial import Delaunay
 from rplidar import RPLidar
 import utm
 import math
@@ -12,9 +14,9 @@ import msvcrt
 GPS_PORT = 'COM4'
 LIDAR_PORT = 'COM3'
 GPS_BAUD_RATE = 11520
-LIDAR_MAX_ANGLE = 30  # Degrees to each side
+LIDAR_MAX_ANGLE = 45  # Degrees to each side
 SENSOR_HEIGHT = 800  # mm
-SENSOR_TILT = 56  # Degrees
+SENSOR_TILT = 69  # Degrees
 
 class DataRecorder:
     def __init__(self):
@@ -48,6 +50,7 @@ class DataRecorder:
         elif data_type == "GNRMC" and data[8]:
         # elif data_type == "GNRMC":
             # self.last_direction = 0
+            print("Direction changed:", data[8])
             self.last_direction = float(data[8])
 
         return None
@@ -59,7 +62,6 @@ class DataRecorder:
             if isinstance(parsed_data, tuple) and len(parsed_data) == 2:
                 lat, lon = parsed_data
                 self.current_position = (lat, lon)
-                # self.current_position = (37.7749, -122.4194)
                 timestamp = time.time() - self.start_time
                 self.gps_file.write(f"{timestamp},{lat},{lon},{self.last_direction}\n")
                 self.gps_file.flush()
@@ -72,6 +74,7 @@ class DataRecorder:
             return None
 
         lat, lon = self.current_position
+        # self.current_position = (lat + 0.00001, lon)
 
         # Calculate elevation and horizontal distance
         # The elevation difference is the vertical component of the measured distance
@@ -81,7 +84,7 @@ class DataRecorder:
         # The horizontal distance is the horizontal component of the measured distance
         x = np.sqrt(d_forward**2 + d_lateral**2)
 
-        print(f"Distance: {distance}, Angle: {angle}, Delta Y: {delta_y}, X: {x}")
+        # print(f"Distance: {distance}, Angle: {angle}, Delta Y: {delta_y}, X: {x}")
 
         easting, northing, _, _ = utm.from_latlon(lat, lon)
 
@@ -111,7 +114,7 @@ class DataRecorder:
                 
                 new_scan, quality, angle, distance = measurement
                 
-                if quality > 0 and distance > 0:
+                if quality > 14 and distance > 0 and (0 <= angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= angle <= 360):
                     self.lidar_file.write(f"{timestamp},{new_scan},{quality},{angle},{distance}\n")
                     self.lidar_file.flush()
 
