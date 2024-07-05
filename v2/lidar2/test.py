@@ -89,8 +89,10 @@ ser = serial.Serial(  # Port settings
     stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS
 )
-ser.write(RUN_2D) # Mode settings
-print("send : ", RUN_2D)
+# ser.write(RUN_2D) # Mode settings
+ser.write(RUN_3D)
+# print("send : ", RUN_2D)
+print("send : ", RUN_3D)
 time.sleep(1)
 
 while True:
@@ -102,7 +104,7 @@ while True:
                 distanceData = Get2DDistanceDataFromReceivedData(receivedData)
                 print(distanceData)
                 # print("angles,", len(distanceData))
-                print("center distance:", distanceData[80])
+                # print("center distance:", distanceData[80])
                 # print(len(receivedData))
                 
                 

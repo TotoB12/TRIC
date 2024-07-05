@@ -180,11 +180,11 @@ def plot_data(data_folder):
             z=z,
             mode='markers',
             marker=dict(
-                size=5,
+                size=7,
                 color=z,
                 colorscale='Balance',
                 # colorscale='Viridis',
-                opacity=0.8,
+                opacity=1,
                 colorbar=dict(title='Elevation (mm)')
             )
         )])
@@ -209,11 +209,11 @@ def plot_data(data_folder):
             y=y_rel,
             mode='markers',
             marker=dict(
-                size=5,
+                size=7,
                 color=z,
                 colorscale='Balance',
                 # colorscale='Viridis',
-                opacity=0.8,
+                opacity=1,
                 colorbar=dict(title='Elevation (mm)')
             )
         )])
