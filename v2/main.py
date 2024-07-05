@@ -3,6 +3,7 @@ import time
 import os
 import numpy as np
 import plotly.graph_objs as go
+import plotly.express as px
 from scipy.interpolate import griddata
 from scipy.ndimage import gaussian_filter
 from rplidar import RPLidar
@@ -14,8 +15,8 @@ GPS_PORT = 'COM4'
 LIDAR_PORT = 'COM3'
 GPS_BAUD_RATE = 57600
 LIDAR_MAX_ANGLE = 45  # Degrees to each side
-SENSOR_HEIGHT = 990  # mm
-SENSOR_TILT = 27  # Degrees
+SENSOR_HEIGHT = 988  # mm
+SENSOR_TILT = 48  # Degrees
 
 class DataRecorder:
     def __init__(self):
@@ -29,6 +30,7 @@ class DataRecorder:
         self.processed_file = open(os.path.join(self.session_folder, 'processed_data.txt'), 'w')
         self.current_position = None
         self.last_direction = 0
+        self.gps_history = []
 
     def parse_nmea_data(self, data):
         data = data.strip().split(',')
@@ -60,20 +62,25 @@ class DataRecorder:
             parsed_data = self.parse_nmea_data(line)
             if isinstance(parsed_data, tuple) and len(parsed_data) == 2:
                 lat, lon = parsed_data
-                self.current_position = (lat, lon)
                 timestamp = time.time() - self.start_time
+                self.current_position = (lat, lon)
+                self.gps_history.append((timestamp, (lat, lon)))
                 self.gps_file.write(f"{timestamp},{lat},{lon},{self.last_direction}\n")
                 self.gps_file.flush()
 
-    def process_lidar_point(self, angle, distance):
-        if self.current_position is None or distance == 0 or self.last_direction is None:
+                # Keep only the last 10 GPS points to limit memory usage
+                if len(self.gps_history) > 10:
+                    self.gps_history.pop(0)
+
+    def process_lidar_point(self, timestamp, angle, distance):
+        interpolated_position = self.interpolate_position(timestamp)
+        if interpolated_position is None or distance == 0 or self.last_direction is None:
             return None
 
         if not (0 <= angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= angle <= 360):
             return None
 
-        lat, lon = self.current_position
-        # self.current_position = (lat + 0.00001, lon)
+        lat, lon = interpolated_position
 
         # Calculate elevation and horizontal distance
         # The elevation difference is the vertical component of the measured distance
@@ -92,6 +99,22 @@ class DataRecorder:
         adjusted_northing = northing + x * np.cos(np.deg2rad(adjusted_angle)) / 1000
 
         return adjusted_easting, adjusted_northing, delta_y
+
+    def interpolate_position(self, timestamp):
+        if len(self.gps_history) < 2:
+            return self.current_position
+
+        for i in range(1, len(self.gps_history)):
+            prev_time, prev_pos = self.gps_history[i-1]
+            curr_time, curr_pos = self.gps_history[i]
+            
+            if prev_time <= timestamp <= curr_time:
+                t = (timestamp - prev_time) / (curr_time - prev_time)
+                lat = prev_pos[0] + t * (curr_pos[0] - prev_pos[0])
+                lon = prev_pos[1] + t * (curr_pos[1] - prev_pos[1])
+                return (lat, lon)
+
+        return self.current_position
 
     def close(self):
         print("Closing connections and files...")
@@ -117,10 +140,12 @@ class DataRecorder:
                     self.lidar_file.write(f"{timestamp},{new_scan},{quality},{angle},{distance}\n")
                     self.lidar_file.flush()
 
-                    processed_point = self.process_lidar_point(angle, distance)
+                    processed_point = self.process_lidar_point(timestamp, angle, distance)
                     if processed_point:
                         self.processed_file.write(f"{processed_point[0]},{processed_point[1]},{processed_point[2]}\n")
                         self.processed_file.flush()
+                        if 0 <= angle <= 2 or 360 - 2 <= angle <= 360:
+                            print("Height:", processed_point[2], "Angle:", angle)
 
         except KeyboardInterrupt:
             print("Stopping data recording...")
@@ -131,85 +156,78 @@ def plot_data(data_folder):
     print("Plotting data...")
     try:
         processed_data = np.loadtxt(os.path.join(data_folder, 'processed_data.txt'), delimiter=',')
-        
+
         if processed_data.size == 0 or processed_data.ndim == 1:
             print("Insufficient data for plotting.")
             return
-        
+
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
-        data_points = len(x)
-        max_grid_points = 1000000  # Limit the total number of grid points
-        aspect_ratio = (max(x) - min(x)) / (max(y) - min(y))
-        grid_size_x = int(np.sqrt(max_grid_points * aspect_ratio))
-        grid_size_y = int(grid_size_x / aspect_ratio)
+        # Calculate relative distances in meters
+        x_rel = x - np.min(x)
+        y_rel = y - np.min(y)
 
-        print(f"Using grid size: {grid_size_x}x{grid_size_y}")
+        x_range = np.ptp(x_rel)
+        y_range = np.ptp(y_rel)
+        z_range = np.ptp(z)
+        
+        max_range = max(x_range, y_range)
+        z_scale = max_range / z_range * 0.1  # Adjust the 0.1 factor as needed
 
-        xi = np.linspace(min(x), max(x), grid_size_x)
-        yi = np.linspace(min(y), max(y), grid_size_y)
-        X, Y = np.meshgrid(xi, yi)
-
-        x_bins = np.digitize(x, xi)
-        y_bins = np.digitize(y, yi)
-        z_avg = np.zeros((grid_size_y, grid_size_x))
-        count = np.zeros((grid_size_y, grid_size_x))
-
-        for i in range(len(x)):
-            z_avg[y_bins[i]-1, x_bins[i]-1] += z[i]
-            count[y_bins[i]-1, x_bins[i]-1] += 1
-
-        mask = count > 0
-        z_avg[mask] /= count[mask]
-
-        xx, yy = np.meshgrid(np.arange(grid_size_x), np.arange(grid_size_y))
-        valid = mask.ravel()
-        coords = np.column_stack((xx.ravel()[valid], yy.ravel()[valid]))
-        values = z_avg[mask]
-        Z = griddata(coords, values, (xx, yy), method='nearest')
-
-        sigma = max(1, min(grid_size_x, grid_size_y) / 100)
-        Z_smooth = gaussian_filter(Z, sigma=sigma)
-
-        fig_3d = go.Figure(data=[go.Surface(x=X, y=Y, z=Z_smooth, colorscale='Viridis')])
+        fig_3d = go.Figure(data=[go.Scatter3d(
+            x=x_rel,
+            y=y_rel,
+            z=z,
+            mode='markers',
+            marker=dict(
+                size=5,
+                color=z,
+                colorscale='Balance',
+                # colorscale='Viridis',
+                opacity=0.8,
+                colorbar=dict(title='Elevation (mm)')
+            )
+        )])
         fig_3d.update_layout(
             scene=dict(
-                xaxis_title='Easting',
-                yaxis_title='Northing',
-                zaxis_title='Elevation (mm)',
                 aspectmode='manual',
-                aspectratio=dict(x=aspect_ratio, y=1, z=0.5)
+                aspectratio=dict(x=x_range, y=y_range, z=z_range*z_scale),
+                xaxis=dict(range=[0, x_range]),
+                yaxis=dict(range=[0, y_range]),
+                zaxis=dict(range=[np.min(z), np.max(z)]),
+                xaxis_title='Relative Easting (m)',
+                yaxis_title='Relative Northing (m)',
+                zaxis_title='Elevation (mm)'
             ),
-            title='3D Surface Plot',
-            template='none'
+            title='3D Scatter Plot',
+            template='plotly_dark'
         )
-        fig_3d.write_html(os.path.join(data_folder, '3d_surface_plot.html'))
+        fig_3d.write_html(os.path.join(data_folder, '3d_scatter_plot.html'))
 
-        fig_2d = go.Figure(data=[
-            go.Contour(
-                x=xi,
-                y=yi,
-                z=Z_smooth,
-                colorscale='Viridis',
-                contours=dict(
-                    showlabels=True,
-                    labelfont=dict(size=12, color='white')
-                )
+        fig_2d = go.Figure(data=[go.Scatter(
+            x=x_rel,
+            y=y_rel,
+            mode='markers',
+            marker=dict(
+                size=5,
+                color=z,
+                colorscale='Balance',
+                # colorscale='Viridis',
+                opacity=0.8,
+                colorbar=dict(title='Elevation (mm)')
             )
-        ])
+        )])
         fig_2d.update_layout(
-            xaxis_title='Easting',
-            yaxis_title='Northing',
-            title='2D Elevation Contour Map',
-            template='none',
-            width=800,
-            height=int(800 / aspect_ratio)
+            xaxis_title='Relative Easting (m)',
+            yaxis_title='Relative Northing (m)',
+            title='2D Scatter Plot',
+            template='plotly_dark'
         )
-        fig_2d.write_html(os.path.join(data_folder, '2d_contour_map.html'))
+        fig_2d.write_html(os.path.join(data_folder, '2d_scatter_plot.html'))
 
         print(f"Plots saved in {data_folder}")
     except Exception as e:
-        print(f"An error occurred while plotting: {str(e)}")    
+        print(f"An error occurred while plotting: {str(e)}")
 
 def main():
     print("Enter 'R' to record new data, 'P' to plot existing data, or 'Q' to quit: ")
