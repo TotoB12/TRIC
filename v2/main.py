@@ -15,8 +15,8 @@ GPS_PORT = 'COM4'
 LIDAR_PORT = 'COM3'
 GPS_BAUD_RATE = 57600
 LIDAR_MAX_ANGLE = 45  # Degrees to each side
-SENSOR_HEIGHT = 988  # mm
-SENSOR_TILT = 48  # Degrees
+SENSOR_HEIGHT = 803  # mm
+SENSOR_TILT = 55  # Degrees
 
 class DataRecorder:
     def __init__(self):
@@ -49,8 +49,6 @@ class DataRecorder:
                 return None
 
         elif data_type == "GNRMC" and data[8]:
-        # elif data_type == "GNRMC":
-            # self.last_direction = 0
             print("Direction changed:", data[8])
             self.last_direction = float(data[8])
 
@@ -68,7 +66,6 @@ class DataRecorder:
                 self.gps_file.write(f"{timestamp},{lat},{lon},{self.last_direction}\n")
                 self.gps_file.flush()
 
-                # Keep only the last 10 GPS points to limit memory usage
                 if len(self.gps_history) > 10:
                     self.gps_history.pop(0)
 
@@ -163,7 +160,6 @@ def plot_data(data_folder):
 
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
-        # Calculate relative distances in meters
         x_rel = x - np.min(x)
         y_rel = y - np.min(y)
 
@@ -172,7 +168,7 @@ def plot_data(data_folder):
         z_range = np.ptp(z)
         
         max_range = max(x_range, y_range)
-        z_scale = max_range / z_range * 0.1  # Adjust the 0.1 factor as needed
+        z_scale = max_range / z_range * 0.1  # Adjust the 0.1 factor as needed 
 
         fig_3d = go.Figure(data=[go.Scatter3d(
             x=x_rel,
