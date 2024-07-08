@@ -17,6 +17,7 @@ GPS_BAUD_RATE = 57600
 LIDAR_MAX_ANGLE = 45  # Degrees to each side
 SENSOR_HEIGHT = 803  # mm
 SENSOR_TILT = 55  # Degrees
+MIN_HEIGHT = 1500  # mm
 
 class DataRecorder:
     def __init__(self):
@@ -133,12 +134,12 @@ class DataRecorder:
                 
                 new_scan, quality, angle, distance = measurement
                 
-                if quality > 14 and distance > 0 and (0 <= angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= angle <= 360):
+                if quality == 15 and distance > 0 and (0 <= angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= angle <= 360):
                     self.lidar_file.write(f"{timestamp},{new_scan},{quality},{angle},{distance}\n")
                     self.lidar_file.flush()
 
                     processed_point = self.process_lidar_point(timestamp, angle, distance)
-                    if processed_point:
+                    if processed_point and processed_point[2] >= MIN_HEIGHT:
                         self.processed_file.write(f"{processed_point[0]},{processed_point[1]},{processed_point[2]}\n")
                         self.processed_file.flush()
                         if 0 <= angle <= 2 or 360 - 2 <= angle <= 360:

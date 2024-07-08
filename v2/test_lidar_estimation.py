@@ -3,8 +3,8 @@ from rplidar import RPLidar
 import numpy as np
 
 LIDAR_PORT = 'COM3'
-SENSOR_TILT = 37.5
-SENSOR_HEIGHT = 845
+SENSOR_TILT = 57.7
+SENSOR_HEIGHT = 803
 LIDAR_MAX_ANGLE = 1
 
 def print_lidar_readings():

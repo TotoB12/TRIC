@@ -1,113 +1,123 @@
-import time
 import serial
+import cv2
+import numpy as np
 
-RUN_2D = [0x5A, 0x77, 0xFF, 0x02, 0x00, 0x01, 0x00, 0x03]
-RUN_3D = [0x5A, 0x77, 0xFF, 0x02, 0x00, 0x08, 0x00, 0x0A]
-RUN_DUAL = [0x5A, 0x77, 0xFF, 0x02, 0x00, 0x07, 0x00, 0x05]
-COMMAND_STOP = [0x5A, 0x77, 0xFF, 0x02,0x00,0x02,0x00,0x00]
+RUN_3D       =  [0x5A, 0x77, 0xFF, 0x02, 0x00, 0x08, 0x00, 0x0A]
+COMMAND_STOP =  [0x5A, 0x77, 0xFF, 0x02, 0x00, 0x02, 0x00, 0x00]
 
 HEADER1, HEADER2, HEADER3, LENGTH_LSB, LENGTH_MSB, PAYLOAD_HEADER, PAYLOAD_DATA, CHECKSUM = 0, 1, 2, 3, 4, 5, 6, 7
-POS_CYGBOT_HEADER, POS_DEVICE, POS_ID, POS_LENGTH_1, POS_LENGTH_2, POS_PAYLOAD_HEADER = 0, 1, 2, 3, 4, 5
-PAYLOAD_POS_HEADER, PAYLOAD_POS_DATA = 0, 1
 NORMAL_MODE = 0x5A
 PRODUCT_CODE = 0x77
 DEFAULT_ID = 0xFF
-HEADER_LENGTH_SIZE = 5
 
-buffercounter, CPC, lengthLSB, lengthMSB, data_length = 0, 0, 0, 0, 0
-step = HEADER1
-receivedData = []
+normalizeDistanceLimit = 4080
+dataLength3D = 14400
 
+def ReceivedCompleteData(receivedData):
+    global dataLength3D
+    print(f'receive complete data : {len(receivedData)}')
+    if len(receivedData) == dataLength3D:
+        Visualize(receivedData)
 
-def Parser(data):
-    global step, CPC, lengthLSB, lengthMSB, data_length, buffercounter, receivedData
-    if step != CHECKSUM:  # CPC is a variable for storing checksum. If it is not a checksum part, XOR operation is performed on each data and then stored.
-        CPC = CPC ^ data
+def Visualize(receivedData):
+    distanceData = Get3DDistanceDataFromReceivedData(receivedData)
+    image = DistanceDataToNormalizedNumpyArray(distanceData)
+    image = np.array(image, dtype=np.uint8)
+    image = image.reshape(60, 160)
+    image = cv2.resize(image, dsize=(480, 180), interpolation=cv2.INTER_NEAREST)
+    cv2.imshow('test', image)
+    cv2.waitKey(1)
 
-    if step == HEADER1 and data == NORMAL_MODE:
-        step = HEADER2
-        
-    elif step == HEADER2 and data == PRODUCT_CODE:
-        step = HEADER3
-        
-    elif step == HEADER3 and data == DEFAULT_ID:
-        step = LENGTH_LSB
-        CPC = 0
-        
-    elif step == LENGTH_LSB:
-        step = LENGTH_MSB
-        lengthLSB = data
-        
-    elif step == LENGTH_MSB:
-        step = PAYLOAD_HEADER
-        lengthMSB = data
-        data_length = ((lengthMSB << 8) & 0xff00) | (lengthLSB & 0x00ff)
-        
-    elif step == PAYLOAD_HEADER:
-        step = PAYLOAD_DATA
-        if data_length == 1:
-            step = CHECKSUM
-        buffercounter = 0
-        receivedData = []
-        
-    elif step == PAYLOAD_DATA:
-        receivedData.append(data)
-        buffercounter = buffercounter+1
-        if buffercounter >= data_length - 1:
-            step = CHECKSUM
-            
-    elif step == CHECKSUM:
-        step = HEADER1
-        
-        if CPC == data:
-            return True
-    else:
-        step = HEADER1
-        return False
-
-def Get2DDistanceDataFromReceivedData(receivedData):
+def Get3DDistanceDataFromReceivedData(receivedData):
+    global dataLength3D,normalizeDistanceLimit
     index = 0
-    distanceData = [0 for i in range(int(data_length))]
+    distanceData = [0 for i in range(int(dataLength3D / 3 * 2))]
+    for i in range(0, dataLength3D-2, 3):
+        pixelFirst = receivedData[i] << 4 | receivedData[i+1] >> 4
+        pixelSecond = (receivedData[i+1] & 0xf) << 8 | receivedData[i+2]
 
-    for i in range(0, data_length - 1, 2):
-        MSB = receivedData[i]
-        LSB = receivedData[i+1]
-        distanceData[index] = ((MSB << 8) | LSB)
-
-        # if distanceData[index] > 16000:
-        #     distanceData[index] = float("inf")
-
+        if pixelFirst > normalizeDistanceLimit:
+            pixelFirst = normalizeDistanceLimit
+        if pixelSecond > normalizeDistanceLimit:
+            pixelSecond = normalizeDistanceLimit
+        
+        distanceData[index] = pixelFirst
         index += 1
-
+        distanceData[index] = pixelSecond
+        index += 1
     return distanceData
-    
-ser = serial.Serial(  # Port settings
-    port= 'COM6', 
-    baudrate=3000000, # recommend 250,000
-    # baudrate=250000,
+
+def DistanceDataToNormalizedNumpyArray(distanceData):
+    global normalizeDistanceLimit
+    result = np.array(distanceData)
+    result = result / normalizeDistanceLimit * 255
+    return result
+
+#baud = 57600
+#baud = 115200
+# baud = 250000 
+baud = 3000000  # recommend baudrate under 3,000,000
+ser = serial.Serial(  # port open
+    #port="/dev/ttyUSB0",  # <- USB connection 
+    # '/dev/ttyAMA1',# <- GPIO connection 
+    "COM5", #<- Windows PC
+    baudrate=baud,
     parity=serial.PARITY_NONE,
     stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS
 )
-# ser.write(RUN_2D) # Mode settings
-ser.write(RUN_3D)
-# print("send : ", RUN_2D)
-print("send : ", RUN_3D)
-time.sleep(1)
-
-while True:
-    try:
-        readdata = ser.readline()
-        for i in range(len(readdata)):
-            if Parser(readdata[i]):
-                # print(receivedData)
-                distanceData = Get2DDistanceDataFromReceivedData(receivedData)
-                print(distanceData)
-                # print("angles,", len(distanceData))
-                # print("center distance:", distanceData[80])
-                # print(len(receivedData))
+if __name__ == "__main__":
+    ser.write(RUN_3D)
+    print("send : ", RUN_3D)
+    step = HEADER1
+    CPC = 0
+    
+    bufferCounter = 0
+    receivedData = [0 for i in range(dataLength3D)]
+    while True:
+        try:
+            for byte in ser.readline():
+                # print(byte, end=' ')
+                parserPassed = False
+                 # Parse Start
+                if step != CHECKSUM:   
+                    CPC = CPC ^ byte
+                if step == PAYLOAD_DATA:
+                    receivedData[bufferCounter] = byte
+                    bufferCounter += 1
+                    if bufferCounter >= dataLength :
+                        step = CHECKSUM
+                elif step == HEADER1 and byte == NORMAL_MODE:
+                    step = HEADER2
+                elif step == HEADER2 and byte == PRODUCT_CODE:
+                    step = HEADER3
+                elif step == HEADER3 and byte == DEFAULT_ID:
+                    step = LENGTH_LSB
+                    CPC = 0
+                elif step == LENGTH_LSB:
+                    step = LENGTH_MSB
+                    lengthLSB = byte
+                elif step == LENGTH_MSB:
+                    step = PAYLOAD_HEADER
+                    lengthMSB = byte
+                    dataLength = (lengthMSB << 8)  | lengthLSB  - 1
+                elif step == PAYLOAD_HEADER:
+                    step = PAYLOAD_DATA
+                    if dataLength == 0:
+                        step = CHECKSUM
+                    bufferCounter = 0
+                    receivedData = [0 for i in range(dataLength)]  # clear
+                elif step == CHECKSUM:
+                    step = HEADER1
+                    if CPC == byte:
+                        parserPassed = True
+                else:
+                    step = HEADER1
+                    parserPassed = False 
+                # Parse End
                 
-                
-    except KeyboardInterrupt:
-        ser.write(COMMAND_STOP)
-        ser.close()
+                if parserPassed:
+                    ReceivedCompleteData(receivedData)
+        except KeyboardInterrupt:
+            ser.write(COMMAND_STOP)
+            ser.close()
