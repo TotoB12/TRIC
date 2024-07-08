@@ -17,7 +17,10 @@ GPS_BAUD_RATE = 57600
 LIDAR_MAX_ANGLE = 45  # Degrees to each side
 SENSOR_HEIGHT = 803  # mm
 SENSOR_TILT = 55  # Degrees
-MIN_HEIGHT = 1500  # mm
+MIN_HEIGHT = 0  # mm
+ANGLE_FROM_GPS = 0  # Degrees
+DISTANCE_FROM_GPS = 0  # mm
+LIDAR_ORIENTATION = 0  # Degrees
 
 class DataRecorder:
     def __init__(self):
@@ -73,28 +76,39 @@ class DataRecorder:
     def process_lidar_point(self, timestamp, angle, distance):
         interpolated_position = self.interpolate_position(timestamp)
         if interpolated_position is None or distance == 0 or self.last_direction is None:
+            print("Invalid data for processing.")
             return None
 
-        if not (0 <= angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= angle <= 360):
-            return None
+        # Adjust the angle based on LiDAR orientation
+        adjusted_angle = (angle + LIDAR_ORIENTATION) % 360
+
+        # if not (0 <= adjusted_angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= adjusted_angle <= 360):
+        #     print("Angle out of range:", adjusted_angle)
+        #     return None
 
         lat, lon = interpolated_position
 
         # Calculate elevation and horizontal distance
         # The elevation difference is the vertical component of the measured distance
-        delta_y = SENSOR_HEIGHT - distance * np.sin(np.deg2rad(SENSOR_TILT)) * np.cos(np.deg2rad(angle))
+        delta_y = SENSOR_HEIGHT - distance * np.sin(np.deg2rad(SENSOR_TILT)) * np.cos(np.deg2rad(adjusted_angle))
         d_forward = distance * np.cos(np.deg2rad(SENSOR_TILT))
-        d_lateral = d_forward * np.tan(np.deg2rad(angle))
+        d_lateral = d_forward * np.tan(np.deg2rad(adjusted_angle))
         # The horizontal distance is the horizontal component of the measured distance
         x = np.sqrt(d_forward**2 + d_lateral**2)
 
-        # print(f"Distance: {distance}, Angle: {angle}, Delta Y: {delta_y}, X: {x}")
-
         easting, northing, _, _ = utm.from_latlon(lat, lon)
 
-        adjusted_angle = self.last_direction + angle
-        adjusted_easting = easting + x * np.sin(np.deg2rad(adjusted_angle)) / 1000
-        adjusted_northing = northing + x * np.cos(np.deg2rad(adjusted_angle)) / 1000
+        # Adjust for LiDAR position relative to GPS
+        lidar_offset_angle = np.deg2rad(self.last_direction + ANGLE_FROM_GPS)
+        lidar_offset_easting = DISTANCE_FROM_GPS * np.sin(lidar_offset_angle) / 1000
+        lidar_offset_northing = DISTANCE_FROM_GPS * np.cos(lidar_offset_angle) / 1000
+
+        # Calculate final position considering robot direction, LiDAR position, and LiDAR orientation
+        final_angle = np.deg2rad(self.last_direction + ANGLE_FROM_GPS + adjusted_angle)
+        adjusted_easting = easting + lidar_offset_easting + x * np.sin(final_angle) / 1000
+        adjusted_northing = northing + lidar_offset_northing + x * np.cos(final_angle) / 1000
+
+        # print("Adjusted Easting:", adjusted_easting, "Adjusted Northing:", adjusted_northing, "Height:", delta_y)
 
         return adjusted_easting, adjusted_northing, delta_y
 
@@ -134,16 +148,20 @@ class DataRecorder:
                 
                 new_scan, quality, angle, distance = measurement
                 
-                if quality == 15 and distance > 0 and (0 <= angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= angle <= 360):
-                    self.lidar_file.write(f"{timestamp},{new_scan},{quality},{angle},{distance}\n")
+                adjusted_angle = (angle + LIDAR_ORIENTATION) % 360
+                # print(adjusted_angle)
+                
+                # change depending on opinion
+                if quality == 15 and distance > 0 and (0 <= adjusted_angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= adjusted_angle <= 360):
+                    self.lidar_file.write(f"{timestamp},{new_scan},{quality},{adjusted_angle},{distance}\n")
                     self.lidar_file.flush()
-
+                    # print("Lidar data recorded.")
                     processed_point = self.process_lidar_point(timestamp, angle, distance)
                     if processed_point and processed_point[2] >= MIN_HEIGHT:
                         self.processed_file.write(f"{processed_point[0]},{processed_point[1]},{processed_point[2]}\n")
                         self.processed_file.flush()
-                        if 0 <= angle <= 2 or 360 - 2 <= angle <= 360:
-                            print("Height:", processed_point[2], "Angle:", angle)
+                        if 0 <= adjusted_angle <= 2 or 360 - 2 <= adjusted_angle <= 360:
+                            print("Height:", processed_point[2], "Angle:", adjusted_angle)
 
         except KeyboardInterrupt:
             print("Stopping data recording...")
