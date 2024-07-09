@@ -17,6 +17,7 @@ GPS_BAUD_RATE = 57600
 LIDAR_MAX_ANGLE = 45  # Degrees to each side
 SENSOR_HEIGHT = 803  # mm
 SENSOR_TILT = 55  # Degrees
+MIN_DISTANCE = 0  # mm
 MIN_HEIGHT = 0  # mm
 ANGLE_FROM_GPS = 0  # Degrees
 DISTANCE_FROM_GPS = 0  # mm
@@ -79,7 +80,6 @@ class DataRecorder:
             print("Invalid data for processing.")
             return None
 
-        # Adjust the angle based on LiDAR orientation
         adjusted_angle = (angle + LIDAR_ORIENTATION) % 360
 
         # if not (0 <= adjusted_angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= adjusted_angle <= 360):
@@ -98,12 +98,10 @@ class DataRecorder:
 
         easting, northing, _, _ = utm.from_latlon(lat, lon)
 
-        # Adjust for LiDAR position relative to GPS
         lidar_offset_angle = np.deg2rad(self.last_direction + ANGLE_FROM_GPS)
         lidar_offset_easting = DISTANCE_FROM_GPS * np.sin(lidar_offset_angle) / 1000
         lidar_offset_northing = DISTANCE_FROM_GPS * np.cos(lidar_offset_angle) / 1000
 
-        # Calculate final position considering robot direction, LiDAR position, and LiDAR orientation
         final_angle = np.deg2rad(self.last_direction + ANGLE_FROM_GPS + adjusted_angle)
         adjusted_easting = easting + lidar_offset_easting + x * np.sin(final_angle) / 1000
         adjusted_northing = northing + lidar_offset_northing + x * np.cos(final_angle) / 1000
@@ -152,7 +150,7 @@ class DataRecorder:
                 # print(adjusted_angle)
                 
                 # change depending on opinion
-                if quality == 15 and distance > 0 and (0 <= adjusted_angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= adjusted_angle <= 360):
+                if quality == 15 and distance > MIN_DISTANCE and (0 <= adjusted_angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= adjusted_angle <= 360):
                     self.lidar_file.write(f"{timestamp},{new_scan},{quality},{adjusted_angle},{distance}\n")
                     self.lidar_file.flush()
                     processed_point = self.process_lidar_point(timestamp, angle, distance)
