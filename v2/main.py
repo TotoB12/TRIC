@@ -239,7 +239,7 @@ def plot_data(data_folder):
                 yaxis_title='Relative Northing (m)',
                 zaxis_title='Elevation (mm)'
             ),
-            title='3D Scatter Plot with Floor Detection',
+            title='3D Scatter Plot',
             template='plotly_dark'
         )
         fig_3d.write_html(os.path.join(data_folder, '3d_scatter_plot.html'))
@@ -269,33 +269,28 @@ def plot_data(data_folder):
         print(f"An error occurred while plotting: {str(e)}")
 
 def main():
-    print("Enter 'R' to record new data, 'P' to plot existing data, or 'Q' to quit: ")
+    key = input("Enter 'R' to record new data, 'P' to plot existing data, or 'Q' to quit: ").upper()
     
-    while True:
-        if msvcrt.kbhit():
-            key = msvcrt.getch().decode().upper()
-            if key == 'R':
-                recorder = DataRecorder()
-                recorder.record_data()
-                
-                if os.path.getsize(os.path.join(recorder.session_folder, 'processed_data.txt')) > 0:
-                    plot_data(recorder.session_folder)
-                else:
-                    print("No data was recorded. Unable to generate plots.")
-                break
-            
-            elif key == 'P':
-                folder = input("Enter the path to the data folder: ")
-                if os.path.exists(folder):
-                    plot_data(folder)
-                else:
-                    print("Invalid folder path.")
-                break
-            
-            elif key == 'Q' or key == 'C':
-                break
-            else:
-                print("Invalid choice. Please try again.")
+    if key == 'R':
+        recorder = DataRecorder()
+        recorder.record_data()
+        
+        if os.path.getsize(os.path.join(recorder.session_folder, 'processed_data.txt')) > 0:
+            plot_data(recorder.session_folder)
+        else:
+            print("No data was recorded. Unable to generate plots.")
+
+    elif key == 'P':
+        folder = input("Enter the path to the data folder: ")
+        if os.path.exists(folder):
+            plot_data(folder)
+        else:
+            print("Invalid folder path.")
+
+    elif key == 'Q' or key == 'C':
+        pass
+    else:
+        print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     main()
