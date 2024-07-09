@@ -10,6 +10,7 @@ from rplidar import RPLidar
 import utm
 import math
 import msvcrt
+import pyransac3d as pyrsc
 
 GPS_PORT = 'COM4'
 LIDAR_PORT = 'COM3'
@@ -22,6 +23,17 @@ MIN_HEIGHT = 0  # mm
 ANGLE_FROM_GPS = 0  # Degrees
 DISTANCE_FROM_GPS = 0  # mm
 LIDAR_ORIENTATION = 0  # Degrees
+
+def find_floor_plane(data):
+    plane = pyrsc.Plane()
+    cube = pyrsc.Cube((-1000, 1000), (-1000, 1000), (-1000, 1000))
+    best_eq, best_inliers = plane.fit(data, thresh=1)
+    return best_eq, best_inliers
+
+def find_cuboid(data):
+    cuboid = pyrsc.Cuboid()
+    best_eq, best_inliers = cuboid.fit(data, thresh=0.05, maxIteration=5000)
+    return best_eq, best_inliers
 
 class DataRecorder:
     def __init__(self):
@@ -176,6 +188,10 @@ def plot_data(data_folder):
 
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
+        # Find floor plane
+        floor_eq, floor_inliers = find_floor_plane(processed_data)
+        print("Floor plane equation (Ax + By + Cz + D = 0):", floor_eq)
+
         x_rel = x - np.min(x)
         y_rel = y - np.min(y)
 
@@ -186,7 +202,9 @@ def plot_data(data_folder):
         max_range = max(x_range, y_range)
         z_scale = max_range / z_range * 0.1  # Adjust the factor as needed 
 
-        fig_3d = go.Figure(data=[go.Scatter3d(
+        fig_3d = go.Figure()
+
+        fig_3d.add_trace(go.Scatter3d(
             x=x_rel,
             y=y_rel,
             z=z,
@@ -195,11 +213,27 @@ def plot_data(data_folder):
                 size=7,
                 color=z,
                 colorscale='Balance',
-                # colorscale='Viridis',
                 opacity=1,
                 colorbar=dict(title='Elevation (mm)')
-            )
-        )])
+            ),
+            name='All Points'
+        ))
+
+        # Plot floor plane
+        # fig_3d.add_trace(go.Scatter3d(
+        #     x=x_rel[floor_inliers],
+        #     y=y_rel[floor_inliers],
+        #     z=z[floor_inliers],
+        #     mode='markers',
+        #     marker=dict(
+        #         size=7,
+        #         color='red',
+        #         symbol='circle',
+        #         opacity=1
+        #     ),
+        #     name='Floor Points'
+        # ))
+
         fig_3d.update_layout(
             scene=dict(
                 aspectmode='manual',
@@ -211,10 +245,10 @@ def plot_data(data_folder):
                 yaxis_title='Relative Northing (m)',
                 zaxis_title='Elevation (mm)'
             ),
-            title='3D Scatter Plot',
+            title='3D Scatter Plot with Floor Detection',
             template='plotly_dark'
         )
-        fig_3d.write_html(os.path.join(data_folder, '3d_scatter_plot.html'))
+        fig_3d.write_html(os.path.join(data_folder, '3d_scatter_plot_with_floor.html'))
 
         fig_2d = go.Figure(data=[go.Scatter(
             x=x_rel,
@@ -224,7 +258,6 @@ def plot_data(data_folder):
                 size=7,
                 color=z,
                 colorscale='Balance',
-                # colorscale='Viridis',
                 opacity=1,
                 colorbar=dict(title='Elevation (mm)')
             )

@@ -5,30 +5,6 @@
 3.052 - 2.679 = 0.373
 
 
-        fig_2d = go.Figure(data=[go.Densitymapbox(
-            lat=y_rel,
-            lon=x_rel,
-            z=z,
-            radius=1,  # Adjust this value to change the smoothness of the heatmap
-            colorscale='Balance',
-            zmin=np.min(z),
-            zmax=np.max(z),
-            opacity=0.8,
-            colorbar=dict(title='Elevation (mm)')
-        )])
-        
-        fig_2d.update_layout(
-            mapbox=dict(
-                style="white-bg",
-                center=dict(lon=np.mean(x_rel), lat=np.mean(y_rel)),
-                zoom=10  # Adjust this value to fit your data
-            ),
-            mapbox_style="white-bg",
-            margin=dict(l=0, r=0, t=30, b=0),
-            width=800,
-            height=600,
-            title='2D Heatmap',
-            template='plotly_dark'
-        )
-        
-        fig_2d.write_html(os.path.join(data_folder, '2d_heatmap_plot.html'))
+Boom ^ 10s/m
+Bot: 0.8 m/s
+pipe height: 1/4 m
