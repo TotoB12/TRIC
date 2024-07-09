@@ -155,7 +155,6 @@ class DataRecorder:
                 if quality == 15 and distance > 0 and (0 <= adjusted_angle <= LIDAR_MAX_ANGLE or 360 - LIDAR_MAX_ANGLE <= adjusted_angle <= 360):
                     self.lidar_file.write(f"{timestamp},{new_scan},{quality},{adjusted_angle},{distance}\n")
                     self.lidar_file.flush()
-                    # print("Lidar data recorded.")
                     processed_point = self.process_lidar_point(timestamp, angle, distance)
                     if processed_point and processed_point[2] >= MIN_HEIGHT:
                         self.processed_file.write(f"{processed_point[0]},{processed_point[1]},{processed_point[2]}\n")
@@ -187,7 +186,7 @@ def plot_data(data_folder):
         z_range = np.ptp(z)
         
         max_range = max(x_range, y_range)
-        z_scale = max_range / z_range * 0.1  # Adjust the 0.1 factor as needed 
+        z_scale = max_range / z_range * 0.1  # Adjust the factor as needed 
 
         fig_3d = go.Figure(data=[go.Scatter3d(
             x=x_rel,
