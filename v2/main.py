@@ -10,7 +10,7 @@ from rplidar import RPLidar
 import utm
 import math
 import msvcrt
-import pyransac3d as pyrsc
+# import pyransac3d as pyrsc
 
 GPS_PORT = 'COM4'
 LIDAR_PORT = 'COM3'
@@ -24,15 +24,10 @@ ANGLE_FROM_GPS = 0  # Degrees
 DISTANCE_FROM_GPS = 0  # mm
 LIDAR_ORIENTATION = 0  # Degrees
 
-def find_floor_plane(data):
-    plane = pyrsc.Plane()
-    best_eq, best_inliers = plane.fit(data, thresh=1.7) # 1
-    return best_eq, best_inliers
-
-def find_cuboid(data):
-    cuboid = pyrsc.Cuboid()
-    best_eq, best_inliers = cuboid.fit(data, thresh=0.05, maxIteration=5000)
-    return best_eq, best_inliers
+# def find_floor_plane(data):
+#     plane = pyrsc.Plane()
+#     best_eq, best_inliers = plane.fit(data, thresh=1.7) # 1
+#     return best_eq, best_inliers
 
 class DataRecorder:
     def __init__(self):
@@ -187,15 +182,9 @@ def plot_data(data_folder):
 
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
-        # # Find floor plane
-        floor_eq, floor_inliers = find_floor_plane(processed_data)
-        print("Floor plane equation (Ax + By + Cz + D = 0):", floor_eq)
-
-        # # Find cuboid planes
-        # cuboid_eq, cuboid_inliers = find_cuboid(processed_data)
-        # print("Cuboid equations (3 planes, Ax + By + Cz + D = 0):")
-        # for i, eq in enumerate(cuboid_eq):
-        #     print(f"Plane {i+1}: {eq}")
+        # # # Find floor plane
+        # floor_eq, floor_inliers = find_floor_plane(processed_data)
+        # print("Floor plane equation (Ax + By + Cz + D = 0):", floor_eq)
 
         x_rel = x - np.min(x)
         y_rel = y - np.min(y)
@@ -224,34 +213,19 @@ def plot_data(data_folder):
             name='All Points'
         ))
 
-        # Plot floor plane
-        fig_3d.add_trace(go.Scatter3d(
-            x=x_rel[floor_inliers],
-            y=y_rel[floor_inliers],
-            z=z[floor_inliers],
-            mode='markers',
-            marker=dict(
-                size=7,
-                color='red',
-                symbol='circle',
-                opacity=1
-            ),
-            name='Floor Points'
-        ))
-
-        # # Plot cuboid planes
+        # # Plot floor plane
         # fig_3d.add_trace(go.Scatter3d(
-        #     x=x_rel[cuboid_inliers],
-        #     y=y_rel[cuboid_inliers],
-        #     z=z[cuboid_inliers],
+        #     x=x_rel[floor_inliers],
+        #     y=y_rel[floor_inliers],
+        #     z=z[floor_inliers],
         #     mode='markers',
         #     marker=dict(
         #         size=7,
-        #         color='red',
+        #         color='green',
         #         symbol='circle',
         #         opacity=1
         #     ),
-        #     name='Cuboid Points'
+        #     name='Floor Points'
         # ))
 
         fig_3d.update_layout(
