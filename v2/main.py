@@ -26,8 +26,7 @@ LIDAR_ORIENTATION = 0  # Degrees
 
 def find_floor_plane(data):
     plane = pyrsc.Plane()
-    cube = pyrsc.Cube((-1000, 1000), (-1000, 1000), (-1000, 1000))
-    best_eq, best_inliers = plane.fit(data, thresh=1)
+    best_eq, best_inliers = plane.fit(data, thresh=1.7) # 1
     return best_eq, best_inliers
 
 def find_cuboid(data):
@@ -188,9 +187,15 @@ def plot_data(data_folder):
 
         x, y, z = processed_data[:, 0], processed_data[:, 1], processed_data[:, 2]
 
-        # Find floor plane
+        # # Find floor plane
         floor_eq, floor_inliers = find_floor_plane(processed_data)
         print("Floor plane equation (Ax + By + Cz + D = 0):", floor_eq)
+
+        # # Find cuboid planes
+        # cuboid_eq, cuboid_inliers = find_cuboid(processed_data)
+        # print("Cuboid equations (3 planes, Ax + By + Cz + D = 0):")
+        # for i, eq in enumerate(cuboid_eq):
+        #     print(f"Plane {i+1}: {eq}")
 
         x_rel = x - np.min(x)
         y_rel = y - np.min(y)
@@ -220,10 +225,25 @@ def plot_data(data_folder):
         ))
 
         # Plot floor plane
+        fig_3d.add_trace(go.Scatter3d(
+            x=x_rel[floor_inliers],
+            y=y_rel[floor_inliers],
+            z=z[floor_inliers],
+            mode='markers',
+            marker=dict(
+                size=7,
+                color='red',
+                symbol='circle',
+                opacity=1
+            ),
+            name='Floor Points'
+        ))
+
+        # # Plot cuboid planes
         # fig_3d.add_trace(go.Scatter3d(
-        #     x=x_rel[floor_inliers],
-        #     y=y_rel[floor_inliers],
-        #     z=z[floor_inliers],
+        #     x=x_rel[cuboid_inliers],
+        #     y=y_rel[cuboid_inliers],
+        #     z=z[cuboid_inliers],
         #     mode='markers',
         #     marker=dict(
         #         size=7,
@@ -231,7 +251,7 @@ def plot_data(data_folder):
         #         symbol='circle',
         #         opacity=1
         #     ),
-        #     name='Floor Points'
+        #     name='Cuboid Points'
         # ))
 
         fig_3d.update_layout(
@@ -248,7 +268,7 @@ def plot_data(data_folder):
             title='3D Scatter Plot with Floor Detection',
             template='plotly_dark'
         )
-        fig_3d.write_html(os.path.join(data_folder, '3d_scatter_plot_with_floor.html'))
+        fig_3d.write_html(os.path.join(data_folder, '3d_scatter_plot.html'))
 
         fig_2d = go.Figure(data=[go.Scatter(
             x=x_rel,
