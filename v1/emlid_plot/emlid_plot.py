@@ -21,7 +21,7 @@ def parse_nmea_data(data):
 
         return time_utc, lat, lon
 
-emlid = serial.Serial('COM7', 57600)
+emlid = serial.Serial('COM4', 57600)
 
 plt.ion()
 fig, ax = plt.subplots()
