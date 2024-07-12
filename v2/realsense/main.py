@@ -30,6 +30,7 @@ class DataRecorder:
         self.gps_file = open(os.path.join(self.session_folder, 'gps_data.txt'), 'w')
         self.pointcloud_file = open(os.path.join(self.session_folder, 'pointcloud_data.npy'), 'wb')
         self.processed_file = open(os.path.join(self.session_folder, 'processed_data.txt'), 'w')
+        self.performance_file = open(os.path.join(self.session_folder, 'performance_data.txt'), 'w')
         
         self.latest_pointcloud = None
         self.latest_gps = None
@@ -47,6 +48,12 @@ class DataRecorder:
         self.processing_thread = threading.Thread(target=self.processing_loop)
         
         self.stop_event = threading.Event()
+
+        # Performance monitoring
+        self.total_processing_time = 0
+        self.total_processed_frames = 0
+        self.min_processing_time = float('inf')
+        self.max_processing_time = 0
 
     def start(self):
         try:
@@ -156,6 +163,7 @@ class DataRecorder:
             try:
                 item = self.processing_queue.get(timeout=1)
                 if item[0] == 'gps':
+                    process_start_time = time.time()
                     timestamp, lat, lon, heading = item[1]
                     with self.pointcloud_lock:
                         if self.latest_pointcloud is not None:
@@ -165,6 +173,10 @@ class DataRecorder:
                             for point in processed_points:
                                 self.processed_file.write(f"{timestamp},{point[0]},{point[1]},{point[2]}\n")
                             self.processed_file.flush()
+                            process_end_time = time.time()
+                            processing_time = process_end_time - process_start_time
+                            total_time = process_end_time - timestamp
+                            self.log_performance(timestamp, processing_time, total_time)
                             logging.info(f"Processed and saved data for timestamp {timestamp}")
                 self.processing_queue.task_done()
             except queue.Empty:
@@ -231,12 +243,33 @@ class DataRecorder:
 
         return transformed_points
 
+    def log_performance(self, timestamp, processing_time, total_time):
+        self.total_processing_time += processing_time
+        self.total_processed_frames += 1
+        self.min_processing_time = min(self.min_processing_time, processing_time)
+        self.max_processing_time = max(self.max_processing_time, processing_time)
+        
+        avg_processing_time = self.total_processing_time / self.total_processed_frames
+        
+        performance_log = (f"Timestamp: {timestamp:.3f}, "
+                           f"Processing Time: {processing_time:.3f}s, "
+                           f"Total Time: {total_time:.3f}s, "
+                           f"Avg Processing Time: {avg_processing_time:.3f}s, "
+                           f"Min Processing Time: {self.min_processing_time:.3f}s, "
+                           f"Max Processing Time: {self.max_processing_time:.3f}s\n")
+        
+        self.performance_file.write(performance_log)
+        self.performance_file.flush()
+        
+        logging.debug(performance_log.strip())
+
     def close(self):
         logging.info("Closing connections and files...")
         self.stop_pipeline()
         self.gps_file.close()
         self.pointcloud_file.close()
         self.processed_file.close()
+        self.performance_file.close()
         logging.info("All connections and files closed.")
 
 def plot_data(data_folder):
@@ -312,7 +345,7 @@ def main():
             recorder = DataRecorder()
             try:
                 recorder.start()
-                input("Press Enter to stop recording...")
+                input("Press Enter to stop recording...\n")
             except Exception as e:
                 logging.error(f"Error during recording: {str(e)}")
             finally:
