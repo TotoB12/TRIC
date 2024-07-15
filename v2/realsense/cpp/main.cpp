@@ -33,7 +33,7 @@ const double ANGLE_FROM_GPS = 0;           // Degrees
 const double DISTANCE_FROM_GPS = 0;        // Meters
 const double SENSOR_ORIENTATION = 0;       // Degrees
 const double MAX_DISTANCE_FROM_SENSOR = 4; // Meters
-const double DOWNSCALE_FACTOR = 0.1;
+const double DOWNSCALE_FACTOR = 1;
 
 class DataRecorder
 {
@@ -163,7 +163,7 @@ private:
                     {
                         std::lock_guard<std::mutex> lock(gps_lock);
                         latest_gps = std::make_tuple(timestamp, lat, lon, current_heading);
-                        gps_file << timestamp << "," << lat << "," << lon << "," << current_heading << std::endl;
+                        gps_file << std::setprecision(15) << timestamp << "," << lat << "," << lon << "," << heading << std::endl;
                         gps_file.flush(); // Ensure data is written immediately
                         processing_queue.push(std::make_tuple("gps", latest_gps));
                     }
@@ -270,7 +270,7 @@ private:
                             // Save the processed pointcloud
                             for (const auto &point : processed_pointcloud)
                             {
-                                processed_file << point[0] << "," << point[1] << "," << point[2] << std::endl;
+                                processed_file << std::setprecision(15) << point[0] << "," << point[1] << "," << point[2] << std::endl;
                             }
                             processed_file.flush(); // Ensure data is written immediately
 
@@ -376,7 +376,7 @@ private:
         double lat = std::get<0>(gps_data);
         double lon = std::get<1>(gps_data);
         double heading = std::get<2>(gps_data);
-        std::cout << "GPS data: " << lat << ", " << lon << ", " << heading << std::endl;
+        std::cout << "GPS data: " << std::setprecision(15) << lat << ", " << std::setprecision(15) << lon << ", " << heading << std::endl;
 
         if (lat == 0 && lon == 0)
         {
@@ -398,16 +398,10 @@ private:
         }
         else
         {
-            char *err_msg = nullptr;
-            CPLGetLastErrorMsg();
-            if (err_msg)
-                std::cerr << "Transformation error: " << err_msg << std::endl;
-            else
-                std::cerr << "Unknown transformation error occurred." << std::endl;
+            std::cerr << "Transformation error: " << CPLGetLastErrorMsg() << std::endl;
+            easting = lon;
+            northing = lat;
         }
-
-        std::cout << "After transformation - Easting: " << std::setprecision(15) << easting
-                  << ", Northing: " << std::setprecision(15) << northing << std::endl;
 
         OGRCoordinateTransformation::DestroyCT(transform);
 
