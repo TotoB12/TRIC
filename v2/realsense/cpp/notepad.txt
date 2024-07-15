@@ -1,1 +1,3 @@
 g++ -o hello main.cpp -I"C:/Program Files (x86)/Intel RealSense SDK 2.0/include" -L"C:/Program Files (x86)/Intel RealSense SDK 2.0/lib/x64" -I"C:/Users/totob/Downloads/vcpkg/installed/x64-windows/include" -L"C:/Users/totob/Downloads/vcpkg/installed/x64-windows/lib" -lrealsense2 "C:/Users/totob/Downloads/vcpkg/installed/x64-windows/lib/boost_system-vc143-mt-x64-1_85.lib" -lgdal -lws2_32 -lpthread
+
+cmake --build . 

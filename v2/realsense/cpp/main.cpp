@@ -28,7 +28,7 @@ using boost::asio::ip::tcp;
 const std::string GPS_PORT = "COM4";
 const int GPS_BAUD_RATE = 57600;
 const double SENSOR_HEIGHT = 0.973;        // Meters
-const double SENSOR_TILT = 45;             // Degrees
+const double SENSOR_TILT = 0;             // Degrees
 const double ANGLE_FROM_GPS = 0;           // Degrees
 const double DISTANCE_FROM_GPS = 0;        // Meters
 const double SENSOR_ORIENTATION = 0;       // Degrees
@@ -363,14 +363,9 @@ private:
             }
         }
         std::vector<Eigen::Vector3d> downsampled_pointcloud;
-        int count = 0;
         for (const auto &voxel : voxel_grid)
         {
-            if (count % static_cast<int>(1.0 / DOWNSCALE_FACTOR) == 0)
-            {
-                downsampled_pointcloud.push_back(voxel.second);
-            }
-            count++;
+            downsampled_pointcloud.push_back(voxel.second);
         }
 
         double lat = std::get<0>(gps_data);
@@ -405,7 +400,7 @@ private:
 
         OGRCoordinateTransformation::DestroyCT(transform);
 
-        Eigen::Matrix3d R_tilt = Eigen::AngleAxisd((SENSOR_TILT)*M_PI / 180, Eigen::Vector3d::UnitX()).toRotationMatrix();
+        Eigen::Matrix3d R_tilt = Eigen::AngleAxisd(-(SENSOR_TILT+90) * M_PI / 180, Eigen::Vector3d::UnitX()).toRotationMatrix();
         Eigen::Matrix3d R_orientation = Eigen::AngleAxisd((SENSOR_ORIENTATION + heading) * M_PI / 180, Eigen::Vector3d::UnitZ()).toRotationMatrix();
         Eigen::Matrix3d R = R_orientation * R_tilt;
 

@@ -1,3 +1,4 @@
+#define _WIN32_WINNT 0x0601 // Target Windows 7 or later
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -18,6 +19,7 @@
 #include <librealsense2/rs.hpp>
 #include <Eigen/Dense>
 #include <ogr_geometry.h>
+#include <stdlib.h>
 
 using namespace std::chrono;
 namespace fs = std::filesystem;
@@ -25,12 +27,13 @@ using boost::asio::ip::tcp;
 
 const std::string GPS_PORT = "COM4";
 const int GPS_BAUD_RATE = 57600;
-const double SENSOR_HEIGHT = 0.973;        // meters
-const double SENSOR_TILT = 0;              // Degrees
+const double SENSOR_HEIGHT = 0.973;        // Meters
+const double SENSOR_TILT = 90;             // Degrees
 const double ANGLE_FROM_GPS = 0;           // Degrees
-const double DISTANCE_FROM_GPS = 0;        // meters
+const double DISTANCE_FROM_GPS = 0;        // Meters
 const double SENSOR_ORIENTATION = 0;       // Degrees
-const double MAX_DISTANCE_FROM_SENSOR = 4; // meters
+const double MAX_DISTANCE_FROM_SENSOR = 4; // Meters
+const double DOWNSCALE_FACTOR = 1;
 
 class DataRecorder
 {
@@ -120,8 +123,10 @@ private:
     {
         auto now = std::chrono::system_clock::now();
         auto in_time_t = std::chrono::system_clock::to_time_t(now);
+        struct tm timeinfo;
+        localtime_s(&timeinfo, &in_time_t);
         std::stringstream ss;
-        ss << std::put_time(std::localtime(&in_time_t), "%Y%m%d_%H%M%S");
+        ss << std::put_time(&timeinfo, "%Y%m%d_%H%M%S");
         return ss.str();
     }
 
@@ -158,7 +163,7 @@ private:
                     {
                         std::lock_guard<std::mutex> lock(gps_lock);
                         latest_gps = std::make_tuple(timestamp, lat, lon, current_heading);
-                        gps_file << timestamp << "," << lat << "," << lon << "," << current_heading << std::endl;
+                        gps_file << std::setprecision(15) << timestamp << "," << lat << "," << lon << "," << heading << std::endl;
                         gps_file.flush(); // Ensure data is written immediately
                         processing_queue.push(std::make_tuple("gps", latest_gps));
                     }
@@ -208,6 +213,10 @@ private:
 
                 std::lock_guard<std::mutex> lock(pointcloud_lock);
                 latest_pointcloud = pointcloud;
+
+                // Save pointcloud to PLY file
+                std::string filename = session_folder + "/pointclouds/pointcloud_" + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()) + ".ply";
+                points.export_to_ply(filename, color_frame);
             }
         }
         catch (const rs2::error &e)
@@ -255,13 +264,16 @@ private:
                         std::lock_guard<std::mutex> lock(pointcloud_lock);
                         if (!latest_pointcloud.empty())
                         {
-                            // Save the pointcloud data
-                            processed_file << timestamp << "," << lat << "," << lon << "," << heading << std::endl;
-                            for (const auto &point : latest_pointcloud)
+                            // Process the pointcloud
+                            auto processed_pointcloud = process_pointcloud(latest_pointcloud, std::make_tuple(lat, lon, heading));
+
+                            // Save the processed pointcloud
+                            for (const auto &point : processed_pointcloud)
                             {
-                                processed_file << point[0] << "," << point[1] << "," << point[2] << std::endl;
+                                processed_file << std::setprecision(15) << point[0] << "," << point[1] << "," << point[2] << std::endl;
                             }
                             processed_file.flush(); // Ensure data is written immediately
+
                             auto process_end_time = system_clock::now();
                             auto processing_time = duration_cast<microseconds>(process_end_time - process_start_time).count();
                             auto total_time = duration_cast<microseconds>(process_end_time - start_time).count();
@@ -291,7 +303,7 @@ private:
         }
         std::string data_type = tokens[0].substr(1);
 
-        if (data_type == "GNGGA")
+        if (data_type == "GNGGA" && tokens.size() >= 6)
         {
             try
             {
@@ -302,15 +314,23 @@ private:
                 double lon = std::stod(tokens[4].substr(0, 3)) + std::stod(tokens[4].substr(3)) / 60.0;
                 if (tokens[5] == "W")
                     lon = -lon;
+
+                // Check if latitude and longitude are within valid ranges
+                if (lat < -90 || lat > 90 || lon < -180 || lon > 180)
+                {
+                    std::cerr << "Invalid GPS coordinates: " << lat << ", " << lon << std::endl;
+                    return std::make_tuple(0, 0, 0, 0);
+                }
+
                 return std::make_tuple(timestamp, lat, lon, 0);
             }
-            catch (const std::exception &)
+            catch (const std::exception &e)
             {
-                std::cerr << "Invalid GNGGA data: " << data << std::endl;
+                std::cerr << "Error parsing GNGGA data: " << e.what() << std::endl;
                 return std::make_tuple(0, 0, 0, 0);
             }
         }
-        else if (data_type == "GNRMC")
+        else if (data_type == "GNRMC" && tokens.size() >= 9)
         {
             try
             {
@@ -318,9 +338,9 @@ private:
                 double heading = tokens[8].empty() ? 0 : std::stod(tokens[8]);
                 return std::make_tuple(timestamp, 0, 0, heading);
             }
-            catch (const std::exception &)
+            catch (const std::exception &e)
             {
-                std::cerr << "Invalid GNRMC data: " << data << std::endl;
+                std::cerr << "Error parsing GNRMC data: " << e.what() << std::endl;
                 return std::make_tuple(0, 0, 0, 0);
             }
         }
@@ -351,27 +371,45 @@ private:
         double lat = std::get<0>(gps_data);
         double lon = std::get<1>(gps_data);
         double heading = std::get<2>(gps_data);
+        std::cout << "GPS data: " << std::setprecision(15) << lat << ", " << std::setprecision(15) << lon << ", " << heading << std::endl;
 
-        double easting, northing;
+        if (lat == 0 && lon == 0)
+        {
+            std::cerr << "Invalid GPS data. Skipping point cloud processing." << std::endl;
+            return std::vector<Eigen::Vector3d>();
+        }
+
+        double easting = 0, northing = 0;
         OGRSpatialReference sr;
         sr.SetWellKnownGeogCS("WGS84");
         OGRSpatialReference utm;
-        utm.SetUTM(33, true); // Adjust UTM zone as needed
+        int zone = static_cast<int>((lon + 180) / 6) + 1;
+        utm.SetUTM(zone, lat >= 0);
         OGRCoordinateTransformation *transform = OGRCreateCoordinateTransformation(&sr, &utm);
-        if (transform->Transform(1, &lon, &lat))
+        if (transform && transform->Transform(1, &lat, &lon))
         {
             easting = lon;
             northing = lat;
         }
         else
         {
-            std::cerr << "Error transforming coordinates" << std::endl;
+            std::cerr << "Transformation error: " << CPLGetLastErrorMsg() << std::endl;
+            easting = lon;
+            northing = lat;
         }
+
         OGRCoordinateTransformation::DestroyCT(transform);
 
-        Eigen::Matrix3d R_tilt = Eigen::AngleAxisd((SENSOR_TILT - 90) * M_PI / 180, Eigen::Vector3d::UnitX()).toRotationMatrix();
+        Eigen::Matrix3d R_tilt = Eigen::AngleAxisd(-SENSOR_TILT * M_PI / 180, Eigen::Vector3d::UnitX()).toRotationMatrix();
         Eigen::Matrix3d R_orientation = Eigen::AngleAxisd((SENSOR_ORIENTATION + heading) * M_PI / 180, Eigen::Vector3d::UnitZ()).toRotationMatrix();
         Eigen::Matrix3d R = R_orientation * R_tilt;
+
+        std::cout << "R_tilt:\n"
+                  << R_tilt << std::endl;
+        std::cout << "R_orientation:\n"
+                  << R_orientation << std::endl;
+        std::cout << "R:\n"
+                  << R << std::endl;
 
         std::vector<Eigen::Vector3d> transformed_points;
         for (const auto &point : downsampled_pointcloud)
@@ -385,7 +423,14 @@ private:
             {
                 transformed_point[0] += easting;
                 transformed_point[1] += northing;
-                transformed_points.push_back(transformed_point);
+                if (std::isfinite(transformed_point[0]) && std::isfinite(transformed_point[1]) && std::isfinite(transformed_point[2]))
+                {
+                    transformed_points.push_back(transformed_point);
+                }
+                else
+                {
+                    std::cerr << "Invalid transformed point: " << transformed_point.transpose() << std::endl;
+                }
             }
         }
         return transformed_points;
@@ -466,6 +511,8 @@ void main_loop()
 
 int main()
 {
+    const char *proj_path = "C:\\OSGeo4W\\share\\proj";
+    _putenv_s("PROJ_LIB", proj_path);
     main_loop();
     return 0;
 }
