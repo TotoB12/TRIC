@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A98C289D-6D15-3D9B-9E21-F79F546798CD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

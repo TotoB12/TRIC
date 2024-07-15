@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{00DCD2C3-932A-38F8-ACF8-26C4CE28747D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Intel RealSense SDK 2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Intel RealSense SDK 2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Intel RealSense SDK 2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Intel RealSense SDK 2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp -BC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build --check-stamp-file C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindBoost.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\BoostConfig.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\BoostConfigVersion.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\vcpkg-cmake-wrapper.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets-debug.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets-release.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets-debug.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets-release.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDALConfig.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDALConfigVersion.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\vcpkg-cmake-wrapper.cmake;C:\Users\totob\Downloads\vcpkg\scripts\buildsystems\vcpkg.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp -BC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build --check-stamp-file C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindBoost.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\BoostConfig.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\BoostConfigVersion.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\vcpkg-cmake-wrapper.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets-debug.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets-release.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets-debug.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets-release.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDALConfig.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDALConfigVersion.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\vcpkg-cmake-wrapper.cmake;C:\Users\totob\Downloads\vcpkg\scripts\buildsystems\vcpkg.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp -BC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build --check-stamp-file C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindBoost.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\BoostConfig.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\BoostConfigVersion.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\vcpkg-cmake-wrapper.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets-debug.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets-release.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets-debug.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets-release.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDALConfig.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDALConfigVersion.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\vcpkg-cmake-wrapper.cmake;C:\Users\totob\Downloads\vcpkg\scripts\buildsystems\vcpkg.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp -BC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build --check-stamp-file C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindBoost.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\BoostConfig.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\BoostConfigVersion.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost\vcpkg-cmake-wrapper.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_assert\boost_assert-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_config\boost_config-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_headers\boost_headers-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_mp11\boost_mp11-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_predef\boost_predef-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets-debug.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets-release.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_system\boost_system-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_throw_exception\boost_throw_exception-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_variant2\boost_variant2-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-config-version.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-config.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\boost_winapi\boost_winapi-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets-debug.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets-release.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDAL-targets.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDALConfig.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\GDALConfigVersion.cmake;C:\Users\totob\Downloads\vcpkg\installed\x64-windows\share\gdal\vcpkg-cmake-wrapper.cmake;C:\Users\totob\Downloads\vcpkg\scripts\buildsystems\vcpkg.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\3.26.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\ZERO_CHECK.vcxproj">
+      <Project>{7794E847-7BB9-362A-BA74-B87041DD4181}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\totob\OneDrive\PC\Documents\GitHub\TRIC\v2\realsense\cpp\build\hello.vcxproj">
+      <Project>{F3A8A03D-64AB-3403-AF84-DEF2A1AB968D}</Project>
+      <Name>hello</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

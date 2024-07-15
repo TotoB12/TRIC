@@ -1,0 +1,10 @@
+^C:\USERS\TOTOB\ONEDRIVE\PC\DOCUMENTS\GITHUB\TRIC\V2\REALSENSE\CPP\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp -BC:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build --check-stamp-file C:/Users/totob/OneDrive/PC/Documents/GitHub/TRIC/v2/realsense/cpp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

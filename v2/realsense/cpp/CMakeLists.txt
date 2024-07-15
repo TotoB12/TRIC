@@ -1,19 +1,22 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
+project(HelloRealsense)
 
-project(DataRecorder)
-
+# Specify C++17 standard
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_CXX_EXTENSIONS NO)
 
-# Add vcpkg toolchain
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# Manually specify the paths to the RealSense SDK
+set(REALSENSE2_INCLUDE_DIR "C:/Program Files (x86)/Intel RealSense SDK 2.0/include")
+set(REALSENSE2_LIBRARY_DIR "C:/Program Files (x86)/Intel RealSense SDK 2.0/lib/x64")
 
-# find_package(realsense2 REQUIRED)
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
-find_package(nlohmann_json REQUIRED)
+# Manually add the include and library directories for RealSense
+include_directories(${REALSENSE2_INCLUDE_DIR})
+link_directories(${REALSENSE2_LIBRARY_DIR})
+
 find_package(Boost REQUIRED COMPONENTS system)
+find_package(GDAL REQUIRED)
 
-add_executable(DataRecorder main.cpp)
-
-target_include_directories(DataRecorder PRIVATE ${realsense2_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
-target_link_libraries(DataRecorder PRIVATE realsense2::realsense2 Eigen3::Eigen nlohmann_json::nlohmann_json Boost::system)
+add_executable(hello main.cpp)
+target_include_directories(hello PRIVATE ${Boost_INCLUDE_DIRS} ${GDAL_INCLUDE_DIRS})
+target_link_libraries(hello realsense2 Boost::system GDAL::GDAL)
