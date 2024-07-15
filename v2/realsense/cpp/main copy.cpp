@@ -159,6 +159,7 @@ private:
                         std::lock_guard<std::mutex> lock(gps_lock);
                         latest_gps = std::make_tuple(timestamp, lat, lon, current_heading);
                         gps_file << timestamp << "," << lat << "," << lon << "," << current_heading << std::endl;
+                        gps_file.flush(); // Ensure data is written immediately
                         processing_queue.push(std::make_tuple("gps", latest_gps));
                     }
                 }
@@ -260,9 +261,10 @@ private:
                             {
                                 processed_file << point[0] << "," << point[1] << "," << point[2] << std::endl;
                             }
+                            processed_file.flush(); // Ensure data is written immediately
                             auto process_end_time = system_clock::now();
                             auto processing_time = duration_cast<microseconds>(process_end_time - process_start_time).count();
-                            auto total_time = duration_cast<microseconds>(process_end_time - system_clock::time_point(seconds(static_cast<long>(timestamp)))).count();
+                            auto total_time = duration_cast<microseconds>(process_end_time - start_time).count();
                             log_performance(timestamp, processing_time / 1000000.0, total_time / 1000000.0);
                             std::cout << "Processed and saved data for timestamp " << timestamp << std::endl;
                         }
@@ -372,8 +374,7 @@ private:
         Eigen::Matrix3d R = R_orientation * R_tilt;
 
         std::vector<Eigen::Vector3d> transformed_points;
-        for (
-            const auto &point : downsampled_pointcloud)
+        for (const auto &point : downsampled_pointcloud)
         {
             Eigen::Vector3d transformed_point = R * point;
             transformed_point[0] += DISTANCE_FROM_GPS * std::sin((ANGLE_FROM_GPS + heading) * M_PI / 180);
@@ -407,6 +408,7 @@ private:
            << "Max Processing Time: " << max_processing_time << "s" << std::endl;
 
         performance_file << ss.str();
+        performance_file.flush(); // Ensure data is written immediately
         std::cout << ss.str();
     }
 

@@ -25,12 +25,13 @@ using boost::asio::ip::tcp;
 
 const std::string GPS_PORT = "COM4";
 const int GPS_BAUD_RATE = 57600;
-const double SENSOR_HEIGHT = 0.973;        // meters
-const double SENSOR_TILT = 0;              // Degrees
+const double SENSOR_HEIGHT = 0.973;        // Meters
+const double SENSOR_TILT = 0;             // Degrees
 const double ANGLE_FROM_GPS = 0;           // Degrees
-const double DISTANCE_FROM_GPS = 0;        // meters
+const double DISTANCE_FROM_GPS = 0;        // Meters
 const double SENSOR_ORIENTATION = 0;       // Degrees
-const double MAX_DISTANCE_FROM_SENSOR = 4; // meters
+const double MAX_DISTANCE_FROM_SENSOR = 4; // Meters
+const double DOWNSCALE_FACTOR = 0.1;
 
 class DataRecorder
 {
@@ -255,11 +256,17 @@ private:
                         std::lock_guard<std::mutex> lock(pointcloud_lock);
                         if (!latest_pointcloud.empty())
                         {
-                            // Save the pointcloud data
-                            processed_file << timestamp << "," << lat << "," << lon << "," << heading << std::endl;
+                            int point_count = 0;
                             for (const auto &point : latest_pointcloud)
                             {
-                                processed_file << point[0] << "," << point[1] << "," << point[2] << std::endl;
+                                if (point_count % static_cast<int>(1.0 / DOWNSCALE_FACTOR) == 0)
+                                {
+                                    if (point[0] != 0 || point[1] != -0 || point[2] != 0)
+                                    {
+                                        processed_file << point[0] << "," << point[1] << "," << point[2] << std::endl;
+                                    }
+                                }
+                                point_count++;
                             }
                             processed_file.flush(); // Ensure data is written immediately
                             auto process_end_time = system_clock::now();
@@ -343,9 +350,14 @@ private:
             }
         }
         std::vector<Eigen::Vector3d> downsampled_pointcloud;
+        int count = 0;
         for (const auto &voxel : voxel_grid)
         {
-            downsampled_pointcloud.push_back(voxel.second);
+            if (count % static_cast<int>(1.0 / DOWNSCALE_FACTOR) == 0)
+            {
+                downsampled_pointcloud.push_back(voxel.second);
+            }
+            count++;
         }
 
         double lat = std::get<0>(gps_data);
@@ -369,7 +381,7 @@ private:
         }
         OGRCoordinateTransformation::DestroyCT(transform);
 
-        Eigen::Matrix3d R_tilt = Eigen::AngleAxisd((SENSOR_TILT - 90) * M_PI / 180, Eigen::Vector3d::UnitX()).toRotationMatrix();
+        Eigen::Matrix3d R_tilt = Eigen::AngleAxisd((SENSOR_TILT - 90)*M_PI / 180, Eigen::Vector3d::UnitX()).toRotationMatrix();
         Eigen::Matrix3d R_orientation = Eigen::AngleAxisd((SENSOR_ORIENTATION + heading) * M_PI / 180, Eigen::Vector3d::UnitZ()).toRotationMatrix();
         Eigen::Matrix3d R = R_orientation * R_tilt;
 
