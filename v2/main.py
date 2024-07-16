@@ -194,7 +194,7 @@ def plot_data(data_folder):
         z_range = np.ptp(z)
         
         max_range = max(x_range, y_range)
-        z_scale = max_range / z_range * 1  # Adjust the factor as needed 
+        z_scale = max_range / z_range * 0.4  # Adjust the factor as needed 
 
         fig_3d = go.Figure()
 

@@ -1,0 +1,14 @@
+Timestamp: 2.407, Processing Time: 1.34415s, Total Time: 3.75222s, Avg Processing Time: 1.34415s, Min Processing Time: 1.34415s, Max Processing Time: 1.34415s
+Timestamp: 4.403, Processing Time: 0.93361s, Total Time: 5.33746s, Avg Processing Time: 1.13888s, Min Processing Time: 0.93361s, Max Processing Time: 1.34415s
+Timestamp: 6.401, Processing Time: 2.22362s, Total Time: 8.62498s, Avg Processing Time: 1.50046s, Min Processing Time: 0.93361s, Max Processing Time: 2.22362s
+Timestamp: 8.357, Processing Time: 2.22351s, Total Time: 10.8501s, Avg Processing Time: 1.68122s, Min Processing Time: 0.93361s, Max Processing Time: 2.22362s
+Timestamp: 10.409, Processing Time: 1.27617s, Total Time: 12.1274s, Avg Processing Time: 1.60021s, Min Processing Time: 0.93361s, Max Processing Time: 2.22362s
+Timestamp: 12.382, Processing Time: 1.91729s, Total Time: 14.3004s, Avg Processing Time: 1.65306s, Min Processing Time: 0.93361s, Max Processing Time: 2.22362s
+Timestamp: 14.41, Processing Time: 1.87321s, Total Time: 16.2836s, Avg Processing Time: 1.68451s, Min Processing Time: 0.93361s, Max Processing Time: 2.22362s
+Timestamp: 16.346, Processing Time: 1.95727s, Total Time: 18.3034s, Avg Processing Time: 1.71861s, Min Processing Time: 0.93361s, Max Processing Time: 2.22362s
+Timestamp: 18.361, Processing Time: 1.57998s, Total Time: 19.9412s, Avg Processing Time: 1.7032s, Min Processing Time: 0.93361s, Max Processing Time: 2.22362s
+Timestamp: 20.406, Processing Time: 1.1765s, Total Time: 21.5828s, Avg Processing Time: 1.65053s, Min Processing Time: 0.93361s, Max Processing Time: 2.22362s
+Timestamp: 22.351, Processing Time: 0.86205s, Total Time: 23.2134s, Avg Processing Time: 1.57885s, Min Processing Time: 0.86205s, Max Processing Time: 2.22362s
+Timestamp: 24.355, Processing Time: 1.38182s, Total Time: 25.7376s, Avg Processing Time: 1.56243s, Min Processing Time: 0.86205s, Max Processing Time: 2.22362s
+Timestamp: 26.352, Processing Time: 1.3876s, Total Time: 27.7401s, Avg Processing Time: 1.54898s, Min Processing Time: 0.86205s, Max Processing Time: 2.22362s
+Timestamp: 28.396, Processing Time: 0.806637s, Total Time: 29.203s, Avg Processing Time: 1.49596s, Min Processing Time: 0.806637s, Max Processing Time: 2.22362s

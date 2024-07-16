@@ -27,11 +27,11 @@ using boost::asio::ip::tcp;
 
 const std::string GPS_PORT = "COM4";
 const int GPS_BAUD_RATE = 57600;
-const double SENSOR_HEIGHT = 0.973;        // Meters
-const double SENSOR_TILT = 0;             // Degrees
-const double ANGLE_FROM_GPS = 0;           // Degrees
-const double DISTANCE_FROM_GPS = 0;        // Meters
-const double SENSOR_ORIENTATION = 0;       // Degrees
+const double SENSOR_HEIGHT = 0.973; // Meters
+const double SENSOR_TILT = 30; // Degrees
+const double ANGLE_FROM_GPS = 270; // Degrees
+const double DISTANCE_FROM_GPS = 0.4; // Meters
+const double SENSOR_ORIENTATION = 2; // Degrees
 const double MAX_DISTANCE_FROM_SENSOR = 4; // Meters
 const double DOWNSCALE_FACTOR = 1;
 
@@ -45,7 +45,7 @@ public:
                      min_processing_time(std::numeric_limits<double>::infinity()),
                      max_processing_time(0),
                      stop_event(false),
-                     align_to_color(RS2_STREAM_COLOR) // Corrected constructor call
+                     align_to_color(RS2_STREAM_COLOR)
     {
         fs::create_directory(session_folder);
         gps_file.open(session_folder + "/gps_data.txt");
@@ -113,7 +113,6 @@ private:
     std::mutex pipeline_lock;
     std::atomic<bool> stop_event;
 
-    // Performance monitoring
     double total_processing_time;
     int total_processed_frames;
     double min_processing_time;
@@ -164,7 +163,7 @@ private:
                         std::lock_guard<std::mutex> lock(gps_lock);
                         latest_gps = std::make_tuple(timestamp, lat, lon, current_heading);
                         gps_file << std::setprecision(15) << timestamp << "," << lat << "," << lon << "," << heading << std::endl;
-                        gps_file.flush(); // Ensure data is written immediately
+                        gps_file.flush();
                         processing_queue.push(std::make_tuple("gps", latest_gps));
                     }
                 }
@@ -214,8 +213,7 @@ private:
                 std::lock_guard<std::mutex> lock(pointcloud_lock);
                 latest_pointcloud = pointcloud;
 
-                // Save pointcloud to PLY file
-                std::string filename = session_folder + "/pointclouds/pointcloud_" + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()) + ".ply";
+                std::string filename = session_folder + "/pointcloud_" + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()) + ".ply";
                 points.export_to_ply(filename, color_frame);
             }
         }
@@ -264,15 +262,13 @@ private:
                         std::lock_guard<std::mutex> lock(pointcloud_lock);
                         if (!latest_pointcloud.empty())
                         {
-                            // Process the pointcloud
                             auto processed_pointcloud = process_pointcloud(latest_pointcloud, std::make_tuple(lat, lon, heading));
 
-                            // Save the processed pointcloud
                             for (const auto &point : processed_pointcloud)
                             {
                                 processed_file << std::setprecision(15) << point[0] << "," << point[1] << "," << point[2] << std::endl;
                             }
-                            processed_file.flush(); // Ensure data is written immediately
+                            processed_file.flush();
 
                             auto process_end_time = system_clock::now();
                             auto processing_time = duration_cast<microseconds>(process_end_time - process_start_time).count();
@@ -315,7 +311,6 @@ private:
                 if (tokens[5] == "W")
                     lon = -lon;
 
-                // Check if latitude and longitude are within valid ranges
                 if (lat < -90 || lat > 90 || lon < -180 || lon > 180)
                 {
                     std::cerr << "Invalid GPS coordinates: " << lat << ", " << lon << std::endl;
@@ -446,7 +441,7 @@ private:
            << "Max Processing Time: " << max_processing_time << "s" << std::endl;
 
         performance_file << ss.str();
-        performance_file.flush(); // Ensure data is written immediately
+        performance_file.flush();
         std::cout << ss.str();
     }
 
