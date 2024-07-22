@@ -40,7 +40,7 @@ try:
     
     vtx = vtx[np.any(vtx != 0, axis=1)]
     
-    downsample_factor = 50
+    downsample_factor = 1
     downsampled_vtx = vtx[::downsample_factor]
     
     print(f"Number of points in original cloud: {len(vtx)}")

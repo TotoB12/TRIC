@@ -7,18 +7,16 @@ from plyfile import PlyData, PlyElement
 
 MAX_ELEVATION = 0.5
 MIN_ELEVATION = -10
-DOWNSAMPLE_FACTOR = 1  # 1 for no downsampling
-Z_SCALE_FACTOR = 0.2  # 1 for 1:1
+DOWNSAMPLE_FACTOR = 10  # 1 for no downsampling
+Z_SCALE_FACTOR = 0.4  # 1 for 1:1
 
 def load_data(data_path):
     txt_file = os.path.join(data_path, 'processed_data.txt')
     folder = os.path.join(data_path, 'processed_data')
     
     if os.path.isfile(txt_file):
-        # Single file case
         processed_data = np.loadtxt(txt_file, delimiter=',')
     elif os.path.isdir(folder):
-        # Directory with multiple files case
         all_files = [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith('.txt')]
         processed_data = []
         for file in all_files:
@@ -79,7 +77,7 @@ def plot_data(data_folder, max_elevation, min_elevation, downsample_factor):
             z=z,
             mode='markers',
             marker=dict(
-                size=5,
+                size=2,
                 color=z,
                 colorscale='Balance',
                 opacity=1,
@@ -109,7 +107,7 @@ def plot_data(data_folder, max_elevation, min_elevation, downsample_factor):
             y=y_rel,
             mode='markers',
             marker=dict(
-                size=5,
+                size=2,
                 color=z,
                 colorscale='Balance',
                 opacity=1,
