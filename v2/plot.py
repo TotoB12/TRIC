@@ -11,20 +11,20 @@ DOWNSAMPLE_FACTOR = 10  # 1 for no downsampling
 Z_SCALE_FACTOR = 0.4  # 1 for 1:1
 
 def load_data(data_path):
-    txt_file = os.path.join(data_path, 'processed_data.txt')
+    bin_file = os.path.join(data_path, 'processed_data.bin')
     folder = os.path.join(data_path, 'processed_data')
     
-    if os.path.isfile(txt_file):
-        processed_data = np.loadtxt(txt_file, delimiter=',')
+    if os.path.isfile(bin_file):
+        processed_data = np.fromfile(bin_file, dtype=np.float32).reshape(-1, 3)
     elif os.path.isdir(folder):
-        all_files = [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith('.txt')]
+        all_files = [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith('.bin')]
         processed_data = []
         for file in all_files:
-            data = np.loadtxt(file, delimiter=',')
+            data = np.fromfile(file, dtype=np.float32).reshape(-1, 3)
             processed_data.append(data)
         processed_data = np.vstack(processed_data)
     else:
-        raise ValueError("Provided path does not contain 'processed_data.txt' or 'processed_data' folder.")
+        raise ValueError("Provided path does not contain 'processed_data.bin' or 'processed_data' folder.")
     
     return processed_data
 
