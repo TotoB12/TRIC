@@ -6,27 +6,33 @@ from scipy.spatial import Delaunay
 from plyfile import PlyData, PlyElement
 
 MAX_ELEVATION = 0.5
-MIN_ELEVATION = -10
-DOWNSAMPLE_FACTOR = 10  # 1 for no downsampling
-Z_SCALE_FACTOR = 0.4  # 1 for 1:1
+MIN_ELEVATION = -0.05
+DOWNSAMPLE_FACTOR = 100  # 1 for no downsampling
+Z_SCALE_FACTOR = 0.05  # 1 for big
 
 def load_data(data_path):
     bin_file = os.path.join(data_path, 'processed_data.bin')
     folder = os.path.join(data_path, 'processed_data')
     
     if os.path.isfile(bin_file):
-        processed_data = np.fromfile(bin_file, dtype=np.float32).reshape(-1, 3)
+        processed_data = load_bin_data(bin_file)
     elif os.path.isdir(folder):
         all_files = [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith('.bin')]
         processed_data = []
         for file in all_files:
-            data = np.fromfile(file, dtype=np.float32).reshape(-1, 3)
+            data = load_bin_data(file)
             processed_data.append(data)
         processed_data = np.vstack(processed_data)
     else:
         raise ValueError("Provided path does not contain 'processed_data.bin' or 'processed_data' folder.")
     
     return processed_data
+
+def load_bin_data(file_path):
+    with open(file_path, 'rb') as f:
+        num_points = np.fromfile(f, dtype=np.uint32, count=1)[0]
+        data = np.fromfile(f, dtype=np.float64, count=num_points * 3).reshape((num_points, 3))
+    return data
 
 def save_as_ply(file_path, x, y, z):
     vertices = np.array([x, y, z], dtype=np.float32).T
@@ -61,13 +67,14 @@ def plot_data(data_folder, max_elevation, min_elevation, downsample_factor):
 
         x_rel = x - np.min(x)
         y_rel = y - np.min(y)
+        z_rel = z - np.min(z)
 
         x_range = np.ptp(x_rel)
         y_range = np.ptp(y_rel)
         z_range = np.ptp(z)
         
-        max_range = max(x_range, y_range)
-        z_scale = max_range / z_range * Z_SCALE_FACTOR
+        # max_range = max(x_range, y_range)
+        # z_scale = max_range / z_range * Z_SCALE_FACTOR
 
         fig_3d = go.Figure()
 
@@ -89,7 +96,7 @@ def plot_data(data_folder, max_elevation, min_elevation, downsample_factor):
         fig_3d.update_layout(
             scene=dict(
                 aspectmode='manual',
-                aspectratio=dict(x=x_range, y=y_range, z=z_range*z_scale),
+                aspectratio=dict(x=x_range, y=y_range, z=z_range), # z_range*z_scale
                 xaxis=dict(range=[0, x_range]),
                 yaxis=dict(range=[0, y_range]),
                 zaxis=dict(range=[np.min(z), np.max(z)]),
